@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@14 . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git 2>&1 | tail -20)",
+      "Bash(npx create-next-app@14 . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git --yes 2>&1 | tail -30)",
+      "Read(//e/VS-CODES/**)",
+      "Bash(mkdir -p booking-app)",
+      "Bash(npx create-next-app@14 booking-app --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git --yes)",
+      "Bash(cd E:/VS-CODES/booking && npm init -y 2>&1 | tail -5)",
+      "Bash(cd E:/VS-CODES/booking && npm install 2>&1 | tail -20)",
+      "Bash(cd E:/VS-CODES/booking && npm install --legacy-peer-deps 2>&1 | tail -30)",
+      "Bash(cd E:/VS-CODES/booking && npx prisma generate 2>&1 | tail -10)",
+      "Bash(cd E:/VS-CODES/booking && npx prisma generate 2>&1 | grep -E \"\\(Generated|Error|error|warning\\)\" | head -20)",
+      "Bash(cd E:/VS-CODES/booking && npx tsc --noEmit 2>&1 | head -50)",
+      "Bash(cd E:/VS-CODES/booking && npx tsc --noEmit 2>&1 | head -80)",
+      "Bash(cd E:/VS-CODES/booking && npx next build 2>&1 | tail -30)",
+      "Bash(cd E:/VS-CODES/booking && npx next build 2>&1 | tail -40)",
+      "Bash(cd E:/VS-CODES/booking && npm install autoprefixer --save-dev 2>&1 | tail -5)",
+      "Bash(cd E:/VS-CODES/booking && npm install autoprefixer --save-dev --legacy-peer-deps 2>&1 | tail -5)",
+      "Bash(cd E:/VS-CODES/booking && npx next build 2>&1 | tail -50)",
+      "Bash(ls -la E:/VS-CODES/booking/.env* 2>/dev/null)",
+      "Bash(cd E:/VS-CODES/booking && npx prisma generate 2>&1 | grep -E \"\\(Generated|Error|✔\\)\" | head -10)",
+      "Bash(cd E:/VS-CODES/booking && npx prisma generate 2>&1 | tail -5)",
+      "Bash(cd E:/VS-CODES/booking && npx prisma db push 2>&1 | tail -15)",
+      "Bash(cd E:/VS-CODES/booking && npx prisma db push --skip-generate 2>&1 | tail -8)"
+    ]
+  }
+}

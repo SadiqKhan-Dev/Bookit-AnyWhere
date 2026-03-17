@@ -1,0 +1,410 @@
+// ============================================================
+// Booking Platform — Prisma Schema
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// ENUMS
+// ============================================================
+
+enum ListingType {
+  SALON
+  HOTEL
+  MEDICAL
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  REFUNDED
+  FAILED
+}
+
+enum UserRole {
+  CUSTOMER
+  PROVIDER
+  ADMIN
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum RoomType {
+  SINGLE
+  DOUBLE
+  TWIN
+  SUITE
+  DELUXE
+  PENTHOUSE
+}
+
+enum AppointmentType {
+  IN_PERSON
+  TELEMEDICINE
+}
+
+// ============================================================
+// USER (synced from Clerk via webhook)
+// ============================================================
+
+model User {
+  id            String   @id // Clerk user ID
+  email         String   @unique
+  firstName     String?
+  lastName      String?
+  imageUrl      String?
+  role          UserRole @default(CUSTOMER)
+  phone         String?
+  stripeCustomerId String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  listings      Listing[]
+  bookings      Booking[]      @relation("CustomerBookings")
+  reviews       Review[]
+  notifications Notification[]
+
+  @@map("users")
+}
+
+// ============================================================
+// LISTING (Salon | Hotel | Medical Clinic)
+// ============================================================
+
+model Listing {
+  id          String      @id @default(cuid())
+  type        ListingType
+  title       String
+  description String      @db.Text
+  slug        String      @unique
+
+  // Location
+  address     String
+  city        String
+  state       String
+  country     String      @default("US")
+  zipCode     String
+  latitude    Float
+  longitude   Float
+
+  // Media
+  coverImage  String
+  images      String[]
+
+  // Pricing (base price in cents)
+  priceFrom   Int
+
+  // Meta
+  isActive    Boolean  @default(true)
+  isFeatured  Boolean  @default(false)
+  rating      Float    @default(0)
+  reviewCount Int      @default(0)
+
+  // Provider
+  providerId  String
+  provider    User     @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  amenities       ListingAmenity[]
+  services        Service[]
+  rooms           Room[]
+  doctors         Doctor[]
+  availability    AvailabilityRule[]
+  bookings        Booking[]
+  reviews         Review[]
+  blockedDates    BlockedDate[]
+
+  @@index([type])
+  @@index([city])
+  @@index([providerId])
+  @@map("listings")
+}
+
+// ============================================================
+// AMENITIES
+// ============================================================
+
+model Amenity {
+  id       String           @id @default(cuid())
+  name     String           @unique
+  icon     String
+  category String
+
+  listings ListingAmenity[]
+
+  @@map("amenities")
+}
+
+model ListingAmenity {
+  listingId String
+  amenityId String
+
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  amenity Amenity @relation(fields: [amenityId], references: [id], onDelete: Cascade)
+
+  @@id([listingId, amenityId])
+  @@map("listing_amenities")
+}
+
+// ============================================================
+// SERVICE (Salon services, Medical procedures)
+// ============================================================
+
+model Service {
+  id          String  @id @default(cuid())
+  listingId   String
+  name        String
+  description String?
+  durationMin Int     // Duration in minutes
+  price       Int     // Price in cents
+  category    String?
+  isActive    Boolean @default(true)
+
+  listing  Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@index([listingId])
+  @@map("services")
+}
+
+// ============================================================
+// ROOM (Hotel-specific)
+// ============================================================
+
+model Room {
+  id          String   @id @default(cuid())
+  listingId   String
+  roomNumber  String
+  type        RoomType
+  name        String
+  description String?
+  floor       Int?
+  maxGuests   Int      @default(2)
+  pricePerNight Int    // in cents
+  images      String[]
+  amenities   String[]
+  isAvailable Boolean  @default(true)
+
+  listing  Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@index([listingId])
+  @@map("rooms")
+}
+
+// ============================================================
+// DOCTOR (Medical-specific)
+// ============================================================
+
+model Doctor {
+  id             String          @id @default(cuid())
+  listingId      String
+  userId         String?
+  name           String
+  specialty      String
+  qualifications String[]
+  bio            String?         @db.Text
+  imageUrl       String?
+  consultFee     Int             // in cents
+  appointmentTypes AppointmentType[]
+  languages      String[]
+  isAvailable    Boolean         @default(true)
+
+  listing  Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@index([listingId])
+  @@map("doctors")
+}
+
+// ============================================================
+// AVAILABILITY RULES (recurring weekly schedule)
+// ============================================================
+
+model AvailabilityRule {
+  id        String    @id @default(cuid())
+  listingId String
+  dayOfWeek DayOfWeek
+  openTime  String    // "09:00"
+  closeTime String    // "18:00"
+  slotDurationMin Int @default(30)
+  isOpen    Boolean   @default(true)
+
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@index([listingId])
+  @@map("availability_rules")
+}
+
+// ============================================================
+// BLOCKED DATES
+// ============================================================
+
+model BlockedDate {
+  id        String   @id @default(cuid())
+  listingId String
+  date      DateTime @db.Date
+  reason    String?
+
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@index([listingId])
+  @@map("blocked_dates")
+}
+
+// ============================================================
+// BOOKING
+// ============================================================
+
+model Booking {
+  id         String        @id @default(cuid())
+  listingId  String
+  customerId String
+  serviceId  String?       // for salon/medical
+  roomId     String?       // for hotel
+  doctorId   String?       // for medical
+
+  // Time
+  startDate  DateTime
+  endDate    DateTime
+  startTime  String?       // "10:00" for appointments
+  endTime    String?
+
+  // Guests / People
+  guestCount Int           @default(1)
+  guestName  String?
+  guestEmail String?
+  guestPhone String?
+  notes      String?       @db.Text
+
+  // Status
+  status         BookingStatus @default(PENDING)
+  paymentStatus  PaymentStatus @default(PENDING)
+
+  // Pricing
+  subtotal       Int           // in cents
+  taxes          Int           @default(0)
+  platformFee    Int           @default(0)
+  totalAmount    Int           // in cents
+
+  // Stripe
+  stripePaymentIntentId String? @unique
+  stripeSessionId       String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  listing  Listing  @relation(fields: [listingId], references: [id])
+  customer User     @relation("CustomerBookings", fields: [customerId], references: [id])
+  service  Service? @relation(fields: [serviceId], references: [id])
+  room     Room?    @relation(fields: [roomId], references: [id])
+  doctor   Doctor?  @relation(fields: [doctorId], references: [id])
+  payment  Payment?
+  review   Review?
+
+  @@index([listingId])
+  @@index([customerId])
+  @@index([startDate])
+  @@map("bookings")
+}
+
+// ============================================================
+// PAYMENT
+// ============================================================
+
+model Payment {
+  id        String        @id @default(cuid())
+  bookingId String        @unique
+  amount    Int           // in cents
+  currency  String        @default("usd")
+  status    PaymentStatus
+  stripePaymentIntentId String? @unique
+  stripeChargeId        String? @unique
+  refundId              String?
+  refundAmount          Int?
+  metadata  Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+}
+
+// ============================================================
+// REVIEW
+// ============================================================
+
+model Review {
+  id        String  @id @default(cuid())
+  listingId String
+  bookingId String  @unique
+  authorId  String
+  rating    Int     // 1-5
+  title     String?
+  comment   String  @db.Text
+  isVerified Boolean @default(false)
+  response  String? @db.Text // provider response
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  author  User    @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([listingId])
+  @@map("reviews")
+}
+
+// ============================================================
+// NOTIFICATION
+// ============================================================
+
+model Notification {
+  id        String  @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  type      String  // BOOKING_CONFIRMED, BOOKING_CANCELLED, REVIEW_RECEIVED, etc.
+  isRead    Boolean @default(false)
+  link      String?
+  metadata  Json?
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("notifications")
+}
