@@ -179,7 +179,7 @@ export default function HomePage() {
               What are you looking for?
             </h2>
             <p className="text-gray-500 max-w-xl mx-auto">
-              From beauty treatments to hotel stays and medical care — we've got you covered.
+              From beauty treatments to hotel stays and medical care — we&apos;ve got you covered.
             </p>
           </div>
 

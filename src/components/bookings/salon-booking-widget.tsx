@@ -333,7 +333,7 @@ export function SalonBookingWidget({ listing, services, availability }: SalonBoo
                 </Button>
 
                 <p className="text-xs text-center text-gray-400">
-                  You won't be charged until the booking is confirmed
+                  You won&apos;t be charged until the booking is confirmed
                 </p>
               </form>
             </motion.div>

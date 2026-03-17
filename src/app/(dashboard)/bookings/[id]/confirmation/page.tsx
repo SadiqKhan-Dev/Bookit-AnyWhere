@@ -31,7 +31,7 @@ export default async function ConfirmationPage({ params }: ConfirmationPageProps
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Booking Confirmed!</h1>
           <p className="text-gray-500">
-            Your booking has been confirmed. We've sent a confirmation to {booking.guestEmail}.
+            Your booking has been confirmed. We&apos;ve sent a confirmation to {booking.guestEmail}.
           </p>
         </div>
 

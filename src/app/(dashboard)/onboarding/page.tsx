@@ -56,7 +56,7 @@ export default function OnboardingPage() {
               <User className={cn("h-7 w-7", selectedRole === "CUSTOMER" ? "text-white" : "text-gray-400")} />
             </div>
             <div className="text-center">
-              <p className="font-bold text-gray-900">I'm a customer</p>
+              <p className="font-bold text-gray-900">I&apos;m a customer</p>
               <p className="text-xs text-gray-500 mt-1">Browse & book services, hotels, and medical appointments</p>
             </div>
           </button>
@@ -74,7 +74,7 @@ export default function OnboardingPage() {
               <Building2 className={cn("h-7 w-7", selectedRole === "PROVIDER" ? "text-white" : "text-gray-400")} />
             </div>
             <div className="text-center">
-              <p className="font-bold text-gray-900">I'm a provider</p>
+              <p className="font-bold text-gray-900">I&apos;m a provider</p>
               <p className="text-xs text-gray-500 mt-1">List my business — salon, hotel, or medical clinic</p>
             </div>
           </button>
