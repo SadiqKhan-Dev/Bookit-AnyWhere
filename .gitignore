@@ -9,6 +9,9 @@ build
 .next
 out
 
+secerat.txt
+
+
 # Misc
 .DS_Store
 *.pem
