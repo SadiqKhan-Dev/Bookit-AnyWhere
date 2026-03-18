@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
-import { Scissors, Building2, Stethoscope, Menu, Bell, Globe } from "lucide-react";
+import { Scissors, Building2, Stethoscope, Menu, Globe, Heart } from "lucide-react";
+import { NotificationsDropdown } from "@/components/shared/notifications-dropdown";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -85,14 +85,14 @@ export function Navbar() {
                 List your space
               </Button>
             </Link>
-            <Link href="/dashboard" className="relative hidden md:block">
-              <Button variant="ghost" size="icon">
-                <Bell className="h-5 w-5" />
-                <Badge className="absolute -right-1 -top-1 h-4 w-4 items-center justify-center p-0 text-[10px] bg-rose-500">
-                  3
-                </Badge>
+            <Link href="/wishlist" className="hidden md:block">
+              <Button variant="ghost" size="icon" aria-label="Wishlist">
+                <Heart className="h-5 w-5 text-gray-600" />
               </Button>
             </Link>
+            <div className="hidden md:block">
+              <NotificationsDropdown />
+            </div>
             <UserButton afterSignOutUrl="/" />
           </SignedIn>
 
@@ -134,6 +134,9 @@ export function Navbar() {
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link href="/bookings">My Bookings</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/wishlist">Wishlist</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

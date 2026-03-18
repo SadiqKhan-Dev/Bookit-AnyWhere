@@ -192,6 +192,7 @@ export type RevenueDataPoint = {
 
 export type MapMarker = {
   id: string;
+  slug: string;
   latitude: number;
   longitude: number;
   title: string;

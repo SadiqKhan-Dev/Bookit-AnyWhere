@@ -61,12 +61,18 @@ export type CreateRoomInput = z.infer<typeof createRoomSchema>;
 // BOOKING SCHEMAS
 // ============================================================
 
+const promoFields = {
+  promoCodeId: z.string().optional(),
+  discountAmount: z.number().int().min(0).optional(),
+};
+
 const baseBookingSchema = z.object({
   listingId: z.string().cuid(),
   guestName: z.string().min(2, "Name must be at least 2 characters"),
   guestEmail: z.string().email("Please enter a valid email"),
   guestPhone: z.string().optional(),
   notes: z.string().max(500).optional(),
+  ...promoFields,
 });
 
 export const hotelBookingSchema = baseBookingSchema.extend({
@@ -96,6 +102,22 @@ export const medicalBookingSchema = baseBookingSchema.extend({
 export type HotelBookingInput = z.infer<typeof hotelBookingSchema>;
 export type SalonBookingInput = z.infer<typeof salonBookingSchema>;
 export type MedicalBookingInput = z.infer<typeof medicalBookingSchema>;
+
+// ============================================================
+// PROMO CODE SCHEMA
+// ============================================================
+
+export const createPromoCodeSchema = z.object({
+  code: z.string().min(3).max(20),
+  description: z.string().max(100).optional(),
+  discountType: z.enum(["PERCENTAGE", "FIXED"]),
+  discountValue: z.number().positive(),
+  minOrderAmount: z.number().positive().optional(),
+  maxUses: z.number().int().positive().optional(),
+  expiresAt: z.date().optional(),
+  listingId: z.string().cuid().optional(),
+});
+export type CreatePromoCodeInput = z.infer<typeof createPromoCodeSchema>;
 
 // ============================================================
 // REVIEW SCHEMA

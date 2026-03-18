@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Star, MapPin, Clock, Users, Mountain, Waves, Building2, Sun, TreePine, Droplets, Anchor, MountainSnow, Leaf, Compass, CloudSnow, Wheat, Landmark, type LucideIcon } from "lucide-react";
+import { Star, MapPin, Clock, Users, Mountain, Waves, Building2, Sun, TreePine, Droplets, Anchor, MountainSnow, Leaf, Compass, CloudSnow, Wheat, Landmark, type LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { WishlistButton } from "@/components/listings/wishlist-button";
 import { formatCurrency, LISTING_TYPE_CONFIG } from "@/lib/utils";
 import type { ListingType } from "@prisma/client";
 
@@ -24,6 +25,7 @@ interface ListingCardProps {
   amenities?: string[];
   tags?: string[];
   index?: number;
+  isSaved?: boolean;
 }
 
 const TERRAIN_CONFIG: Record<string, { color: string; Icon: LucideIcon }> = {
@@ -45,6 +47,7 @@ const TERRAIN_CONFIG: Record<string, { color: string; Icon: LucideIcon }> = {
 };
 
 export function ListingCard({
+  id,
   slug,
   type,
   title,
@@ -57,6 +60,7 @@ export function ListingCard({
   isFeatured = false,
   tags = [],
   index = 0,
+  isSaved = false,
 }: ListingCardProps) {
   const config = LISTING_TYPE_CONFIG[type];
   const listingUrl = `${config.href}/${slug}`;
@@ -105,13 +109,11 @@ export function ListingCard({
             </div>
 
             {/* Wishlist button */}
-            <button
-              className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm hover:bg-white transition-all"
-              onClick={(e) => e.preventDefault()}
-              aria-label="Add to wishlist"
-            >
-              <Heart className="h-4 w-4 text-gray-600 hover:text-rose-500 transition-colors" />
-            </button>
+            <WishlistButton
+              listingId={id}
+              initialSaved={isSaved}
+              className="absolute right-3 top-3"
+            />
           </div>
 
           {/* Content */}

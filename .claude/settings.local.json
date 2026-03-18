@@ -34,7 +34,22 @@
       "Bash(cd \"E:/VS-CODES/booking\" && npx tsc --noEmit 2>&1)",
       "Bash(cd \"E:/VS-CODES/booking\" && node -e \"const icons = require\\('lucide-react'\\); const want = ['Mountain','Waves','Building2','Sun','TreePine','Snowflake','Anchor','Wheat','Droplets','Globe','MapPin','Leaf','Palmtree','Tent','Compass','Sailboat','Wind','Thermometer','Flower2','Umbrella','Landmark','Ship']; want.forEach\\(n => console.log\\(n, !!icons[n]\\)\\)\")",
       "Bash(cd \"E:/VS-CODES/booking\" && node --input-type=module << 'EOF'\nimport * as icons from './node_modules/lucide-react/dist/lucide-react.js';\nconst want = ['Mountain','Waves','Building2','Sun','TreePine','Snowflake','Anchor','Wheat','Droplets','Globe','MapPin','Leaf','Palmtree','Tent','Compass','Sailboat','Wind','Thermometer','Umbrella','Landmark','Ship','Sunset','Cloud','CloudSnow','Bike','Flag'];\nwant.forEach\\(n => console.log\\(n, n in icons\\)\\);\nEOF)",
-      "Bash(grep -o \"export declare const [A-Za-z]*\" \"E:/VS-CODES/booking/node_modules/lucide-react/dist/lucide-react.d.ts\" | sed 's/export declare const //' | grep -iE \"^\\(Mountain|TreePine|Snowflake|Wheat|Anchor|Palmtree|Droplet|Landmark|Tent|Compass|Sunset|CloudSnow|Sailboat|Waves|Building2|Sun|Leaf|Umbrella|Ship|Globe|MapPin|Wind|CloudSun|Thermometer|Flower\\)$\")"
+      "Bash(grep -o \"export declare const [A-Za-z]*\" \"E:/VS-CODES/booking/node_modules/lucide-react/dist/lucide-react.d.ts\" | sed 's/export declare const //' | grep -iE \"^\\(Mountain|TreePine|Snowflake|Wheat|Anchor|Palmtree|Droplet|Landmark|Tent|Compass|Sunset|CloudSnow|Sailboat|Waves|Building2|Sun|Leaf|Umbrella|Ship|Globe|MapPin|Wind|CloudSun|Thermometer|Flower\\)$\")",
+      "Bash(find /e/VS-CODES/booking/src/app -type d -name \"\\(dashboard\\)\" -o -type d -name \"\\(public\\)\" | head -20)",
+      "Bash(cd E:/VS-CODES/booking && npm install resend 2>&1 | tail -5)",
+      "Bash(cd E:/VS-CODES/booking && node -e \"require\\('resend'\\); console.log\\('resend ok'\\)\" 2>&1)",
+      "Bash(cd E:/VS-CODES/booking && npx tsc --noEmit 2>&1 | head -20)",
+      "Bash(ls E:/VS-CODES/booking/src/app/\\\\\\(dashboard\\\\\\)/)",
+      "Bash(ls E:/VS-CODES/booking/src/app/\\\\\\(dashboard\\\\\\)/bookings/)",
+      "Bash(find \"E:/VS-CODES/booking/src/app/\\(dashboard\\)/dashboard\" -type f 2>/dev/null)",
+      "Bash(cd E:/VS-CODES/booking && npx tsc --noEmit 2>&1 | head -30)",
+      "Bash(cd E:/VS-CODES/booking && npx prisma db push 2>&1 | tail -10)",
+      "Bash(ls E:/VS-CODES/booking/src/app/\\\\\\(public\\\\\\)/)",
+      "Bash(cat E:/VS-CODES/booking/src/app/\\\\\\(public\\\\\\)/salons/page.tsx)",
+      "Bash(cat E:/VS-CODES/booking/src/app/\\\\\\(public\\\\\\)/doctors/page.tsx)",
+      "Bash(head -1 E:/VS-CODES/booking/src/app/\\\\\\(public\\\\\\)/doctors/page.tsx && head -1 E:/VS-CODES/booking/src/app/\\\\\\(public\\\\\\)/airports/page.tsx && head -1 E:/VS-CODES/booking/src/app/\\\\\\(public\\\\\\)/flights/page.tsx && head -1 E:/VS-CODES/booking/src/app/\\\\\\(public\\\\\\)/cruises/page.tsx)",
+      "Bash(cd E:/VS-CODES/booking && npx prisma db push 2>&1 | tail -8)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

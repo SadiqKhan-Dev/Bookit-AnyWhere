@@ -13,6 +13,10 @@ import {
   Globe,
   ChevronRight,
   Users,
+  Receipt,
+  Heart,
+  Tag,
+  ShieldCheck,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -26,16 +30,21 @@ interface DashboardSidebarProps {
 
 const navItems = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
-  { href: "/dashboard/bookings", label: "Bookings", icon: Calendar },
+  { href: "/bookings", label: "My Bookings", icon: Receipt, customerOnly: true },
+  { href: "/wishlist", label: "Wishlist", icon: Heart, customerOnly: true },
+  { href: "/dashboard/bookings", label: "Bookings", icon: Calendar, providerOnly: true },
   { href: "/dashboard/listings", label: "My Listings", icon: Building2, providerOnly: true },
   { href: "/dashboard/analytics", label: "Analytics", icon: BarChart3, providerOnly: true },
+  { href: "/dashboard/promo-codes", label: "Promo Codes", icon: Tag, providerOnly: true },
   { href: "/dashboard/reviews", label: "Reviews", icon: Star },
   { href: "/settings", label: "Settings", icon: Settings },
+  { href: "/admin", label: "Admin Panel", icon: ShieldCheck, adminOnly: true },
 ];
 
 export function DashboardSidebar({ user }: DashboardSidebarProps) {
   const pathname = usePathname();
   const isProvider = user.role === "PROVIDER" || user.role === "ADMIN";
+  const isAdmin = user.role === "ADMIN";
 
   return (
     <aside className="w-64 min-h-screen bg-white border-r flex flex-col">
@@ -83,7 +92,7 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
       {/* Nav */}
       <nav className="flex-1 p-4 space-y-1">
         {navItems
-          .filter((item) => !item.providerOnly || isProvider)
+          .filter((item) => (!item.providerOnly || isProvider) && (!item.customerOnly || !isProvider) && (!(item as any).adminOnly || isAdmin))
           .map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href || (pathname.startsWith(item.href) && item.href !== "/dashboard");

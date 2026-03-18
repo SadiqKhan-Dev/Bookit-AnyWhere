@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
+import { sendBookingConfirmedEmail, sendNewBookingProviderEmail } from "@/lib/emails";
+import { formatCurrency, formatDate, formatTime12h } from "@/lib/utils";
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -40,7 +42,7 @@ export async function POST(req: Request) {
             paymentStatus: "PAID",
             stripePaymentIntentId: session.payment_intent as string,
           },
-          include: { listing: true },
+          include: { listing: { include: { provider: true } }, customer: true },
         });
 
         // Create payment record
@@ -75,6 +77,29 @@ export async function POST(req: Request) {
             link: `/dashboard/bookings`,
           },
         });
+
+        // Send confirmation email to customer
+        await sendBookingConfirmedEmail({
+          to: booking.guestEmail ?? "",
+          guestName: booking.guestName ?? "Guest",
+          listingTitle: booking.listing.title,
+          bookingId: booking.id,
+          startDate: formatDate(booking.startDate),
+          startTime: booking.startTime ? formatTime12h(booking.startTime) : undefined,
+          totalAmount: formatCurrency(booking.totalAmount),
+        }).catch(console.error);
+
+        // Send new booking email to provider
+        await sendNewBookingProviderEmail({
+          to: booking.listing.provider.email,
+          providerName: booking.listing.provider.firstName ?? booking.listing.provider.email,
+          listingTitle: booking.listing.title,
+          bookingId: booking.id,
+          customerName: booking.guestName ?? "Guest",
+          startDate: formatDate(booking.startDate),
+          startTime: booking.startTime ? formatTime12h(booking.startTime) : undefined,
+          totalAmount: formatCurrency(booking.totalAmount),
+        }).catch(console.error);
 
         break;
       }

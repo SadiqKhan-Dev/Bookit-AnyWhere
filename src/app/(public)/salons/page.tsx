@@ -1,10 +1,12 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { Scissors, SlidersHorizontal, Map } from "lucide-react";
+import { Scissors, SlidersHorizontal } from "lucide-react";
 import { Navbar } from "@/components/shared/navbar";
 import { Footer } from "@/components/shared/footer";
 import { ListingCard, ListingCardSkeleton } from "@/components/listings/listing-card";
 import { ListingsFilter } from "@/components/listings/listings-filter";
+import { ListingsMapView } from "@/components/listings/listings-map-view";
+import { MapViewToggle } from "@/components/listings/map-view-toggle";
 import { Button } from "@/components/ui/button";
 import { searchListings } from "@/actions/listing";
 
@@ -15,20 +17,13 @@ export const metadata: Metadata = {
 
 interface SalonsPageProps {
   searchParams: {
-    q?: string;
-    city?: string;
-    minPrice?: string;
-    maxPrice?: string;
-    rating?: string;
-    tag?: string;
-    date?: string;
-    page?: string;
-    sort?: string;
+    q?: string; city?: string; minPrice?: string; maxPrice?: string;
+    rating?: string; tag?: string; date?: string; page?: string; sort?: string; view?: string;
   };
 }
 
 async function SalonListings({ searchParams }: SalonsPageProps) {
-  const { data: listings, total, hasMore } = await searchListings({
+  const { data: listings, total } = await searchListings({
     type: "SALON",
     query: searchParams.q,
     city: searchParams.city,
@@ -55,22 +50,11 @@ async function SalonListings({ searchParams }: SalonsPageProps) {
       <p className="text-sm text-gray-500 mb-6">{total} salons found</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {listings.map((listing, i) => (
-          <ListingCard
-            key={listing.id}
-            id={listing.id}
-            slug={listing.slug}
-            type={listing.type}
-            title={listing.title}
-            city={listing.city}
-            state={listing.state}
-            coverImage={listing.coverImage}
-            priceFrom={listing.priceFrom}
-            rating={listing.rating}
-            reviewCount={listing.reviewCount}
-            isFeatured={listing.isFeatured}
-            tags={listing.tags}
-            index={i}
-          />
+          <ListingCard key={listing.id} id={listing.id} slug={listing.slug} type={listing.type}
+            title={listing.title} city={listing.city} state={listing.state}
+            coverImage={listing.coverImage} priceFrom={listing.priceFrom}
+            rating={listing.rating} reviewCount={listing.reviewCount}
+            isFeatured={listing.isFeatured} tags={listing.tags} index={i} />
         ))}
       </div>
     </>
@@ -78,11 +62,10 @@ async function SalonListings({ searchParams }: SalonsPageProps) {
 }
 
 export default function SalonsPage({ searchParams }: SalonsPageProps) {
+  const isMap = searchParams.view === "map";
   return (
     <div className="min-h-screen">
       <Navbar />
-
-      {/* Header */}
       <div className="bg-gradient-to-br from-pink-50 to-rose-50 border-b">
         <div className="container mx-auto px-4 py-10">
           <div className="flex items-center gap-3 mb-3">
@@ -91,54 +74,33 @@ export default function SalonsPage({ searchParams }: SalonsPageProps) {
             </div>
             <h1 className="text-3xl font-bold text-gray-900">Beauty Salons</h1>
           </div>
-          <p className="text-gray-500 ml-13">
-            Hair, nails, skin & wellness — book your appointment instantly
-          </p>
+          <p className="text-gray-500">Hair, nails, skin & wellness — book your appointment instantly</p>
         </div>
       </div>
-
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar Filter */}
           <aside className="w-full lg:w-64 shrink-0">
             <ListingsFilter type="SALON" searchParams={searchParams} />
           </aside>
-
-          {/* Listings */}
           <main className="flex-1">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <Button variant="outline" size="sm" className="gap-2">
                   <SlidersHorizontal className="h-4 w-4" /> Filters
                 </Button>
-                <Button variant="outline" size="sm" className="gap-2">
-                  <Map className="h-4 w-4" /> Map view
-                </Button>
+                <MapViewToggle />
               </div>
-              <select className="text-sm border rounded-lg px-3 py-1.5 bg-white">
-                <option value="relevance">Most relevant</option>
-                <option value="rating">Highest rated</option>
-                <option value="price_asc">Price: low to high</option>
-                <option value="price_desc">Price: high to low</option>
-                <option value="newest">Newest</option>
-              </select>
             </div>
-
-            <Suspense
-              fallback={
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {Array.from({ length: 9 }).map((_, i) => (
-                    <ListingCardSkeleton key={i} />
-                  ))}
-                </div>
-              }
-            >
-              <SalonListings searchParams={searchParams} />
-            </Suspense>
+            {isMap ? (
+              <ListingsMapView type="SALON" searchParams={searchParams} />
+            ) : (
+              <Suspense fallback={<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{Array.from({ length: 9 }).map((_, i) => <ListingCardSkeleton key={i} />)}</div>}>
+                <SalonListings searchParams={searchParams} />
+              </Suspense>
+            )}
           </main>
         </div>
       </div>
-
       <Footer />
     </div>
   );

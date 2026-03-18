@@ -4,8 +4,18 @@ import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { createCheckoutSession, calculateFees } from "@/lib/stripe";
-import { getAppUrl, getNightCount } from "@/lib/utils";
+import { getAppUrl, getNightCount, formatCurrency, formatDate } from "@/lib/utils";
+import { sendBookingCancelledEmail } from "@/lib/emails";
 import type { HotelBookingInput, SalonBookingInput, MedicalBookingInput, AirportBookingInput, FlightBookingInput, CruiseBookingInput } from "@/validations";
+
+// Helper: increment promo code usage
+async function incrementPromoUsage(promoCodeId?: string) {
+  if (!promoCodeId) return;
+  await prisma.promoCode.update({
+    where: { id: promoCodeId },
+    data: { usedCount: { increment: 1 } },
+  }).catch(() => {}); // non-blocking
+}
 
 // ============================================================
 // CREATE HOTEL BOOKING
@@ -36,6 +46,8 @@ export async function createHotelBooking(data: HotelBookingInput) {
   const nights = getNightCount(data.checkIn, data.checkOut);
   const subtotal = room.pricePerNight * nights;
   const { platformFee, taxes, total } = calculateFees(subtotal);
+  const discountAmount = data.discountAmount ?? 0;
+  const finalTotal = Math.max(100, total - discountAmount);
 
   const booking = await prisma.booking.create({
     data: {
@@ -52,17 +64,21 @@ export async function createHotelBooking(data: HotelBookingInput) {
       subtotal,
       taxes,
       platformFee,
-      totalAmount: total,
+      discountAmount,
+      totalAmount: finalTotal,
+      promoCodeId: data.promoCodeId,
       status: "PENDING",
       paymentStatus: "PENDING",
     },
   });
 
   // Create Stripe checkout session
+  await incrementPromoUsage(data.promoCodeId);
+
   const session = await createCheckoutSession({
     bookingId: booking.id,
     listingTitle: `${room.listing.title} - ${room.name}`,
-    amount: total,
+    amount: finalTotal,
     successUrl: `${getAppUrl()}/bookings/${booking.id}/confirmation`,
     cancelUrl: `${getAppUrl()}/hotels/${room.listing.slug}`,
   });
@@ -108,6 +124,8 @@ export async function createSalonBooking(data: SalonBookingInput) {
   if (conflict) throw new Error("This time slot is no longer available");
 
   const { platformFee, taxes, total } = calculateFees(service.price);
+  const discountAmount = data.discountAmount ?? 0;
+  const finalTotal = Math.max(100, total - discountAmount); // min $1
 
   const booking = await prisma.booking.create({
     data: {
@@ -126,16 +144,20 @@ export async function createSalonBooking(data: SalonBookingInput) {
       subtotal: service.price,
       taxes,
       platformFee,
-      totalAmount: total,
+      discountAmount,
+      totalAmount: finalTotal,
+      promoCodeId: data.promoCodeId,
       status: "PENDING",
       paymentStatus: "PENDING",
     },
   });
 
+  await incrementPromoUsage(data.promoCodeId);
+
   const session = await createCheckoutSession({
     bookingId: booking.id,
     listingTitle: `${service.listing.title} - ${service.name}`,
-    amount: total,
+    amount: finalTotal,
     successUrl: `${getAppUrl()}/bookings/${booking.id}/confirmation`,
     cancelUrl: `${getAppUrl()}/salons/${service.listing.slug}`,
   });
@@ -169,6 +191,8 @@ export async function createMedicalBooking(data: MedicalBookingInput) {
   const endDate = new Date(startDate.getTime() + service.durationMin * 60 * 1000);
 
   const { platformFee, taxes, total } = calculateFees(service.price);
+  const discountAmount = data.discountAmount ?? 0;
+  const finalTotal = Math.max(100, total - discountAmount);
 
   const booking = await prisma.booking.create({
     data: {
@@ -187,16 +211,20 @@ export async function createMedicalBooking(data: MedicalBookingInput) {
       subtotal: service.price,
       taxes,
       platformFee,
-      totalAmount: total,
+      discountAmount,
+      totalAmount: finalTotal,
+      promoCodeId: data.promoCodeId,
       status: "PENDING",
       paymentStatus: "PENDING",
     },
   });
 
+  await incrementPromoUsage(data.promoCodeId);
+
   const session = await createCheckoutSession({
     bookingId: booking.id,
     listingTitle: `${service.listing.title} - ${service.name}`,
-    amount: total,
+    amount: finalTotal,
     successUrl: `${getAppUrl()}/bookings/${booking.id}/confirmation`,
     cancelUrl: `${getAppUrl()}/doctors/${service.listing.slug}`,
   });
@@ -273,7 +301,7 @@ export async function cancelBooking(bookingId: string) {
 
   const booking = await prisma.booking.findUnique({
     where: { id: bookingId },
-    include: { payment: true },
+    include: { payment: true, listing: true },
   });
 
   if (!booking) throw new Error("Booking not found");
@@ -306,6 +334,15 @@ export async function cancelBooking(bookingId: string) {
       link: `/bookings/${bookingId}`,
     },
   });
+
+  // Send cancellation email
+  await sendBookingCancelledEmail({
+    to: booking.guestEmail ?? "",
+    guestName: booking.guestName ?? "Guest",
+    listingTitle: booking.listing.title,
+    bookingId: booking.id,
+    isPaid: booking.paymentStatus === "PAID",
+  }).catch(console.error);
 
   revalidatePath("/bookings");
   return { success: true };
@@ -434,6 +471,8 @@ export async function createAirportBooking(data: AirportBookingInput) {
   if (!service) throw new Error("Service not found");
 
   const { platformFee, taxes, total } = calculateFees(service.price);
+  const discountAmount = data.discountAmount ?? 0;
+  const finalTotal = Math.max(100, total - discountAmount);
 
   const endHour = new Date(data.date);
   endHour.setMinutes(endHour.getMinutes() + service.durationMin);
@@ -456,16 +495,20 @@ export async function createAirportBooking(data: AirportBookingInput) {
       subtotal: service.price,
       taxes,
       platformFee,
-      totalAmount: total,
+      discountAmount,
+      totalAmount: finalTotal,
+      promoCodeId: data.promoCodeId,
       status: "PENDING",
       paymentStatus: "PENDING",
     },
   });
 
+  await incrementPromoUsage(data.promoCodeId);
+
   const session = await createCheckoutSession({
     bookingId: booking.id,
     listingTitle: `${service.listing.title} — ${service.name}`,
-    amount: total,
+    amount: finalTotal,
     successUrl: `${getAppUrl()}/bookings/${booking.id}/confirmation`,
     cancelUrl: `${getAppUrl()}/airports/${service.listing.slug}`,
   });
@@ -495,6 +538,8 @@ export async function createFlightBooking(data: FlightBookingInput) {
 
   const subtotal = seat.pricePerSeat * data.passengers;
   const { platformFee, taxes, total } = calculateFees(subtotal);
+  const discountAmount = data.discountAmount ?? 0;
+  const finalTotal = Math.max(100, total - discountAmount);
 
   const booking = await prisma.booking.create({
     data: {
@@ -513,7 +558,9 @@ export async function createFlightBooking(data: FlightBookingInput) {
       subtotal,
       taxes,
       platformFee,
-      totalAmount: total,
+      discountAmount,
+      totalAmount: finalTotal,
+      promoCodeId: data.promoCodeId,
       status: "PENDING",
       paymentStatus: "PENDING",
     },
@@ -525,10 +572,12 @@ export async function createFlightBooking(data: FlightBookingInput) {
     data: { availableSeats: { decrement: data.passengers } },
   });
 
+  await incrementPromoUsage(data.promoCodeId);
+
   const session = await createCheckoutSession({
     bookingId: booking.id,
     listingTitle: `${seat.flightRoute.airline} ${seat.flightRoute.flightNumber} — ${seat.name}`,
-    amount: total,
+    amount: finalTotal,
     successUrl: `${getAppUrl()}/bookings/${booking.id}/confirmation`,
     cancelUrl: `${getAppUrl()}/flights/${seat.flightRoute.listing.slug}`,
   });
@@ -571,6 +620,8 @@ export async function createCruiseBooking(data: CruiseBookingInput) {
 
   const subtotal = cabin.pricePerNight * nights;
   const { platformFee, taxes, total } = calculateFees(subtotal);
+  const discountAmount = data.discountAmount ?? 0;
+  const finalTotal = Math.max(100, total - discountAmount);
 
   const booking = await prisma.booking.create({
     data: {
@@ -587,16 +638,20 @@ export async function createCruiseBooking(data: CruiseBookingInput) {
       subtotal,
       taxes,
       platformFee,
-      totalAmount: total,
+      discountAmount,
+      totalAmount: finalTotal,
+      promoCodeId: data.promoCodeId,
       status: "PENDING",
       paymentStatus: "PENDING",
     },
   });
 
+  await incrementPromoUsage(data.promoCodeId);
+
   const session = await createCheckoutSession({
     bookingId: booking.id,
     listingTitle: `${cabin.listing.title} — ${cabin.name}`,
-    amount: total,
+    amount: finalTotal,
     successUrl: `${getAppUrl()}/bookings/${booking.id}/confirmation`,
     cancelUrl: `${getAppUrl()}/cruises/${cabin.listing.slug}`,
   });

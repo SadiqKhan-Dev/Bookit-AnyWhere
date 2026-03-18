@@ -5,6 +5,25 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import type { CreateReviewInput } from "@/validations";
 
+// ============================================================
+// GET PROVIDER REVIEWS
+// ============================================================
+
+export async function getProviderReviews() {
+  const { userId } = auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  return prisma.review.findMany({
+    where: { listing: { providerId: userId } },
+    include: {
+      listing: { select: { id: true, title: true, slug: true } },
+      author: { select: { firstName: true, lastName: true, imageUrl: true } },
+      booking: { select: { id: true } },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
 export async function createReview(data: CreateReviewInput) {
   const { userId } = auth();
   if (!userId) throw new Error("Unauthorized");
@@ -59,7 +78,7 @@ export async function createReview(data: CreateReviewInput) {
   return { success: true, review };
 }
 
-export async function respondToReview(reviewId: string, response: string) {
+export async function respondToReview(reviewId: string, response: string, listingSlug?: string) {
   const { userId } = auth();
   if (!userId) throw new Error("Unauthorized");
 
@@ -76,6 +95,7 @@ export async function respondToReview(reviewId: string, response: string) {
     data: { response },
   });
 
-  revalidatePath(`/listings/${review.listing.slug}`);
+  revalidatePath(`/dashboard/reviews`);
+  revalidatePath(`/${review.listing.slug ?? listingSlug}`);
   return { success: true, review: updated };
 }

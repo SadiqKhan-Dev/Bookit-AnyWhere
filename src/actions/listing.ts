@@ -112,7 +112,7 @@ export async function getListingBySlug(slug: string) {
 // SEARCH LISTINGS
 // ============================================================
 
-export async function searchListings(input: Partial<SearchInput>) {
+export async function searchListings(input: Partial<SearchInput> & { specialty?: string }) {
   const {
     type,
     query,
@@ -121,6 +121,7 @@ export async function searchListings(input: Partial<SearchInput>) {
     maxPrice,
     rating,
     tag,
+    specialty,
     page = 1,
     pageSize = 12,
     sortBy = "relevance",
@@ -141,6 +142,7 @@ export async function searchListings(input: Partial<SearchInput>) {
   if (maxPrice) where.priceFrom = { ...where.priceFrom, lte: Math.round(maxPrice * 100) };
   if (rating) where.rating = { gte: rating };
   if (tag) where.tags = { has: tag };
+  if (specialty) where.doctors = { some: { specialty: { contains: specialty, mode: "insensitive" } } };
 
   const orderBy: any =
     sortBy === "price_asc"

@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { createHotelBooking } from "@/actions/booking";
 import { hotelBookingSchema, type HotelBookingInput } from "@/validations";
+import { PromoCodeInput } from "@/components/bookings/promo-code-input";
 import { formatCurrency, getNightCount } from "@/lib/utils";
 import type { Room } from "@prisma/client";
 
@@ -30,12 +31,13 @@ export function HotelBookingWidget({ listing, rooms }: HotelBookingWidgetProps) 
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(2);
+  const [appliedPromo, setAppliedPromo] = useState<{ id: string; discount: number; code: string } | null>(null);
 
   const nights = checkIn && checkOut ? getNightCount(new Date(checkIn), new Date(checkOut)) : 0;
   const subtotal = selectedRoom ? selectedRoom.pricePerNight * nights : 0;
   const platformFee = Math.round(subtotal * 0.1);
   const taxes = Math.round(subtotal * 0.08);
-  const total = subtotal + platformFee + taxes;
+  const total = Math.max(0, subtotal + platformFee + taxes - (appliedPromo?.discount ?? 0));
 
   const { register, handleSubmit, formState: { errors } } = useForm<HotelBookingInput>({
     resolver: zodResolver(hotelBookingSchema),
@@ -67,6 +69,8 @@ export function HotelBookingWidget({ listing, rooms }: HotelBookingWidgetProps) 
           checkIn: new Date(checkIn),
           checkOut: new Date(checkOut),
           guests,
+          promoCodeId: appliedPromo?.id,
+          discountAmount: appliedPromo?.discount ?? 0,
         });
         if (result.checkoutUrl) router.push(result.checkoutUrl);
       } catch (error: any) {
@@ -232,11 +236,24 @@ export function HotelBookingWidget({ listing, rooms }: HotelBookingWidgetProps) 
                   <span>Taxes (8%)</span>
                   <span>{formatCurrency(taxes)}</span>
                 </div>
+                {appliedPromo && (
+                  <div className="flex justify-between text-emerald-600 font-medium">
+                    <span>Promo ({appliedPromo.code})</span>
+                    <span>-{formatCurrency(appliedPromo.discount)}</span>
+                  </div>
+                )}
                 <Separator />
                 <div className="flex justify-between font-bold text-gray-900">
                   <span>Total</span>
                   <span>{formatCurrency(total)}</span>
                 </div>
+                <PromoCodeInput
+                  subtotal={subtotal}
+                  listingId={listing.id}
+                  onApply={(id, discount, code) => setAppliedPromo({ id, discount, code })}
+                  onRemove={() => setAppliedPromo(null)}
+                  appliedCode={appliedPromo?.code}
+                />
               </div>
             )}
 

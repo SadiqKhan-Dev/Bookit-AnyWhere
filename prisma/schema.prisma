@@ -24,6 +24,11 @@ enum ListingType {
   CRUISE
 }
 
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
 enum BookingStatus {
   PENDING
   CONFIRMED
@@ -91,6 +96,8 @@ model User {
   bookings      Booking[]      @relation("CustomerBookings")
   reviews       Review[]
   notifications Notification[]
+  wishlists     Wishlist[]
+  promoCodes    PromoCode[]
 
   @@map("users")
 }
@@ -149,6 +156,8 @@ model Listing {
   blockedDates    BlockedDate[]
   flightRoutes    FlightRoute[]
   cruiseCabins    CruiseCabin[]
+  wishlists       Wishlist[]
+  promoCodes      PromoCode[]
 
   @@index([type])
   @@index([city])
@@ -393,7 +402,9 @@ model Booking {
   subtotal       Int           // in cents
   taxes          Int           @default(0)
   platformFee    Int           @default(0)
+  discountAmount Int           @default(0)
   totalAmount    Int           // in cents
+  promoCodeId    String?
 
   // Stripe
   stripePaymentIntentId String? @unique
@@ -412,6 +423,7 @@ model Booking {
   cruiseCabin CruiseCabin? @relation(fields: [cruiseCabinId], references: [id])
   payment     Payment?
   review      Review?
+  promoCode   PromoCode? @relation(fields: [promoCodeId], references: [id])
 
   @@index([listingId])
   @@index([customerId])
@@ -489,4 +501,52 @@ model Notification {
 
   @@index([userId])
   @@map("notifications")
+}
+
+// ============================================================
+// WISHLIST
+// ============================================================
+
+model Wishlist {
+  id        String   @id @default(cuid())
+  userId    String
+  listingId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, listingId])
+  @@index([userId])
+  @@map("wishlists")
+}
+
+// ============================================================
+// PROMO CODE
+// ============================================================
+
+model PromoCode {
+  id            String       @id @default(cuid())
+  code          String       @unique
+  description   String?
+  discountType  DiscountType
+  discountValue Int          // % (1-100) or fixed cents
+  minOrderAmount Int?        // minimum subtotal in cents
+  maxUses       Int?         // null = unlimited
+  usedCount     Int          @default(0)
+  expiresAt     DateTime?
+  isActive      Boolean      @default(true)
+  listingId     String?      // null = applies to all
+
+  createdBy  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  creator  User     @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  listing  Listing? @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  bookings Booking[]
+
+  @@index([code])
+  @@index([createdBy])
+  @@map("promo_codes")
 }

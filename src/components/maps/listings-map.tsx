@@ -82,7 +82,7 @@ export function ListingsMap({ markers, center, zoom = 11 }: ListingsMapProps) {
                 <X className="h-3.5 w-3.5" />
               </button>
               <Link
-                href={`${LISTING_TYPE_CONFIG[selectedMarker.type as keyof typeof LISTING_TYPE_CONFIG].href}/${selectedMarker.id}`}
+                href={`${LISTING_TYPE_CONFIG[selectedMarker.type as keyof typeof LISTING_TYPE_CONFIG].href}/${selectedMarker.slug}`}
               >
                 <div className="p-3">
                   <p className="font-semibold text-gray-900 text-sm truncate">{selectedMarker.title}</p>

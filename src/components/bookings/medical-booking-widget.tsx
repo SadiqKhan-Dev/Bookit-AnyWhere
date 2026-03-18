@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { createMedicalBooking } from "@/actions/booking";
 import { getAvailableSlots } from "@/actions/booking";
 import { medicalBookingSchema, type MedicalBookingInput } from "@/validations";
+import { PromoCodeInput } from "@/components/bookings/promo-code-input";
 import { formatCurrency, formatTime12h } from "@/lib/utils";
 import type { Service, Doctor, AvailabilityRule } from "@prisma/client";
 
@@ -38,6 +39,7 @@ export function MedicalBookingWidget({ listing, services, doctors, availability 
   const [appointmentType, setAppointmentType] = useState<"IN_PERSON" | "TELEMEDICINE">("IN_PERSON");
   const [slots, setSlots] = useState<{ time: string; isTaken: boolean }[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
+  const [appliedPromo, setAppliedPromo] = useState<{ id: string; discount: number; code: string } | null>(null);
 
   const { register, handleSubmit, formState: { errors } } = useForm<MedicalBookingInput>({
     resolver: zodResolver(medicalBookingSchema),
@@ -58,7 +60,7 @@ export function MedicalBookingWidget({ listing, services, doctors, availability 
   const fees = selectedService ? {
     platformFee: Math.round(selectedService.price * 0.1),
     taxes: Math.round(selectedService.price * 0.08),
-    total: selectedService.price + Math.round(selectedService.price * 0.18),
+    total: Math.max(0, selectedService.price + Math.round(selectedService.price * 0.18) - (appliedPromo?.discount ?? 0)),
   } : null;
 
   const onSubmit = async (data: Omit<MedicalBookingInput, "serviceId" | "doctorId" | "date" | "time" | "appointmentType">) => {
@@ -73,6 +75,8 @@ export function MedicalBookingWidget({ listing, services, doctors, availability 
           date: new Date(selectedDate),
           time: selectedTime,
           appointmentType,
+          promoCodeId: appliedPromo?.id,
+          discountAmount: appliedPromo?.discount ?? 0,
         });
         if (result.checkoutUrl) router.push(result.checkoutUrl);
       } catch (error: any) {
@@ -238,8 +242,21 @@ export function MedicalBookingWidget({ listing, services, doctors, availability 
                     <div className="flex justify-between text-gray-600"><span>{selectedService.name}</span><span>{formatCurrency(selectedService.price)}</span></div>
                     <div className="flex justify-between text-gray-600"><span>Platform fee (10%)</span><span>{formatCurrency(fees.platformFee)}</span></div>
                     <div className="flex justify-between text-gray-600"><span>Taxes (8%)</span><span>{formatCurrency(fees.taxes)}</span></div>
+                    {appliedPromo && (
+                      <div className="flex justify-between text-emerald-600 font-medium">
+                        <span>Promo ({appliedPromo.code})</span>
+                        <span>-{formatCurrency(appliedPromo.discount)}</span>
+                      </div>
+                    )}
                     <Separator />
                     <div className="flex justify-between font-bold text-gray-900"><span>Total</span><span>{formatCurrency(fees.total)}</span></div>
+                    <PromoCodeInput
+                      subtotal={selectedService.price}
+                      listingId={listing.id}
+                      onApply={(id, discount, code) => setAppliedPromo({ id, discount, code })}
+                      onRemove={() => setAppliedPromo(null)}
+                      appliedCode={appliedPromo?.code}
+                    />
                   </div>
                 )}
                 <Button type="submit" loading={isPending} className="w-full bg-emerald-500 hover:bg-emerald-600 text-white" size="lg">

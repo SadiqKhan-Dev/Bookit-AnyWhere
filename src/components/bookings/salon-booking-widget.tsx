@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { createSalonBooking } from "@/actions/booking";
 import { getAvailableSlots } from "@/actions/booking";
+import { PromoCodeInput } from "@/components/bookings/promo-code-input";
 import { salonBookingSchema, type SalonBookingInput } from "@/validations";
 import { formatCurrency, formatTime12h } from "@/lib/utils";
 import type { Service, AvailabilityRule } from "@prisma/client";
@@ -35,6 +36,7 @@ export function SalonBookingWidget({ listing, services, availability }: SalonBoo
   const [selectedTime, setSelectedTime] = useState("");
   const [slots, setSlots] = useState<{ time: string; isTaken: boolean }[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
+  const [appliedPromo, setAppliedPromo] = useState<{ id: string; discount: number; code: string } | null>(null);
 
   const {
     register,
@@ -71,6 +73,8 @@ export function SalonBookingWidget({ listing, services, availability }: SalonBoo
           serviceId: selectedService.id,
           date: new Date(selectedDate),
           time: selectedTime,
+          promoCodeId: appliedPromo?.id,
+          discountAmount: appliedPromo?.discount ?? 0,
         });
 
         if (result.checkoutUrl) {
@@ -86,7 +90,7 @@ export function SalonBookingWidget({ listing, services, availability }: SalonBoo
     });
   };
 
-  const fees = selectedService ? calculateFees(selectedService.price) : null;
+  const fees = selectedService ? calculateFees(selectedService.price, appliedPromo?.discount ?? 0) : null;
 
   const availableDays = availability
     .filter((r) => r.isOpen)
@@ -315,11 +319,24 @@ export function SalonBookingWidget({ listing, services, availability }: SalonBoo
                       <span>Taxes (8%)</span>
                       <span>{formatCurrency(fees.taxes)}</span>
                     </div>
+                    {appliedPromo && (
+                      <div className="flex justify-between text-emerald-600 font-medium">
+                        <span>Promo ({appliedPromo.code})</span>
+                        <span>-{formatCurrency(appliedPromo.discount)}</span>
+                      </div>
+                    )}
                     <Separator />
                     <div className="flex justify-between font-bold text-gray-900">
                       <span>Total</span>
                       <span>{formatCurrency(fees.total)}</span>
                     </div>
+                    <PromoCodeInput
+                      subtotal={selectedService.price}
+                      listingId={listing.id}
+                      onApply={(id, discount, code) => setAppliedPromo({ id, discount, code })}
+                      onRemove={() => setAppliedPromo(null)}
+                      appliedCode={appliedPromo?.code}
+                    />
                   </div>
                 )}
 
@@ -344,9 +361,9 @@ export function SalonBookingWidget({ listing, services, availability }: SalonBoo
   );
 }
 
-function calculateFees(price: number) {
+function calculateFees(price: number, discount = 0) {
   const platformFee = Math.round(price * 0.1);
   const taxes = Math.round(price * 0.08);
-  const total = price + platformFee + taxes;
+  const total = Math.max(0, price + platformFee + taxes - discount);
   return { platformFee, taxes, total };
 }
