@@ -1,4 +1,4 @@
-import { resend, FROM_EMAIL, APP_URL } from "./resend";
+import { getResend, FROM_EMAIL, APP_URL } from "./resend";
 
 // ─── Shared helpers ──────────────────────────────────────────────────────────
 
@@ -106,7 +106,7 @@ export async function sendBookingConfirmedEmail(params: BookingConfirmedParams) 
     </p>
   `);
 
-  return resend.emails.send({
+  return getResend().emails.send({
     from: FROM_EMAIL,
     to,
     subject: `Booking Confirmed — #${ref}`,
@@ -160,7 +160,7 @@ export async function sendBookingCancelledEmail(params: BookingCancelledParams) 
     </p>
   `);
 
-  return resend.emails.send({
+  return getResend().emails.send({
     from: FROM_EMAIL,
     to,
     subject: `Booking Cancelled — #${ref}`,
@@ -216,7 +216,7 @@ export async function sendNewBookingProviderEmail(params: NewBookingProviderPara
     </p>
   `);
 
-  return resend.emails.send({
+  return getResend().emails.send({
     from: FROM_EMAIL,
     to,
     subject: `New Booking — #${ref} for ${listingTitle}`,
