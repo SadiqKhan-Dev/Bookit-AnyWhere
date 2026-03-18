@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Star, MapPin, Clock, Users } from "lucide-react";
+import { Heart, Star, MapPin, Clock, Users, Mountain, Waves, Building2, Sun, TreePine, Droplets, Anchor, MountainSnow, Leaf, Compass, CloudSnow, Wheat, Landmark, type LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -26,22 +26,22 @@ interface ListingCardProps {
   index?: number;
 }
 
-const TERRAIN_COLORS: Record<string, string> = {
-  Mountain: "bg-slate-100 text-slate-700",
-  Beach: "bg-sky-100 text-sky-700",
-  City: "bg-zinc-100 text-zinc-700",
-  Desert: "bg-amber-100 text-amber-700",
-  Forest: "bg-green-100 text-green-700",
-  Lake: "bg-cyan-100 text-cyan-700",
-  Coastal: "bg-blue-100 text-blue-700",
-  "Ski Resort": "bg-indigo-100 text-indigo-700",
-  Tropical: "bg-lime-100 text-lime-700",
-  Island: "bg-teal-100 text-teal-700",
-  Ocean: "bg-blue-100 text-blue-700",
-  Countryside: "bg-yellow-100 text-yellow-700",
-  Arctic: "bg-purple-100 text-purple-700",
-  Urban: "bg-gray-100 text-gray-700",
-  Historic: "bg-orange-100 text-orange-700",
+const TERRAIN_CONFIG: Record<string, { color: string; Icon: LucideIcon }> = {
+  Mountain:    { color: "bg-slate-100 text-slate-700",   Icon: Mountain },
+  Beach:       { color: "bg-sky-100 text-sky-700",       Icon: Waves },
+  City:        { color: "bg-zinc-100 text-zinc-700",     Icon: Building2 },
+  Desert:      { color: "bg-amber-100 text-amber-700",   Icon: Sun },
+  Forest:      { color: "bg-green-100 text-green-700",   Icon: TreePine },
+  Lake:        { color: "bg-cyan-100 text-cyan-700",     Icon: Droplets },
+  Coastal:     { color: "bg-blue-100 text-blue-700",     Icon: Anchor },
+  "Ski Resort":{ color: "bg-indigo-100 text-indigo-700", Icon: MountainSnow },
+  Tropical:    { color: "bg-lime-100 text-lime-700",     Icon: Leaf },
+  Island:      { color: "bg-teal-100 text-teal-700",     Icon: Compass },
+  Ocean:       { color: "bg-blue-100 text-blue-700",     Icon: Waves },
+  Countryside: { color: "bg-yellow-100 text-yellow-700", Icon: Wheat },
+  Arctic:      { color: "bg-purple-100 text-purple-700", Icon: CloudSnow },
+  Urban:       { color: "bg-gray-100 text-gray-700",     Icon: Building2 },
+  Historic:    { color: "bg-orange-100 text-orange-700", Icon: Landmark },
 };
 
 export function ListingCard({
@@ -130,14 +130,19 @@ export function ListingCard({
             {/* Terrain tags */}
             {tags.length > 0 && (
               <div className="flex flex-wrap gap-1 mb-2">
-                {tags.slice(0, 2).map((tag) => (
-                  <span
-                    key={tag}
-                    className={`text-xs px-2 py-0.5 rounded-full font-medium ${TERRAIN_COLORS[tag] ?? "bg-gray-100 text-gray-600"}`}
-                  >
-                    {tag}
-                  </span>
-                ))}
+                {tags.slice(0, 2).map((tag) => {
+                  const cfg = TERRAIN_CONFIG[tag];
+                  const TagIcon = cfg?.Icon;
+                  return (
+                    <span
+                      key={tag}
+                      className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full font-medium ${cfg?.color ?? "bg-gray-100 text-gray-600"}`}
+                    >
+                      {TagIcon && <TagIcon className="h-3 w-3" />}
+                      {tag}
+                    </span>
+                  );
+                })}
               </div>
             )}
 

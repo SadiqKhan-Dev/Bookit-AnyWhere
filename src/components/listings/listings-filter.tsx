@@ -2,24 +2,25 @@
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useCallback } from "react";
-import { Star, X } from "lucide-react";
+import { Star, X, Mountain, Waves, Building2, Sun, TreePine, Droplets, Anchor, MountainSnow, Leaf, Compass, CloudSnow, Wheat } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import type { LucideIcon } from "lucide-react";
 
-const terrainTags = [
-  { label: "Mountain",   emoji: "🏔️", color: "text-slate-600",  bg: "bg-slate-50",  activeBg: "bg-slate-100",  activeTxt: "text-slate-700" },
-  { label: "Beach",      emoji: "🏖️", color: "text-sky-600",    bg: "bg-sky-50",    activeBg: "bg-sky-100",    activeTxt: "text-sky-700" },
-  { label: "City",       emoji: "🏙️", color: "text-zinc-600",   bg: "bg-zinc-50",   activeBg: "bg-zinc-100",   activeTxt: "text-zinc-700" },
-  { label: "Desert",     emoji: "🌵", color: "text-amber-600",  bg: "bg-amber-50",  activeBg: "bg-amber-100",  activeTxt: "text-amber-700" },
-  { label: "Forest",     emoji: "🌲", color: "text-green-600",  bg: "bg-green-50",  activeBg: "bg-green-100",  activeTxt: "text-green-700" },
-  { label: "Lake",       emoji: "🏞️", color: "text-cyan-600",   bg: "bg-cyan-50",   activeBg: "bg-cyan-100",   activeTxt: "text-cyan-700" },
-  { label: "Coastal",    emoji: "🌊", color: "text-blue-600",   bg: "bg-blue-50",   activeBg: "bg-blue-100",   activeTxt: "text-blue-700" },
-  { label: "Ski Resort", emoji: "⛷️", color: "text-indigo-600", bg: "bg-indigo-50", activeBg: "bg-indigo-100", activeTxt: "text-indigo-700" },
-  { label: "Tropical",   emoji: "🌴", color: "text-lime-600",   bg: "bg-lime-50",   activeBg: "bg-lime-100",   activeTxt: "text-lime-700" },
-  { label: "Island",     emoji: "🏝️", color: "text-teal-600",   bg: "bg-teal-50",   activeBg: "bg-teal-100",   activeTxt: "text-teal-700" },
-  { label: "Arctic",     emoji: "🌨️", color: "text-purple-600", bg: "bg-purple-50", activeBg: "bg-purple-100", activeTxt: "text-purple-700" },
-  { label: "Countryside",emoji: "🌾", color: "text-yellow-600", bg: "bg-yellow-50", activeBg: "bg-yellow-100", activeTxt: "text-yellow-700" },
+const terrainTags: { label: string; Icon: LucideIcon; color: string; bg: string; activeBg: string; activeTxt: string }[] = [
+  { label: "Mountain",    Icon: Mountain,    color: "text-slate-600",  bg: "bg-slate-50",  activeBg: "bg-slate-100",  activeTxt: "text-slate-700" },
+  { label: "Beach",       Icon: Waves,       color: "text-sky-600",    bg: "bg-sky-50",    activeBg: "bg-sky-100",    activeTxt: "text-sky-700" },
+  { label: "City",        Icon: Building2,   color: "text-zinc-600",   bg: "bg-zinc-50",   activeBg: "bg-zinc-100",   activeTxt: "text-zinc-700" },
+  { label: "Desert",      Icon: Sun,         color: "text-amber-600",  bg: "bg-amber-50",  activeBg: "bg-amber-100",  activeTxt: "text-amber-700" },
+  { label: "Forest",      Icon: TreePine,    color: "text-green-600",  bg: "bg-green-50",  activeBg: "bg-green-100",  activeTxt: "text-green-700" },
+  { label: "Lake",        Icon: Droplets,    color: "text-cyan-600",   bg: "bg-cyan-50",   activeBg: "bg-cyan-100",   activeTxt: "text-cyan-700" },
+  { label: "Coastal",     Icon: Anchor,      color: "text-blue-600",   bg: "bg-blue-50",   activeBg: "bg-blue-100",   activeTxt: "text-blue-700" },
+  { label: "Ski Resort",  Icon: MountainSnow,color: "text-indigo-600", bg: "bg-indigo-50", activeBg: "bg-indigo-100", activeTxt: "text-indigo-700" },
+  { label: "Tropical",    Icon: Leaf,        color: "text-lime-600",   bg: "bg-lime-50",   activeBg: "bg-lime-100",   activeTxt: "text-lime-700" },
+  { label: "Island",      Icon: Compass,     color: "text-teal-600",   bg: "bg-teal-50",   activeBg: "bg-teal-100",   activeTxt: "text-teal-700" },
+  { label: "Arctic",      Icon: CloudSnow,   color: "text-purple-600", bg: "bg-purple-50", activeBg: "bg-purple-100", activeTxt: "text-purple-700" },
+  { label: "Countryside", Icon: Wheat,       color: "text-yellow-600", bg: "bg-yellow-50", activeBg: "bg-yellow-100", activeTxt: "text-yellow-700" },
 ];
 
 interface ListingsFilterProps {
@@ -154,6 +155,7 @@ export function ListingsFilter({ type, searchParams }: ListingsFilterProps) {
         <div className="flex flex-wrap gap-2">
           {terrainTags.map((terrain) => {
             const isActive = searchParams.tag === terrain.label;
+            const { Icon } = terrain;
             return (
               <button
                 key={terrain.label}
@@ -167,7 +169,7 @@ export function ListingsFilter({ type, searchParams }: ListingsFilterProps) {
                     : `${terrain.bg} ${terrain.color} border-transparent hover:border-current`
                 )}
               >
-                <span>{terrain.emoji}</span>
+                <Icon className="h-3 w-3" />
                 {terrain.label}
               </button>
             );

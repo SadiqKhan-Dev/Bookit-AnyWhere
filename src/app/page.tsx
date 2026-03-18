@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Scissors, Building2, Stethoscope, PlaneLanding, Plane, Ship, Star, ArrowRight, Shield, Zap, Globe } from "lucide-react";
+import { Scissors, Building2, Stethoscope, PlaneLanding, Plane, Ship, Star, ArrowRight, Shield, Zap, Globe, Mountain, Waves, Sun, TreePine, Droplets, Anchor, MountainSnow, Leaf, Compass, CloudSnow, Wheat } from "lucide-react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/shared/navbar";
 import { Footer } from "@/components/shared/footer";
@@ -119,18 +119,18 @@ const categories = [
 ];
 
 const terrainExplore = [
-  { tag: "Mountain",    emoji: "🏔️", label: "Mountain",    color: "from-slate-500 to-gray-600",    desc: "Alpine retreats & ski resorts" },
-  { tag: "Beach",       emoji: "🏖️", label: "Beach",       color: "from-sky-400 to-blue-500",      desc: "Sun, sand & surf" },
-  { tag: "City",        emoji: "🏙️", label: "City",        color: "from-zinc-500 to-slate-600",    desc: "Urban hotspots & metropolis" },
-  { tag: "Desert",      emoji: "🌵", label: "Desert",      color: "from-amber-500 to-orange-500",  desc: "Arid wonders & canyons" },
-  { tag: "Forest",      emoji: "🌲", label: "Forest",      color: "from-green-500 to-emerald-600", desc: "Woodland & nature escapes" },
-  { tag: "Tropical",    emoji: "🌴", label: "Tropical",    color: "from-lime-500 to-green-500",    desc: "Lush jungles & warm weather" },
-  { tag: "Island",      emoji: "🏝️", label: "Island",      color: "from-teal-500 to-cyan-500",     desc: "Remote isles & paradises" },
-  { tag: "Coastal",     emoji: "🌊", label: "Coastal",     color: "from-blue-500 to-indigo-500",   desc: "Seaside towns & harbors" },
-  { tag: "Ski Resort",  emoji: "⛷️", label: "Ski Resort",  color: "from-indigo-500 to-purple-500", desc: "Powder runs & chalets" },
-  { tag: "Lake",        emoji: "🏞️", label: "Lake",        color: "from-cyan-500 to-teal-500",     desc: "Lakeside cabins & shores" },
-  { tag: "Arctic",      emoji: "🌨️", label: "Arctic",      color: "from-purple-500 to-violet-500", desc: "Glaciers & polar adventures" },
-  { tag: "Countryside", emoji: "🌾", label: "Countryside", color: "from-yellow-500 to-amber-500",  desc: "Rolling hills & farmlands" },
+  { tag: "Mountain",    Icon: Mountain,    label: "Mountain",    color: "from-slate-500 to-gray-600",    desc: "Alpine retreats & ski resorts" },
+  { tag: "Beach",       Icon: Waves,       label: "Beach",       color: "from-sky-400 to-blue-500",      desc: "Sun, sand & surf" },
+  { tag: "City",        Icon: Building2,   label: "City",        color: "from-zinc-500 to-slate-600",    desc: "Urban hotspots & metropolis" },
+  { tag: "Desert",      Icon: Sun,         label: "Desert",      color: "from-amber-500 to-orange-500",  desc: "Arid wonders & canyons" },
+  { tag: "Forest",      Icon: TreePine,    label: "Forest",      color: "from-green-500 to-emerald-600", desc: "Woodland & nature escapes" },
+  { tag: "Tropical",    Icon: Leaf,        label: "Tropical",    color: "from-lime-500 to-green-500",    desc: "Lush jungles & warm weather" },
+  { tag: "Island",      Icon: Compass,     label: "Island",      color: "from-teal-500 to-cyan-500",     desc: "Remote isles & paradises" },
+  { tag: "Coastal",     Icon: Anchor,      label: "Coastal",     color: "from-blue-500 to-indigo-500",   desc: "Seaside towns & harbors" },
+  { tag: "Ski Resort",  Icon: MountainSnow,label: "Ski Resort",  color: "from-indigo-500 to-purple-500", desc: "Powder runs & chalets" },
+  { tag: "Lake",        Icon: Droplets,    label: "Lake",        color: "from-cyan-500 to-teal-500",     desc: "Lakeside cabins & shores" },
+  { tag: "Arctic",      Icon: CloudSnow,   label: "Arctic",      color: "from-purple-500 to-violet-500", desc: "Glaciers & polar adventures" },
+  { tag: "Countryside", Icon: Wheat,       label: "Countryside", color: "from-yellow-500 to-amber-500",  desc: "Rolling hills & farmlands" },
 ];
 
 const features = [
@@ -283,21 +283,24 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {terrainExplore.map((terrain) => (
-              <Link
-                key={terrain.tag}
-                href={`/hotels?tag=${encodeURIComponent(terrain.tag)}`}
-                className="group flex flex-col items-center gap-2 p-4 rounded-2xl bg-white border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
-              >
-                <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${terrain.color} text-2xl shadow-sm`}>
-                  {terrain.emoji}
-                </div>
-                <div className="text-center">
-                  <p className="text-sm font-semibold text-gray-900">{terrain.label}</p>
-                  <p className="text-xs text-gray-500 mt-0.5 leading-tight">{terrain.desc}</p>
-                </div>
-              </Link>
-            ))}
+            {terrainExplore.map((terrain) => {
+              const { Icon } = terrain;
+              return (
+                <Link
+                  key={terrain.tag}
+                  href={`/hotels?tag=${encodeURIComponent(terrain.tag)}`}
+                  className="group flex flex-col items-center gap-2 p-4 rounded-2xl bg-white border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${terrain.color} shadow-sm`}>
+                    <Icon className="h-6 w-6 text-white" />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm font-semibold text-gray-900">{terrain.label}</p>
+                    <p className="text-xs text-gray-500 mt-0.5 leading-tight">{terrain.desc}</p>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
