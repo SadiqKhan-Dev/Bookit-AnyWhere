@@ -122,6 +122,9 @@ model Listing {
   // Pricing (base price in cents)
   priceFrom   Int
 
+  // Tags (terrain / destination type — e.g. Mountain, Beach, City)
+  tags        String[]
+
   // Meta
   isActive    Boolean  @default(true)
   isFeatured  Boolean  @default(false)

@@ -20,6 +20,7 @@ interface SalonsPageProps {
     minPrice?: string;
     maxPrice?: string;
     rating?: string;
+    tag?: string;
     date?: string;
     page?: string;
     sort?: string;
@@ -34,6 +35,7 @@ async function SalonListings({ searchParams }: SalonsPageProps) {
     minPrice: searchParams.minPrice ? Number(searchParams.minPrice) : undefined,
     maxPrice: searchParams.maxPrice ? Number(searchParams.maxPrice) : undefined,
     rating: searchParams.rating ? Number(searchParams.rating) : undefined,
+    tag: searchParams.tag,
     page: Number(searchParams.page) || 1,
     sortBy: (searchParams.sort as any) || "relevance",
   });
@@ -66,6 +68,7 @@ async function SalonListings({ searchParams }: SalonsPageProps) {
             rating={listing.rating}
             reviewCount={listing.reviewCount}
             isFeatured={listing.isFeatured}
+            tags={listing.tags}
             index={i}
           />
         ))}

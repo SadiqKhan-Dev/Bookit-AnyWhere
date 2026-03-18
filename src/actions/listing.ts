@@ -120,6 +120,7 @@ export async function searchListings(input: Partial<SearchInput>) {
     minPrice,
     maxPrice,
     rating,
+    tag,
     page = 1,
     pageSize = 12,
     sortBy = "relevance",
@@ -139,6 +140,7 @@ export async function searchListings(input: Partial<SearchInput>) {
   if (minPrice) where.priceFrom = { gte: Math.round(minPrice * 100) };
   if (maxPrice) where.priceFrom = { ...where.priceFrom, lte: Math.round(maxPrice * 100) };
   if (rating) where.rating = { gte: rating };
+  if (tag) where.tags = { has: tag };
 
   const orderBy: any =
     sortBy === "price_asc"

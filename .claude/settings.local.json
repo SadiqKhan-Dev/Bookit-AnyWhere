@@ -26,7 +26,12 @@
       "Bash(ls E:/VS-CODES/booking/src/app/\\\\\\(public\\\\\\)/ && ls E:/VS-CODES/booking/src/components/bookings/)",
       "Bash(cd E:/VS-CODES/booking && npx prisma generate 2>&1)",
       "Bash(cd E:/VS-CODES/booking && npx tsc --noEmit 2>&1 | head -60)",
-      "Bash(cd E:/VS-CODES/booking && npx tsc --noEmit 2>&1 | head -40)"
+      "Bash(cd E:/VS-CODES/booking && npx tsc --noEmit 2>&1 | head -40)",
+      "Bash(cd \"E:/VS-CODES/booking\" && npx tsc --noEmit 2>&1 | head -40)",
+      "Bash(cd \"E:/VS-CODES/booking\" && npx tsc --noEmit 2>&1 | head -30)",
+      "Bash(cd \"E:/VS-CODES/booking\" && npx prisma migrate dev --name add_terrain_tags 2>&1)",
+      "Bash(cd \"E:/VS-CODES/booking\" && npx prisma db push 2>&1)",
+      "Bash(cd \"E:/VS-CODES/booking\" && npx tsc --noEmit 2>&1)"
     ]
   }
 }

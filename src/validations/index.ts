@@ -150,6 +150,7 @@ export const searchSchema = z.object({
   minPrice: z.number().optional(),
   maxPrice: z.number().optional(),
   rating: z.number().min(0).max(5).optional(),
+  tag: z.string().optional(),
   amenities: z.array(z.string()).optional(),
   checkIn: z.date().optional(),
   checkOut: z.date().optional(),

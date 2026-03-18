@@ -20,6 +20,7 @@ interface HotelsPageProps {
     minPrice?: string;
     maxPrice?: string;
     rating?: string;
+    tag?: string;
     checkIn?: string;
     checkOut?: string;
     guests?: string;
@@ -36,6 +37,7 @@ async function HotelListings({ searchParams }: HotelsPageProps) {
     minPrice: searchParams.minPrice ? Number(searchParams.minPrice) : undefined,
     maxPrice: searchParams.maxPrice ? Number(searchParams.maxPrice) : undefined,
     rating: searchParams.rating ? Number(searchParams.rating) : undefined,
+    tag: searchParams.tag,
     page: Number(searchParams.page) || 1,
     sortBy: (searchParams.sort as any) || "relevance",
   });
@@ -68,6 +70,7 @@ async function HotelListings({ searchParams }: HotelsPageProps) {
             rating={listing.rating}
             reviewCount={listing.reviewCount}
             isFeatured={listing.isFeatured}
+            tags={listing.tags}
             index={i}
           />
         ))}

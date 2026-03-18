@@ -2,6 +2,55 @@ import { PrismaClient, ListingType, DayOfWeek, RoomType, AppointmentType } from 
 
 const prisma = new PrismaClient();
 
+// ─────────────────────────────────────────────
+// TERRAIN / DESTINATION TAGS HELPERS
+// ─────────────────────────────────────────────
+
+const cityTagsMap: Record<string, string[]> = {
+  "New York":        ["City", "Coastal", "Urban"],
+  "Los Angeles":     ["City", "Beach", "Coastal"],
+  "Chicago":         ["City", "Lake"],
+  "Miami":           ["Beach", "Coastal", "Tropical"],
+  "Las Vegas":       ["Desert", "City"],
+  "Denver":          ["Mountain", "City", "Ski Resort"],
+  "Seattle":         ["Mountain", "Coastal", "Forest"],
+  "Boston":          ["City", "Coastal"],
+  "Phoenix":         ["Desert", "Mountain"],
+  "Portland":        ["City", "Forest", "Mountain"],
+  "Nashville":       ["City", "Countryside"],
+  "Atlanta":         ["City", "Countryside"],
+  "Dallas":          ["City"],
+  "Houston":         ["City", "Coastal"],
+  "San Diego":       ["Beach", "Coastal", "City"],
+  "Minneapolis":     ["City", "Lake"],
+  "Detroit":         ["City", "Lake"],
+  "San Antonio":     ["City", "Countryside"],
+  "Philadelphia":    ["City", "Coastal"],
+  "New Orleans":     ["City", "Coastal", "Tropical"],
+  "Beverly Hills":   ["City", "Beach"],
+  "Port Canaveral":  ["Beach", "Coastal", "Tropical"],
+  "Fort Lauderdale": ["Beach", "Coastal", "Tropical"],
+  "Tampa":           ["Beach", "Coastal"],
+  "San Francisco":   ["City", "Coastal"],
+  "Baltimore":       ["City", "Coastal"],
+  "Galveston":       ["Beach", "Coastal"],
+};
+
+function getTerrainTags(city: string, slug: string, description: string): string[] {
+  const s = slug.toLowerCase();
+  const d = description.toLowerCase();
+  // Cruise destination overrides
+  if (s.includes("caribbean") || d.includes("caribbean") || d.includes("cozumel") || d.includes("nassau")) return ["Island", "Tropical", "Beach", "Ocean"];
+  if (s.includes("bahamas") || d.includes("bahamas")) return ["Island", "Beach", "Tropical", "Ocean"];
+  if (s.includes("alaska") || d.includes("alaska") || d.includes("glacier") || d.includes("fjord")) return ["Arctic", "Mountain", "Forest", "Ocean"];
+  if (s.includes("mediterranean") || d.includes("mediterranean") || d.includes("santorini") || d.includes("amalfi")) return ["Coastal", "City", "Historic"];
+  if (s.includes("hawaii") || s.includes("honolulu") || d.includes("hawaii") || d.includes("aloha")) return ["Island", "Tropical", "Beach", "Ocean"];
+  if (s.includes("bermuda") || d.includes("bermuda")) return ["Island", "Beach", "Coastal", "Ocean"];
+  if (s.includes("europe") || d.includes("scandinavia") || d.includes("nordic")) return ["Coastal", "City", "Historic"];
+  if (d.includes("pacific northwest") || d.includes("rainforest")) return ["Mountain", "Forest", "Coastal"];
+  return cityTagsMap[city] ?? ["City"];
+}
+
 async function main() {
   console.log("🌱 Seeding database...");
 
@@ -1079,6 +1128,7 @@ async function main() {
         coverImage: s.coverImage,
         images: s.images,
         priceFrom: s.priceFrom,
+        tags: getTerrainTags(s.city, s.slug, s.description),
         providerId: provider.id,
         services: { create: s.services },
         availability: { create: weekdayAvailability },
@@ -1108,6 +1158,7 @@ async function main() {
         coverImage: h.coverImage,
         images: h.images,
         priceFrom: h.priceFrom,
+        tags: getTerrainTags(h.city, h.slug, h.description),
         providerId: provider.id,
         rooms: { create: h.rooms },
       },
@@ -1136,6 +1187,7 @@ async function main() {
         coverImage: c.coverImage,
         images: c.images,
         priceFrom: c.priceFrom,
+        tags: getTerrainTags(c.city, c.slug, c.description),
         providerId: provider.id,
         doctors: { create: c.doctors },
         services: { create: c.services },
@@ -1986,6 +2038,7 @@ async function main() {
         coverImage: a.coverImage,
         images: a.images,
         priceFrom: a.priceFrom,
+        tags: getTerrainTags(a.city, a.slug, a.description),
         providerId: provider.id,
         services: { create: a.services },
         availability: {
@@ -2025,6 +2078,7 @@ async function main() {
         coverImage: f.coverImage,
         images: f.images,
         priceFrom: f.priceFrom,
+        tags: getTerrainTags(f.city, f.slug, f.description),
         providerId: provider.id,
         flightRoutes: {
           create: [{
@@ -2058,6 +2112,7 @@ async function main() {
         coverImage: c.coverImage,
         images: c.images,
         priceFrom: c.priceFrom,
+        tags: getTerrainTags(c.city, c.slug, c.description),
         providerId: provider.id,
         cruiseCabins: { create: c.cabins },
       },

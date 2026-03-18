@@ -118,6 +118,21 @@ const categories = [
   },
 ];
 
+const terrainExplore = [
+  { tag: "Mountain",    emoji: "🏔️", label: "Mountain",    color: "from-slate-500 to-gray-600",    desc: "Alpine retreats & ski resorts" },
+  { tag: "Beach",       emoji: "🏖️", label: "Beach",       color: "from-sky-400 to-blue-500",      desc: "Sun, sand & surf" },
+  { tag: "City",        emoji: "🏙️", label: "City",        color: "from-zinc-500 to-slate-600",    desc: "Urban hotspots & metropolis" },
+  { tag: "Desert",      emoji: "🌵", label: "Desert",      color: "from-amber-500 to-orange-500",  desc: "Arid wonders & canyons" },
+  { tag: "Forest",      emoji: "🌲", label: "Forest",      color: "from-green-500 to-emerald-600", desc: "Woodland & nature escapes" },
+  { tag: "Tropical",    emoji: "🌴", label: "Tropical",    color: "from-lime-500 to-green-500",    desc: "Lush jungles & warm weather" },
+  { tag: "Island",      emoji: "🏝️", label: "Island",      color: "from-teal-500 to-cyan-500",     desc: "Remote isles & paradises" },
+  { tag: "Coastal",     emoji: "🌊", label: "Coastal",     color: "from-blue-500 to-indigo-500",   desc: "Seaside towns & harbors" },
+  { tag: "Ski Resort",  emoji: "⛷️", label: "Ski Resort",  color: "from-indigo-500 to-purple-500", desc: "Powder runs & chalets" },
+  { tag: "Lake",        emoji: "🏞️", label: "Lake",        color: "from-cyan-500 to-teal-500",     desc: "Lakeside cabins & shores" },
+  { tag: "Arctic",      emoji: "🌨️", label: "Arctic",      color: "from-purple-500 to-violet-500", desc: "Glaciers & polar adventures" },
+  { tag: "Countryside", emoji: "🌾", label: "Countryside", color: "from-yellow-500 to-amber-500",  desc: "Rolling hills & farmlands" },
+];
+
 const features = [
   {
     icon: Zap,
@@ -253,6 +268,36 @@ export default function HomePage() {
                 </Link>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Explore by Terrain */}
+      <section className="py-16 bg-gray-50 border-t border-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+              Explore by destination type
+            </h2>
+            <p className="text-gray-500">Find the perfect environment for your trip — mountain, beach, city, and beyond.</p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {terrainExplore.map((terrain) => (
+              <Link
+                key={terrain.tag}
+                href={`/hotels?tag=${encodeURIComponent(terrain.tag)}`}
+                className="group flex flex-col items-center gap-2 p-4 rounded-2xl bg-white border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+              >
+                <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${terrain.color} text-2xl shadow-sm`}>
+                  {terrain.emoji}
+                </div>
+                <div className="text-center">
+                  <p className="text-sm font-semibold text-gray-900">{terrain.label}</p>
+                  <p className="text-xs text-gray-500 mt-0.5 leading-tight">{terrain.desc}</p>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

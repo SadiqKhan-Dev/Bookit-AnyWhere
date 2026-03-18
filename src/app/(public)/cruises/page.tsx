@@ -19,6 +19,7 @@ interface CruisesPageProps {
     minPrice?: string;
     maxPrice?: string;
     rating?: string;
+    tag?: string;
     page?: string;
     sort?: string;
   };
@@ -31,6 +32,7 @@ async function CruiseListings({ searchParams }: CruisesPageProps) {
     city: searchParams.city,
     minPrice: searchParams.minPrice ? Number(searchParams.minPrice) : undefined,
     maxPrice: searchParams.maxPrice ? Number(searchParams.maxPrice) : undefined,
+    tag: searchParams.tag,
     page: Number(searchParams.page) || 1,
     sortBy: (searchParams.sort as any) || "relevance",
   });
@@ -63,6 +65,7 @@ async function CruiseListings({ searchParams }: CruisesPageProps) {
             rating={listing.rating}
             reviewCount={listing.reviewCount}
             isFeatured={listing.isFeatured}
+            tags={listing.tags}
             index={i}
           />
         ))}

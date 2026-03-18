@@ -20,6 +20,7 @@ interface DoctorsPageProps {
     minPrice?: string;
     maxPrice?: string;
     rating?: string;
+    tag?: string;
     date?: string;
     specialty?: string;
     page?: string;
@@ -35,6 +36,7 @@ async function DoctorListings({ searchParams }: DoctorsPageProps) {
     minPrice: searchParams.minPrice ? Number(searchParams.minPrice) : undefined,
     maxPrice: searchParams.maxPrice ? Number(searchParams.maxPrice) : undefined,
     rating: searchParams.rating ? Number(searchParams.rating) : undefined,
+    tag: searchParams.tag,
     page: Number(searchParams.page) || 1,
     sortBy: (searchParams.sort as any) || "relevance",
   });
@@ -67,6 +69,7 @@ async function DoctorListings({ searchParams }: DoctorsPageProps) {
             rating={listing.rating}
             reviewCount={listing.reviewCount}
             isFeatured={listing.isFeatured}
+            tags={listing.tags}
             index={i}
           />
         ))}

@@ -7,6 +7,21 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
+const terrainTags = [
+  { label: "Mountain",   emoji: "🏔️", color: "text-slate-600",  bg: "bg-slate-50",  activeBg: "bg-slate-100",  activeTxt: "text-slate-700" },
+  { label: "Beach",      emoji: "🏖️", color: "text-sky-600",    bg: "bg-sky-50",    activeBg: "bg-sky-100",    activeTxt: "text-sky-700" },
+  { label: "City",       emoji: "🏙️", color: "text-zinc-600",   bg: "bg-zinc-50",   activeBg: "bg-zinc-100",   activeTxt: "text-zinc-700" },
+  { label: "Desert",     emoji: "🌵", color: "text-amber-600",  bg: "bg-amber-50",  activeBg: "bg-amber-100",  activeTxt: "text-amber-700" },
+  { label: "Forest",     emoji: "🌲", color: "text-green-600",  bg: "bg-green-50",  activeBg: "bg-green-100",  activeTxt: "text-green-700" },
+  { label: "Lake",       emoji: "🏞️", color: "text-cyan-600",   bg: "bg-cyan-50",   activeBg: "bg-cyan-100",   activeTxt: "text-cyan-700" },
+  { label: "Coastal",    emoji: "🌊", color: "text-blue-600",   bg: "bg-blue-50",   activeBg: "bg-blue-100",   activeTxt: "text-blue-700" },
+  { label: "Ski Resort", emoji: "⛷️", color: "text-indigo-600", bg: "bg-indigo-50", activeBg: "bg-indigo-100", activeTxt: "text-indigo-700" },
+  { label: "Tropical",   emoji: "🌴", color: "text-lime-600",   bg: "bg-lime-50",   activeBg: "bg-lime-100",   activeTxt: "text-lime-700" },
+  { label: "Island",     emoji: "🏝️", color: "text-teal-600",   bg: "bg-teal-50",   activeBg: "bg-teal-100",   activeTxt: "text-teal-700" },
+  { label: "Arctic",     emoji: "🌨️", color: "text-purple-600", bg: "bg-purple-50", activeBg: "bg-purple-100", activeTxt: "text-purple-700" },
+  { label: "Countryside",emoji: "🌾", color: "text-yellow-600", bg: "bg-yellow-50", activeBg: "bg-yellow-100", activeTxt: "text-yellow-700" },
+];
+
 interface ListingsFilterProps {
   type: "SALON" | "HOTEL" | "MEDICAL" | "AIRPORT" | "FLIGHT" | "CRUISE";
   searchParams: Record<string, string | undefined>;
@@ -125,6 +140,35 @@ export function ListingsFilter({ type, searchParams }: ListingsFilterProps) {
                 )}
               >
                 {range.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Terrain / Destination Type */}
+      <div>
+        <h3 className="text-sm font-semibold text-gray-700 mb-3">Destination type</h3>
+        <div className="flex flex-wrap gap-2">
+          {terrainTags.map((terrain) => {
+            const isActive = searchParams.tag === terrain.label;
+            return (
+              <button
+                key={terrain.label}
+                onClick={() =>
+                  updateFilter("tag", isActive ? undefined : terrain.label)
+                }
+                className={cn(
+                  "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium border transition-all",
+                  isActive
+                    ? `${terrain.activeBg} ${terrain.activeTxt} border-current`
+                    : `${terrain.bg} ${terrain.color} border-transparent hover:border-current`
+                )}
+              >
+                <span>{terrain.emoji}</span>
+                {terrain.label}
               </button>
             );
           })}
