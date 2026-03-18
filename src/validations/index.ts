@@ -5,7 +5,7 @@ import { z } from "zod";
 // ============================================================
 
 export const createListingSchema = z.object({
-  type: z.enum(["SALON", "HOTEL", "MEDICAL"]),
+  type: z.enum(["SALON", "HOTEL", "MEDICAL", "AIRPORT", "FLIGHT", "CRUISE"]),
   title: z.string().min(5, "Title must be at least 5 characters").max(100),
   description: z.string().min(20, "Description must be at least 20 characters").max(2000),
   address: z.string().min(5),
@@ -115,9 +115,37 @@ export type CreateReviewInput = z.infer<typeof createReviewSchema>;
 // SEARCH SCHEMA
 // ============================================================
 
+export const airportBookingSchema = baseBookingSchema.extend({
+  serviceId: z.string().cuid("Please select a service"),
+  date: z.date({ required_error: "Please select a date" }),
+  time: z.string().regex(/^\d{2}:\d{2}$/, "Please select a time slot"),
+  passengers: z.number().int().min(1).max(20).default(1),
+  flightNumber: z.string().optional(),
+});
+
+export const flightBookingSchema = baseBookingSchema.extend({
+  flightSeatId: z.string().cuid("Please select a seat class"),
+  departureDate: z.date({ required_error: "Please select a departure date" }),
+  passengers: z.number().int().min(1).max(9).default(1),
+});
+
+export const cruiseBookingSchema = baseBookingSchema.extend({
+  cruiseCabinId: z.string().cuid("Please select a cabin"),
+  checkIn: z.date({ required_error: "Embarkation date is required" }),
+  checkOut: z.date({ required_error: "Disembarkation date is required" }),
+  guests: z.number().int().min(1).max(8),
+}).refine(
+  (data) => data.checkOut > data.checkIn,
+  { message: "Disembarkation must be after embarkation", path: ["checkOut"] }
+);
+
+export type AirportBookingInput = z.infer<typeof airportBookingSchema>;
+export type FlightBookingInput = z.infer<typeof flightBookingSchema>;
+export type CruiseBookingInput = z.infer<typeof cruiseBookingSchema>;
+
 export const searchSchema = z.object({
   query: z.string().optional(),
-  type: z.enum(["SALON", "HOTEL", "MEDICAL"]).optional(),
+  type: z.enum(["SALON", "HOTEL", "MEDICAL", "AIRPORT", "FLIGHT", "CRUISE"]).optional(),
   city: z.string().optional(),
   minPrice: z.number().optional(),
   maxPrice: z.number().optional(),

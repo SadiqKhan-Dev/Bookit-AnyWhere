@@ -19,6 +19,9 @@ enum ListingType {
   SALON
   HOTEL
   MEDICAL
+  AIRPORT
+  FLIGHT
+  CRUISE
 }
 
 enum BookingStatus {
@@ -93,7 +96,7 @@ model User {
 }
 
 // ============================================================
-// LISTING (Salon | Hotel | Medical Clinic)
+// LISTING (Salon | Hotel | Medical | Airport | Flight | Cruise)
 // ============================================================
 
 model Listing {
@@ -141,6 +144,8 @@ model Listing {
   bookings        Booking[]
   reviews         Review[]
   blockedDates    BlockedDate[]
+  flightRoutes    FlightRoute[]
+  cruiseCabins    CruiseCabin[]
 
   @@index([type])
   @@index([city])
@@ -175,7 +180,7 @@ model ListingAmenity {
 }
 
 // ============================================================
-// SERVICE (Salon services, Medical procedures)
+// SERVICE (Salon services, Medical procedures, Airport services)
 // ============================================================
 
 model Service {
@@ -246,6 +251,76 @@ model Doctor {
 }
 
 // ============================================================
+// FLIGHT ROUTE (Flight-specific)
+// ============================================================
+
+model FlightRoute {
+  id            String @id @default(cuid())
+  listingId     String
+  airline       String
+  flightNumber  String
+  origin        String // IATA code e.g. "JFK"
+  originCity    String
+  destination   String // IATA code e.g. "LAX"
+  destCity      String
+  departureTime String // "08:30"
+  arrivalTime   String // "11:45"
+  durationMin   Int
+  aircraft      String?
+
+  listing Listing     @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  seats   FlightSeat[]
+
+  @@index([listingId])
+  @@map("flight_routes")
+}
+
+// ============================================================
+// FLIGHT SEAT CLASS (Flight-specific)
+// ============================================================
+
+model FlightSeat {
+  id             String @id @default(cuid())
+  flightRouteId  String
+  class          String // "ECONOMY", "BUSINESS", "FIRST"
+  name           String // "Economy Class", "Business Class"
+  pricePerSeat   Int    // in cents
+  totalSeats     Int
+  availableSeats Int
+  amenities      String[]
+
+  flightRoute FlightRoute @relation(fields: [flightRouteId], references: [id], onDelete: Cascade)
+  bookings    Booking[]
+
+  @@index([flightRouteId])
+  @@map("flight_seats")
+}
+
+// ============================================================
+// CRUISE CABIN (Cruise-specific)
+// ============================================================
+
+model CruiseCabin {
+  id            String  @id @default(cuid())
+  listingId     String
+  type          String  // "INTERIOR", "OCEAN_VIEW", "BALCONY", "SUITE", "VILLA"
+  name          String
+  description   String?
+  deckNumber    Int?
+  maxGuests     Int     @default(2)
+  pricePerNight Int     // in cents
+  images        String[]
+  amenities     String[]
+  isAvailable   Boolean @default(true)
+
+  listing  Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@index([listingId])
+  @@map("cruise_cabins")
+}
+
+// ============================================================
 // AVAILABILITY RULES (recurring weekly schedule)
 // ============================================================
 
@@ -288,9 +363,11 @@ model Booking {
   id         String        @id @default(cuid())
   listingId  String
   customerId String
-  serviceId  String?       // for salon/medical
+  serviceId  String?       // for salon/medical/airport
   roomId     String?       // for hotel
   doctorId   String?       // for medical
+  flightSeatId  String?    // for flight
+  cruiseCabinId String?    // for cruise
 
   // Time
   startDate  DateTime
@@ -323,13 +400,15 @@ model Booking {
   updatedAt DateTime @updatedAt
 
   // Relations
-  listing  Listing  @relation(fields: [listingId], references: [id])
-  customer User     @relation("CustomerBookings", fields: [customerId], references: [id])
-  service  Service? @relation(fields: [serviceId], references: [id])
-  room     Room?    @relation(fields: [roomId], references: [id])
-  doctor   Doctor?  @relation(fields: [doctorId], references: [id])
-  payment  Payment?
-  review   Review?
+  listing     Listing     @relation(fields: [listingId], references: [id])
+  customer    User        @relation("CustomerBookings", fields: [customerId], references: [id])
+  service     Service?    @relation(fields: [serviceId], references: [id])
+  room        Room?       @relation(fields: [roomId], references: [id])
+  doctor      Doctor?     @relation(fields: [doctorId], references: [id])
+  flightSeat  FlightSeat? @relation(fields: [flightSeatId], references: [id])
+  cruiseCabin CruiseCabin? @relation(fields: [cruiseCabinId], references: [id])
+  payment     Payment?
+  review      Review?
 
   @@index([listingId])
   @@index([customerId])

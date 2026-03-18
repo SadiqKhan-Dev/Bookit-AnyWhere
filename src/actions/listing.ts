@@ -94,6 +94,8 @@ export async function getListingBySlug(slug: string) {
       services: { where: { isActive: true }, orderBy: { price: "asc" } },
       rooms: { where: { isAvailable: true }, orderBy: { pricePerNight: "asc" } },
       doctors: { where: { isAvailable: true } },
+      flightRoutes: { include: { seats: { orderBy: { pricePerSeat: "asc" } } } },
+      cruiseCabins: { where: { isAvailable: true }, orderBy: { pricePerNight: "asc" } },
       amenities: { include: { amenity: true } },
       availability: { orderBy: { dayOfWeek: "asc" } },
       reviews: {

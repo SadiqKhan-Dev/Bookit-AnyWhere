@@ -22,7 +22,11 @@
       "Bash(cd E:/VS-CODES/booking && npx prisma generate 2>&1 | grep -E \"\\(Generated|Error|✔\\)\" | head -10)",
       "Bash(cd E:/VS-CODES/booking && npx prisma generate 2>&1 | tail -5)",
       "Bash(cd E:/VS-CODES/booking && npx prisma db push 2>&1 | tail -15)",
-      "Bash(cd E:/VS-CODES/booking && npx prisma db push --skip-generate 2>&1 | tail -8)"
+      "Bash(cd E:/VS-CODES/booking && npx prisma db push --skip-generate 2>&1 | tail -8)",
+      "Bash(ls E:/VS-CODES/booking/src/app/\\\\\\(public\\\\\\)/ && ls E:/VS-CODES/booking/src/components/bookings/)",
+      "Bash(cd E:/VS-CODES/booking && npx prisma generate 2>&1)",
+      "Bash(cd E:/VS-CODES/booking && npx tsc --noEmit 2>&1 | head -60)",
+      "Bash(cd E:/VS-CODES/booking && npx tsc --noEmit 2>&1 | head -40)"
     ]
   }
 }

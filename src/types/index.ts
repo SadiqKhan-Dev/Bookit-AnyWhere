@@ -11,9 +11,13 @@ import type {
   AvailabilityRule,
   Payment,
   Notification,
+  FlightRoute,
+  FlightSeat,
+  CruiseCabin,
 } from "@prisma/client";
 
 export type { ListingType, BookingStatus, PaymentStatus, UserRole, DayOfWeek, RoomType, AppointmentType } from "@prisma/client";
+export type { FlightRoute, FlightSeat, CruiseCabin } from "@prisma/client";
 
 // ============================================================
 // ENRICHED TYPES (with relations)
@@ -27,6 +31,8 @@ export type ListingWithRelations = Listing & {
   amenities: (ListingAmenity & { amenity: Amenity })[];
   availability: AvailabilityRule[];
   reviews: (Review & { author: User })[];
+  flightRoutes: (FlightRoute & { seats: FlightSeat[] })[];
+  cruiseCabins: CruiseCabin[];
   _count?: {
     bookings: number;
     reviews: number;
@@ -39,6 +45,8 @@ export type BookingWithRelations = Booking & {
   service?: Service | null;
   room?: Room | null;
   doctor?: Doctor | null;
+  flightSeat?: (FlightSeat & { flightRoute: FlightRoute }) | null;
+  cruiseCabin?: CruiseCabin | null;
   payment?: Payment | null;
   review?: Review | null;
 };
@@ -52,23 +60,29 @@ export type ReviewWithAuthor = Review & {
 // ============================================================
 
 export type SearchFilters = {
-  type?: "SALON" | "HOTEL" | "MEDICAL";
+  type?: "SALON" | "HOTEL" | "MEDICAL" | "AIRPORT" | "FLIGHT" | "CRUISE";
   query?: string;
   city?: string;
   minPrice?: number;
   maxPrice?: number;
   rating?: number;
   amenities?: string[];
-  // Hotel-specific
+  // Hotel/Cruise-specific
   checkIn?: Date;
   checkOut?: Date;
   guests?: number;
   roomType?: string;
-  // Salon/Medical-specific
+  // Salon/Medical/Airport-specific
   date?: Date;
   serviceCategory?: string;
   specialty?: string;
   appointmentType?: string;
+  // Flight-specific
+  origin?: string;
+  destination?: string;
+  departureDate?: Date;
+  passengers?: number;
+  cabinClass?: string;
 };
 
 export type SortOption = "relevance" | "price_asc" | "price_desc" | "rating" | "newest";
@@ -112,6 +126,39 @@ export type MedicalBookingForm = {
   date: Date;
   time: string;
   appointmentType: "IN_PERSON" | "TELEMEDICINE";
+  guestName: string;
+  guestEmail: string;
+  guestPhone?: string;
+  notes?: string;
+};
+
+export type AirportBookingForm = {
+  serviceId: string;
+  date: Date;
+  time: string;
+  passengers: number;
+  guestName: string;
+  guestEmail: string;
+  guestPhone?: string;
+  flightNumber?: string;
+  notes?: string;
+};
+
+export type FlightBookingForm = {
+  flightSeatId: string;
+  departureDate: Date;
+  passengers: number;
+  guestName: string;
+  guestEmail: string;
+  guestPhone?: string;
+  notes?: string;
+};
+
+export type CruiseBookingForm = {
+  cruiseCabinId: string;
+  checkIn: Date;
+  checkOut: Date;
+  guests: number;
   guestName: string;
   guestEmail: string;
   guestPhone?: string;

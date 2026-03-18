@@ -40,7 +40,16 @@ export function ListingCard({
 }: ListingCardProps) {
   const config = LISTING_TYPE_CONFIG[type];
   const listingUrl = `${config.href}/${slug}`;
-  const priceLabel = type === "HOTEL" ? "/night" : type === "SALON" ? "/service" : "/consultation";
+  const priceLabel =
+    type === "HOTEL" || type === "CRUISE"
+      ? "/night"
+      : type === "FLIGHT"
+      ? "/seat"
+      : type === "AIRPORT"
+      ? "/service"
+      : type === "SALON"
+      ? "/service"
+      : "/consultation";
 
   return (
     <motion.div

@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
 interface ListingsFilterProps {
-  type: "SALON" | "HOTEL" | "MEDICAL";
+  type: "SALON" | "HOTEL" | "MEDICAL" | "AIRPORT" | "FLIGHT" | "CRUISE";
   searchParams: Record<string, string | undefined>;
 }
 

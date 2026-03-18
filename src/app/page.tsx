@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Scissors, Building2, Stethoscope, Star, ArrowRight, Shield, Zap, Globe } from "lucide-react";
+import { Scissors, Building2, Stethoscope, PlaneLanding, Plane, Ship, Star, ArrowRight, Shield, Zap, Globe } from "lucide-react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/shared/navbar";
 import { Footer } from "@/components/shared/footer";
@@ -79,6 +79,42 @@ const categories = [
     textColor: "text-emerald-600",
     stats: "3,200+ doctors",
     image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&q=80",
+  },
+  {
+    id: "airports",
+    title: "Airport Services",
+    description: "Lounges, transfers & parking",
+    href: "/airports",
+    icon: PlaneLanding,
+    gradient: "from-sky-500 to-cyan-500",
+    bgGradient: "from-sky-50 to-cyan-50",
+    textColor: "text-sky-600",
+    stats: "500+ airports",
+    image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80",
+  },
+  {
+    id: "flights",
+    title: "Flights",
+    description: "Domestic & international routes",
+    href: "/flights",
+    icon: Plane,
+    gradient: "from-violet-500 to-purple-600",
+    bgGradient: "from-violet-50 to-purple-50",
+    textColor: "text-violet-600",
+    stats: "10,000+ routes",
+    image: "https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?w=600&q=80",
+  },
+  {
+    id: "cruises",
+    title: "Cruise Vacations",
+    description: "Luxury ship adventures",
+    href: "/cruises",
+    icon: Ship,
+    gradient: "from-teal-500 to-cyan-600",
+    bgGradient: "from-teal-50 to-cyan-50",
+    textColor: "text-teal-600",
+    stats: "200+ cruise ships",
+    image: "https://images.unsplash.com/photo-1548574505-5e239809ee19?w=600&q=80",
   },
 ];
 
@@ -179,11 +215,11 @@ export default function HomePage() {
               What are you looking for?
             </h2>
             <p className="text-gray-500 max-w-xl mx-auto">
-              From beauty treatments to hotel stays and medical care — we&apos;ve got you covered.
+              From beauty treatments to flights, cruises, hotel stays and medical care — we&apos;ve got you covered.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
             {categories.map((cat) => {
               const Icon = cat.icon;
               return (

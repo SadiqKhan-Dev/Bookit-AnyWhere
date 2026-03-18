@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { createCheckoutSession, calculateFees } from "@/lib/stripe";
 import { getAppUrl, getNightCount } from "@/lib/utils";
-import type { HotelBookingInput, SalonBookingInput, MedicalBookingInput } from "@/validations";
+import type { HotelBookingInput, SalonBookingInput, MedicalBookingInput, AirportBookingInput, FlightBookingInput, CruiseBookingInput } from "@/validations";
 
 // ============================================================
 // CREATE HOTEL BOOKING
@@ -417,4 +417,194 @@ export async function getAvailableSlots(listingId: string, date: Date) {
     isAvailable: true,
     isTaken: takenTimes.includes(time),
   }));
+}
+
+// ============================================================
+// CREATE AIRPORT BOOKING
+// ============================================================
+
+export async function createAirportBooking(data: AirportBookingInput) {
+  const { userId } = auth();
+  if (!userId) throw new Error("Please sign in to book");
+
+  const service = await prisma.service.findUnique({
+    where: { id: data.serviceId },
+    include: { listing: true },
+  });
+  if (!service) throw new Error("Service not found");
+
+  const { platformFee, taxes, total } = calculateFees(service.price);
+
+  const endHour = new Date(data.date);
+  endHour.setMinutes(endHour.getMinutes() + service.durationMin);
+  const endTime = `${endHour.getHours().toString().padStart(2, "0")}:${endHour.getMinutes().toString().padStart(2, "0")}`;
+
+  const booking = await prisma.booking.create({
+    data: {
+      listingId: service.listing.id,
+      customerId: userId,
+      serviceId: data.serviceId,
+      startDate: data.date,
+      endDate: data.date,
+      startTime: data.time,
+      endTime,
+      guestCount: data.passengers,
+      guestName: data.guestName,
+      guestEmail: data.guestEmail,
+      guestPhone: data.guestPhone,
+      notes: data.flightNumber ? `Flight: ${data.flightNumber}. ${data.notes || ""}`.trim() : data.notes,
+      subtotal: service.price,
+      taxes,
+      platformFee,
+      totalAmount: total,
+      status: "PENDING",
+      paymentStatus: "PENDING",
+    },
+  });
+
+  const session = await createCheckoutSession({
+    bookingId: booking.id,
+    listingTitle: `${service.listing.title} — ${service.name}`,
+    amount: total,
+    successUrl: `${getAppUrl()}/bookings/${booking.id}/confirmation`,
+    cancelUrl: `${getAppUrl()}/airports/${service.listing.slug}`,
+  });
+
+  await prisma.booking.update({
+    where: { id: booking.id },
+    data: { stripeSessionId: session.id },
+  });
+
+  return { success: true, checkoutUrl: session.url };
+}
+
+// ============================================================
+// CREATE FLIGHT BOOKING
+// ============================================================
+
+export async function createFlightBooking(data: FlightBookingInput) {
+  const { userId } = auth();
+  if (!userId) throw new Error("Please sign in to book");
+
+  const seat = await prisma.flightSeat.findUnique({
+    where: { id: data.flightSeatId },
+    include: { flightRoute: { include: { listing: true } } },
+  });
+  if (!seat) throw new Error("Flight seat not found");
+  if (seat.availableSeats < data.passengers) throw new Error("Not enough seats available");
+
+  const subtotal = seat.pricePerSeat * data.passengers;
+  const { platformFee, taxes, total } = calculateFees(subtotal);
+
+  const booking = await prisma.booking.create({
+    data: {
+      listingId: seat.flightRoute.listing.id,
+      customerId: userId,
+      flightSeatId: data.flightSeatId,
+      startDate: data.departureDate,
+      endDate: data.departureDate,
+      startTime: seat.flightRoute.departureTime,
+      endTime: seat.flightRoute.arrivalTime,
+      guestCount: data.passengers,
+      guestName: data.guestName,
+      guestEmail: data.guestEmail,
+      guestPhone: data.guestPhone,
+      notes: data.notes,
+      subtotal,
+      taxes,
+      platformFee,
+      totalAmount: total,
+      status: "PENDING",
+      paymentStatus: "PENDING",
+    },
+  });
+
+  // Decrement available seats
+  await prisma.flightSeat.update({
+    where: { id: data.flightSeatId },
+    data: { availableSeats: { decrement: data.passengers } },
+  });
+
+  const session = await createCheckoutSession({
+    bookingId: booking.id,
+    listingTitle: `${seat.flightRoute.airline} ${seat.flightRoute.flightNumber} — ${seat.name}`,
+    amount: total,
+    successUrl: `${getAppUrl()}/bookings/${booking.id}/confirmation`,
+    cancelUrl: `${getAppUrl()}/flights/${seat.flightRoute.listing.slug}`,
+  });
+
+  await prisma.booking.update({
+    where: { id: booking.id },
+    data: { stripeSessionId: session.id },
+  });
+
+  return { success: true, checkoutUrl: session.url };
+}
+
+// ============================================================
+// CREATE CRUISE BOOKING
+// ============================================================
+
+export async function createCruiseBooking(data: CruiseBookingInput) {
+  const { userId } = auth();
+  if (!userId) throw new Error("Please sign in to book");
+
+  const cabin = await prisma.cruiseCabin.findUnique({
+    where: { id: data.cruiseCabinId },
+    include: { listing: true },
+  });
+  if (!cabin) throw new Error("Cabin not found");
+  if (!cabin.isAvailable) throw new Error("Cabin is not available");
+
+  const nights = getNightCount(data.checkIn, data.checkOut);
+  if (nights <= 0) throw new Error("Disembarkation must be after embarkation");
+
+  // Check for conflicting cruise booking on same cabin
+  const conflict = await prisma.booking.findFirst({
+    where: {
+      cruiseCabinId: data.cruiseCabinId,
+      status: { in: ["CONFIRMED", "PENDING"] },
+      OR: [{ startDate: { lte: data.checkOut }, endDate: { gte: data.checkIn } }],
+    },
+  });
+  if (conflict) throw new Error("Cabin is not available for selected dates");
+
+  const subtotal = cabin.pricePerNight * nights;
+  const { platformFee, taxes, total } = calculateFees(subtotal);
+
+  const booking = await prisma.booking.create({
+    data: {
+      listingId: cabin.listing.id,
+      customerId: userId,
+      cruiseCabinId: data.cruiseCabinId,
+      startDate: data.checkIn,
+      endDate: data.checkOut,
+      guestCount: data.guests,
+      guestName: data.guestName,
+      guestEmail: data.guestEmail,
+      guestPhone: data.guestPhone,
+      notes: data.notes,
+      subtotal,
+      taxes,
+      platformFee,
+      totalAmount: total,
+      status: "PENDING",
+      paymentStatus: "PENDING",
+    },
+  });
+
+  const session = await createCheckoutSession({
+    bookingId: booking.id,
+    listingTitle: `${cabin.listing.title} — ${cabin.name}`,
+    amount: total,
+    successUrl: `${getAppUrl()}/bookings/${booking.id}/confirmation`,
+    cancelUrl: `${getAppUrl()}/cruises/${cabin.listing.slug}`,
+  });
+
+  await prisma.booking.update({
+    where: { id: booking.id },
+    data: { stripeSessionId: session.id },
+  });
+
+  return { success: true, checkoutUrl: session.url };
 }
