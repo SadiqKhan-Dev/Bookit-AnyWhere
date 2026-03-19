@@ -49,7 +49,9 @@
       "Bash(cat E:/VS-CODES/booking/src/app/\\\\\\(public\\\\\\)/doctors/page.tsx)",
       "Bash(head -1 E:/VS-CODES/booking/src/app/\\\\\\(public\\\\\\)/doctors/page.tsx && head -1 E:/VS-CODES/booking/src/app/\\\\\\(public\\\\\\)/airports/page.tsx && head -1 E:/VS-CODES/booking/src/app/\\\\\\(public\\\\\\)/flights/page.tsx && head -1 E:/VS-CODES/booking/src/app/\\\\\\(public\\\\\\)/cruises/page.tsx)",
       "Bash(cd E:/VS-CODES/booking && npx prisma db push 2>&1 | tail -8)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(ls E:/VS-CODES/booking/next.config* 2>/dev/null)",
+      "Bash(cd E:/VS-CODES/booking && rm -rf .next)"
     ]
   }
 }

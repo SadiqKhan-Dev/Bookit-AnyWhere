@@ -16,10 +16,7 @@ const nextConfig = {
       allowedOrigins: ["localhost:3000"],
     },
   },
-  // Disable compression during build to prevent ERR_CONTENT_DECODING_FAILED
   compress: false,
-  // Ensure proper output format
-  output: 'standalone',
 };
 
 export default nextConfig;
