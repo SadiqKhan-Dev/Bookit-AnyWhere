@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Scissors, Building2, Stethoscope, PlaneLanding, Plane, Ship, Star, ArrowRight, Shield, Zap, Globe, Mountain, Waves, Sun, TreePine, Droplets, Anchor, MountainSnow, Leaf, Compass, CloudSnow, Wheat } from "lucide-react";
+import { Scissors, Building2, Stethoscope, PlaneLanding, Plane, Ship, Star, ArrowRight, Shield, Zap, Globe, Mountain, Waves, Sun, TreePine, Droplets, Anchor, MountainSnow, Leaf, Compass, CloudSnow, Wheat, MapPin, Navigation, HeartHandshake, UtensilsCrossed, Wrench, Camera, Flower2, Music } from "lucide-react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/shared/navbar";
 import { Footer } from "@/components/shared/footer";
@@ -9,6 +9,7 @@ import { SearchBar } from "@/components/listings/search-bar";
 import { ListingCard, ListingCardSkeleton } from "@/components/listings/listing-card";
 import { Button } from "@/components/ui/button";
 import { searchListings } from "@/actions/listing";
+import MapSection from "@/components/MapSection";
 
 export const dynamic = "force-dynamic";
 
@@ -81,18 +82,6 @@ const categories = [
     image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&q=80",
   },
   {
-    id: "airports",
-    title: "Airport Services",
-    description: "Lounges, transfers & parking",
-    href: "/airports",
-    icon: PlaneLanding,
-    gradient: "from-sky-500 to-cyan-500",
-    bgGradient: "from-sky-50 to-cyan-50",
-    textColor: "text-sky-600",
-    stats: "500+ airports",
-    image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80",
-  },
-  {
     id: "flights",
     title: "Flights",
     description: "Domestic & international routes",
@@ -115,6 +104,78 @@ const categories = [
     textColor: "text-teal-600",
     stats: "200+ cruise ships",
     image: "https://images.unsplash.com/photo-1548574505-5e239809ee19?w=600&q=80",
+  },
+  {
+    id: "marriage-halls",
+    title: "Wedding Venues",
+    description: "Marriage halls & banquet halls",
+    href: "/marriage-halls",
+    icon: HeartHandshake,
+    gradient: "from-amber-500 to-orange-500",
+    bgGradient: "from-amber-50 to-orange-50",
+    textColor: "text-amber-600",
+    stats: "500+ venues",
+    image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=600&q=80",
+  },
+  {
+    id: "catering",
+    title: "Catering Services",
+    description: "Food & catering for events",
+    href: "/catering",
+    icon: UtensilsCrossed,
+    gradient: "from-red-500 to-rose-500",
+    bgGradient: "from-red-50 to-rose-50",
+    textColor: "text-red-600",
+    stats: "800+ caterers",
+    image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80",
+  },
+  {
+    id: "mechanics",
+    title: "Auto Mechanics",
+    description: "Car repair & maintenance",
+    href: "/mechanics",
+    icon: Wrench,
+    gradient: "from-slate-500 to-gray-600",
+    bgGradient: "from-slate-50 to-gray-50",
+    textColor: "text-slate-600",
+    stats: "1,200+ mechanics",
+    image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=600&q=80",
+  },
+  {
+    id: "photography",
+    title: "Photography",
+    description: "Professional photo services",
+    href: "/photography",
+    icon: Camera,
+    gradient: "from-purple-500 to-pink-500",
+    bgGradient: "from-purple-50 to-pink-50",
+    textColor: "text-purple-600",
+    stats: "900+ photographers",
+    image: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=600&q=80",
+  },
+  {
+    id: "decorators",
+    title: "Event Decorators",
+    description: "Decoration & styling services",
+    href: "/decorators",
+    icon: Flower2,
+    gradient: "from-rose-500 to-pink-500",
+    bgGradient: "from-rose-50 to-pink-50",
+    textColor: "text-rose-600",
+    stats: "600+ decorators",
+    image: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=600&q=80",
+  },
+  {
+    id: "musicians",
+    title: "Musicians & DJs",
+    description: "Live music & entertainment",
+    href: "/musicians",
+    icon: Music,
+    gradient: "from-indigo-500 to-purple-500",
+    bgGradient: "from-indigo-50 to-purple-50",
+    textColor: "text-indigo-600",
+    stats: "700+ musicians",
+    image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=600&q=80",
   },
 ];
 
@@ -203,7 +264,7 @@ export default function HomePage() {
             </h1>
 
             <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto mb-10">
-              One platform for salon appointments, hotel rooms, and doctor consultations.
+              One platform for salons, hotels, doctors, wedding venues, catering, mechanics, photographers, decorators, musicians, flights & cruises.
               Real-time availability, instant confirmation.
             </p>
 
@@ -230,11 +291,11 @@ export default function HomePage() {
               What are you looking for?
             </h2>
             <p className="text-gray-500 max-w-xl mx-auto">
-              From beauty treatments to flights, cruises, hotel stays and medical care — we&apos;ve got you covered.
+              From salons, hotels, doctors, flights & cruises to wedding venues, catering, mechanics, photographers, decorators & musicians — we&apos;ve got you covered.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {categories.map((cat) => {
               const Icon = cat.icon;
               return (
@@ -383,6 +444,39 @@ export default function HomePage() {
                 View pricing
               </Button>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Location Map */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 bg-rose-50 text-rose-600 rounded-full px-4 py-1.5 text-sm mb-4">
+              <MapPin className="h-4 w-4" />
+              Find businesses near you
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Explore locations on the map
+            </h2>
+            <p className="text-gray-500 max-w-xl mx-auto">
+              Discover businesses and services in your area. Click anywhere on the map to find providers near that location.
+            </p>
+          </div>
+
+          <div className="max-w-6xl mx-auto">
+            <MapSection center={[40.7128, -74.0060]} zoom={12} />
+            
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-sm text-gray-600">
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-rose-500" />
+                <span>Click on map to select location</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Navigation className="h-4 w-4 text-blue-500" />
+                <span>Enable GPS to find businesses near you</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -10,7 +10,8 @@ build
 out
 
 secerat.txt
-
+guide.md
+seed.md
 
 # Misc
 .DS_Store

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Globe, Scissors, Building2, Stethoscope } from "lucide-react";
+import { Globe, Scissors, Building2, Stethoscope, Plane, Ship, HeartHandshake, UtensilsCrossed, Wrench, Camera, Flower2, Music } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 // ── Social links — update these URLs when ready ──────────────
@@ -123,6 +123,46 @@ export function Footer() {
               <li>
                 <Link href="/doctors" className="flex items-center gap-2 hover:text-emerald-500 transition-colors">
                   <Stethoscope className="h-3.5 w-3.5" /> Doctors
+                </Link>
+              </li>
+              <li>
+                <Link href="/flights" className="flex items-center gap-2 hover:text-violet-500 transition-colors">
+                  <Plane className="h-3.5 w-3.5" /> Flights
+                </Link>
+              </li>
+              <li>
+                <Link href="/cruises" className="flex items-center gap-2 hover:text-teal-500 transition-colors">
+                  <Ship className="h-3.5 w-3.5" /> Cruises
+                </Link>
+              </li>
+              <li>
+                <Link href="/marriage-halls" className="flex items-center gap-2 hover:text-amber-500 transition-colors">
+                  <HeartHandshake className="h-3.5 w-3.5" /> Wedding Halls
+                </Link>
+              </li>
+              <li>
+                <Link href="/catering" className="flex items-center gap-2 hover:text-red-500 transition-colors">
+                  <UtensilsCrossed className="h-3.5 w-3.5" /> Catering
+                </Link>
+              </li>
+              <li>
+                <Link href="/mechanics" className="flex items-center gap-2 hover:text-slate-500 transition-colors">
+                  <Wrench className="h-3.5 w-3.5" /> Mechanics
+                </Link>
+              </li>
+              <li>
+                <Link href="/photography" className="flex items-center gap-2 hover:text-purple-500 transition-colors">
+                  <Camera className="h-3.5 w-3.5" /> Photography
+                </Link>
+              </li>
+              <li>
+                <Link href="/decorators" className="flex items-center gap-2 hover:text-rose-500 transition-colors">
+                  <Flower2 className="h-3.5 w-3.5" /> Decorators
+                </Link>
+              </li>
+              <li>
+                <Link href="/musicians" className="flex items-center gap-2 hover:text-indigo-500 transition-colors">
+                  <Music className="h-3.5 w-3.5" /> Musicians
                 </Link>
               </li>
             </ul>

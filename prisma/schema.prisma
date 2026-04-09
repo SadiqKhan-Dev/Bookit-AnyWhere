@@ -22,6 +22,12 @@ enum ListingType {
   AIRPORT
   FLIGHT
   CRUISE
+  MARRIAGE_HALL
+  CATERING
+  MECHANIC
+  PHOTOGRAPHY
+  DECORATOR
+  MUSICIAN
 }
 
 enum DiscountType {
@@ -150,6 +156,12 @@ model Listing {
   services        Service[]
   rooms           Room[]
   doctors         Doctor[]
+  marriageHalls   MarriageHall[]
+  cateringPackages CateringPackage[]
+  mechanicServices MechanicService[]
+  photographyPackages PhotographyPackage[]
+  decoratorPackages DecoratorPackage[]
+  musicianServices MusicianService[]
   availability    AvailabilityRule[]
   bookings        Booking[]
   reviews         Review[]
@@ -333,6 +345,154 @@ model CruiseCabin {
 }
 
 // ============================================================
+// MARRIAGE HALL (Marriage Hall-specific)
+// ============================================================
+
+model MarriageHall {
+  id            String  @id @default(cuid())
+  listingId     String
+  name          String
+  description   String? @db.Text
+  capacity      Int     // Maximum guest capacity
+  pricePerDay   Int     // in cents
+  images        String[]
+  amenities     String[]
+  isAvailable   Boolean @default(true)
+  cateringIncluded Boolean @default(false)
+  parkingSpaces Int?
+
+  listing  Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@index([listingId])
+  @@map("marriage_halls")
+}
+
+// ============================================================
+// CATERING PACKAGE (Catering-specific)
+// ============================================================
+
+model CateringPackage {
+  id            String  @id @default(cuid())
+  listingId     String
+  name          String
+  description   String? @db.Text
+  cuisine       String  // Type of cuisine (e.g., "Pakistani", "Chinese", "Continental")
+  pricePerPerson Int    // in cents
+  minGuests     Int     // Minimum guests required
+  maxGuests     Int?    // Maximum capacity
+  menuItems     String[] // List of dishes included
+  images        String[]
+  isVegetarian  Boolean @default(false)
+  isHalal       Boolean @default(true)
+  isAvailable   Boolean @default(true)
+
+  listing  Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@index([listingId])
+  @@map("catering_packages")
+}
+
+// ============================================================
+// MECHANIC SERVICE (Mechanic-specific)
+// ============================================================
+
+model MechanicService {
+  id            String  @id @default(cuid())
+  listingId     String
+  name          String
+  description   String? @db.Text
+  serviceType   String  // e.g., "Oil Change", "Brake Repair", "Engine Repair"
+  price         Int     // in cents (can be starting price)
+  durationMin   Int     // Estimated duration in minutes
+  vehicleTypes  String[] // e.g., ["Car", "Bike", "Truck"]
+  images        String[]
+  isAvailable   Boolean @default(true)
+  mobileService Boolean @default(false) // Can come to customer location
+
+  listing  Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@index([listingId])
+  @@map("mechanic_services")
+}
+
+// ============================================================
+// PHOTOGRAPHY PACKAGE (Photography-specific)
+// ============================================================
+
+model PhotographyPackage {
+  id            String  @id @default(cuid())
+  listingId     String
+  name          String
+  description   String? @db.Text
+  packageType   String  // e.g., "Wedding", "Portrait", "Event", "Product"
+  price         Int     // in cents
+  durationMin   Int     // Session duration in minutes
+  hoursOfCoverage Int?  // For events/weddings
+  numberOfPhotos Int?   // Expected number of edited photos
+  includesVideo Boolean @default(false)
+  images        String[] // Portfolio samples
+  isAvailable   Boolean @default(true)
+
+  listing  Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@index([listingId])
+  @@map("photography_packages")
+}
+
+// ============================================================
+// DECORATOR PACKAGE (Decorator-specific)
+// ============================================================
+
+model DecoratorPackage {
+  id            String  @id @default(cuid())
+  listingId     String
+  name          String
+  description   String? @db.Text
+  packageType   String  // e.g., "Wedding", "Birthday", "Corporate"
+  price         Int     // in cents
+  theme         String? // e.g., "Floral", "Modern", "Traditional"
+  includes      String[] // Items included (e.g., "Flowers", "Lighting", "Stage")
+  images        String[]
+  isAvailable   Boolean @default(true)
+  setupTime     Int?    // Setup time in minutes
+
+  listing  Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@index([listingId])
+  @@map("decorator_packages")
+}
+
+// ============================================================
+// MUSICIAN/ENTERTAINER (Musician-specific)
+// ============================================================
+
+model MusicianService {
+  id            String  @id @default(cuid())
+  listingId     String
+  name          String
+  description   String? @db.Text
+  genre         String  // e.g., "Classical", "Pop", "Jazz", "Qawwali"
+  price         Int     // in cents (per event/hour)
+  durationMin   Int     // Performance duration in minutes
+  numberOfMusicians Int @default(1)
+  equipment     String[] // Equipment provided
+  images        String[]
+  isAvailable   Boolean @default(true)
+  canTravel     Boolean @default(true)
+
+  listing  Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@index([listingId])
+  @@map("musician_services")
+}
+
+// ============================================================
 // AVAILABILITY RULES (recurring weekly schedule)
 // ============================================================
 
@@ -380,6 +540,12 @@ model Booking {
   doctorId   String?       // for medical
   flightSeatId  String?    // for flight
   cruiseCabinId String?    // for cruise
+  marriageHallId String?   // for marriage hall
+  cateringPackageId String? // for catering
+  mechanicServiceId String? // for mechanic
+  photographyPackageId String? // for photography
+  decoratorPackageId String? // for decorator
+  musicianServiceId String? // for musician
 
   // Time
   startDate  DateTime
@@ -421,6 +587,12 @@ model Booking {
   doctor      Doctor?     @relation(fields: [doctorId], references: [id])
   flightSeat  FlightSeat? @relation(fields: [flightSeatId], references: [id])
   cruiseCabin CruiseCabin? @relation(fields: [cruiseCabinId], references: [id])
+  marriageHall MarriageHall? @relation(fields: [marriageHallId], references: [id])
+  cateringPackage CateringPackage? @relation(fields: [cateringPackageId], references: [id])
+  mechanicService MechanicService? @relation(fields: [mechanicServiceId], references: [id])
+  photographyPackage PhotographyPackage? @relation(fields: [photographyPackageId], references: [id])
+  decoratorPackage DecoratorPackage? @relation(fields: [decoratorPackageId], references: [id])
+  musicianService MusicianService? @relation(fields: [musicianServiceId], references: [id])
   payment     Payment?
   review      Review?
   promoCode   PromoCode? @relation(fields: [promoCodeId], references: [id])

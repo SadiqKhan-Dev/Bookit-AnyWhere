@@ -96,6 +96,12 @@ export async function getListingBySlug(slug: string) {
       doctors: { where: { isAvailable: true } },
       flightRoutes: { include: { seats: { orderBy: { pricePerSeat: "asc" } } } },
       cruiseCabins: { where: { isAvailable: true }, orderBy: { pricePerNight: "asc" } },
+      marriageHalls: { where: { isAvailable: true } },
+      cateringPackages: { where: { isAvailable: true } },
+      mechanicServices: { where: { isAvailable: true } },
+      photographyPackages: { where: { isAvailable: true } },
+      decoratorPackages: { where: { isAvailable: true } },
+      musicianServices: { where: { isAvailable: true } },
       amenities: { include: { amenity: true } },
       availability: { orderBy: { dayOfWeek: "asc" } },
       reviews: {

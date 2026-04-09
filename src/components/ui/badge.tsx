@@ -18,6 +18,12 @@ const badgeVariants = cva(
         confirmed: "border-transparent bg-blue-100 text-blue-800",
         completed: "border-transparent bg-green-100 text-green-800",
         cancelled: "border-transparent bg-red-100 text-red-800",
+        "marriage-hall": "border-transparent bg-amber-100 text-amber-800",
+        catering: "border-transparent bg-red-100 text-red-800",
+        mechanic: "border-transparent bg-slate-100 text-slate-800",
+        photography: "border-transparent bg-purple-100 text-purple-800",
+        decorator: "border-transparent bg-rose-100 text-rose-800",
+        musician: "border-transparent bg-indigo-100 text-indigo-800",
       },
     },
     defaultVariants: {

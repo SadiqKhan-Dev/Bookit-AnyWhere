@@ -46,8 +46,10 @@ const SORT_OPTIONS = [
   { value: "newest", label: "Newest" },
 ];
 
+import type { ListingType } from "@prisma/client";
+
 interface ListingsFilterProps {
-  type: "SALON" | "HOTEL" | "MEDICAL" | "AIRPORT" | "FLIGHT" | "CRUISE";
+  type: ListingType;
   searchParams: Record<string, string | undefined>;
 }
 

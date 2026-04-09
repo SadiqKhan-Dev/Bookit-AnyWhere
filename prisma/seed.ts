@@ -1772,6 +1772,1325 @@ async function main() {
   ];
 
   // ─────────────────────────────────────────────
+  // MARRIAGE HALLS (15 listings)
+  // ─────────────────────────────────────────────
+
+  const marriageHallsData = [
+    {
+      slug: "royal-wedding-palace-dallas",
+      title: "Royal Wedding Palace Dallas",
+      description: "Luxurious wedding venue with grand ballroom, state-of-the-art lighting, and capacity for 800 guests.",
+      address: "1234 Celebration Ave", city: "Dallas", state: "TX", zipCode: "75201",
+      latitude: 32.7767, longitude: -96.7970,
+      coverImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800",
+      images: ["https://images.unsplash.com/photo-1519741497674-611481863552?w=800", "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800"],
+      priceFrom: 250000,
+      halls: [
+        { name: "Grand Ballroom", capacity: 800, pricePerDay: 500000, cateringIncluded: true, parkingSpaces: 300, amenities: ["Stage", "Dance Floor", "LED Screens", "Sound System"] },
+        { name: "Garden Pavilion", capacity: 400, pricePerDay: 300000, cateringIncluded: false, parkingSpaces: 150, amenities: ["Outdoor Garden", "Gazebo", "String Lights"] },
+      ],
+    },
+    {
+      slug: "paradise-wedding-hall-houston",
+      title: "Paradise Wedding Hall Houston",
+      description: "Elegant wedding venue with modern amenities and customizable decor packages.",
+      address: "5678 Marriage Lane", city: "Houston", state: "TX", zipCode: "77001",
+      latitude: 29.7604, longitude: -95.3698,
+      coverImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800",
+      images: ["https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800", "https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800"],
+      priceFrom: 180000,
+      halls: [
+        { name: "Crystal Hall", capacity: 600, pricePerDay: 350000, cateringIncluded: true, parkingSpaces: 200, amenities: ["Chandelier", "Stage", "Catering Kitchen"] },
+        { name: "Royal Suite", capacity: 250, pricePerDay: 200000, cateringIncluded: false, parkingSpaces: 100, amenities: ["Bridal Room", "Private Entrance"] },
+      ],
+    },
+    {
+      slug: "grand-celebration-center-chicago",
+      title: "Grand Celebration Center Chicago",
+      description: "Premier wedding and event venue in downtown Chicago with panoramic city views.",
+      address: "789 Michigan Avenue", city: "Chicago", state: "IL", zipCode: "60601",
+      latitude: 41.8781, longitude: -87.6298,
+      coverImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800",
+      images: ["https://images.unsplash.com/photo-1478146059778-26028b9739f5?w=800", "https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800"],
+      priceFrom: 220000,
+      halls: [
+        { name: "Skyline Ballroom", capacity: 700, pricePerDay: 450000, cateringIncluded: true, parkingSpaces: 250, amenities: ["Panoramic Views", "Stage", "Premium Sound System"] },
+      ],
+    },
+    {
+      slug: "dream-day-venue-los-angeles",
+      title: "Dream Day Venue Los Angeles",
+      description: "Stunning outdoor and indoor wedding spaces with Hollywood glamour.",
+      address: "456 Beverly Hills Dr", city: "Los Angeles", state: "CA", zipCode: "90028",
+      latitude: 34.0522, longitude: -118.2437,
+      coverImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800",
+      images: ["https://images.unsplash.com/photo-1519741497674-611481863552?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 300000,
+      halls: [
+        { name: "Hollywood Hall", capacity: 500, pricePerDay: 600000, cateringIncluded: true, parkingSpaces: 200, amenities: ["Red Carpet Entrance", "Celebrity-Style Lighting", "VIP Lounge"] },
+        { name: "Sunset Terrace", capacity: 300, pricePerDay: 400000, cateringIncluded: false, parkingSpaces: 120, amenities: ["Outdoor Patio", "City Views", "Sunset Views"] },
+      ],
+    },
+    {
+      slug: "elegant-affairs-miami",
+      title: "Elegant Affairs Miami",
+      description: "Tropical wedding venue with beachfront access and resort-style amenities.",
+      address: "321 Ocean Drive", city: "Miami", state: "FL", zipCode: "33139",
+      latitude: 25.7617, longitude: -80.1918,
+      coverImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800",
+      images: ["https://images.unsplash.com/photo-1519741497674-611481863552?w=800", "https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800"],
+      priceFrom: 280000,
+      halls: [
+        { name: "Befront Pavilion", capacity: 450, pricePerDay: 550000, cateringIncluded: true, parkingSpaces: 180, amenities: ["Beach Access", "Ocean Views", "Tropical Garden"] },
+      ],
+    },
+    {
+      slug: "heritage-manor-new-york",
+      title: "Heritage Manor New York",
+      description: "Historic mansion turned wedding venue with classic elegance and old-world charm.",
+      address: "987 Central Park West", city: "New York", state: "NY", zipCode: "10025",
+      latitude: 40.7128, longitude: -74.0060,
+      coverImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800",
+      images: ["https://images.unsplash.com/photo-1478146059778-26028b9739f5?w=800", "https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800"],
+      priceFrom: 350000,
+      halls: [
+        { name: "Grand Manor", capacity: 350, pricePerDay: 700000, cateringIncluded: true, parkingSpaces: 100, amenities: ["Historic Architecture", "Library", "Grand Staircase", "Wine Cellar"] },
+      ],
+    },
+    {
+      slug: "golden-gate-weddings-san-francisco",
+      title: "Golden Gate Weddings San Francisco",
+      description: "Modern wedding venue with stunning bay views and contemporary design.",
+      address: "654 Bay Street", city: "San Francisco", state: "CA", zipCode: "94102",
+      latitude: 37.7749, longitude: -122.4194,
+      coverImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800",
+      images: ["https://images.unsplash.com/photo-1519741497674-611481863552?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 320000,
+      halls: [
+        { name: "Bay View Hall", capacity: 500, pricePerDay: 650000, cateringIncluded: true, parkingSpaces: 150, amenities: ["Bay Views", "Modern Design", "Rooftop Terrace"] },
+      ],
+    },
+    {
+      slug: "las-vegas-luxury-weddings",
+      title: "Las Vegas Luxury Weddings",
+      description: "High-end wedding chapel and reception venue on the Las Vegas Strip.",
+      address: "123 Strip Boulevard", city: "Las Vegas", state: "NV", zipCode: "89109",
+      latitude: 36.1699, longitude: -115.1398,
+      coverImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800",
+      images: ["https://images.unsplash.com/photo-1519741497674-611481863552?w=800", "https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800"],
+      priceFrom: 400000,
+      halls: [
+        { name: "Chapel of Dreams", capacity: 200, pricePerDay: 500000, cateringIncluded: true, parkingSpaces: 500, amenities: ["Wedding Chapel", "Professional Photography", "Limousine Service"] },
+        { name: "Casino Royale Hall", capacity: 600, pricePerDay: 800000, cateringIncluded: true, parkingSpaces: 600, amenities: ["Casino Access", "Entertainment Stage", "VIP Services"] },
+      ],
+    },
+    {
+      slug: "seattle-waterland-weddings",
+      title: "Seattle Waterfront Weddings",
+      description: "Scenic wedding venue overlooking Puget Sound with mountain backdrop.",
+      address: "789 Waterfront Ave", city: "Seattle", state: "WA", zipCode: "98101",
+      latitude: 47.6062, longitude: -122.3321,
+      coverImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800",
+      images: ["https://images.unsplash.com/photo-1519741497674-611481863552?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 270000,
+      halls: [
+        { name: "Sound View Terrace", capacity: 400, pricePerDay: 520000, cateringIncluded: true, parkingSpaces: 160, amenities: ["Waterfront Views", "Mountain Views", "Outdoor Ceremony Space"] },
+      ],
+    },
+    {
+      slug: "atlanta-southern-charm-weddings",
+      title: "Atlanta Southern Charm Weddings",
+      description: "Southern elegance meets modern luxury in this premier Atlanta wedding venue.",
+      address: "456 Peachtree Street", city: "Atlanta", state: "GA", zipCode: "30303",
+      latitude: 33.7490, longitude: -84.3880,
+      coverImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800",
+      images: ["https://images.unsplash.com/photo-1519741497674-611481863552?w=800", "https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800"],
+      priceFrom: 230000,
+      halls: [
+        { name: "Magnolia Ballroom", capacity: 550, pricePerDay: 450000, cateringIncluded: true, parkingSpaces: 220, amenities: ["Southern Architecture", "Garden Courtyard", "Live Music Stage"] },
+      ],
+    },
+    {
+      slug: "denver-mountain-weddings",
+      title: "Denver Mountain Weddings",
+      description: "Rustic-chic wedding venue with Rocky Mountain views and outdoor ceremony sites.",
+      address: "321 Alpine Road", city: "Denver", state: "CO", zipCode: "80201",
+      latitude: 39.7392, longitude: -104.9903,
+      coverImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800",
+      images: ["https://images.unsplash.com/photo-1478146059778-26028b9739f5?w=800", "https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800"],
+      priceFrom: 240000,
+      halls: [
+        { name: "Mountain Lodge", capacity: 350, pricePerDay: 480000, cateringIncluded: false, parkingSpaces: 140, amenities: ["Mountain Views", "Fireplace", "Outdoor Ceremony Site", "Ski Resort Access"] },
+      ],
+    },
+    {
+      slug: "boston-historic-weddings",
+      title: "Boston Historic Weddings",
+      description: "Historic Boston venue with colonial charm and modern wedding amenities.",
+      address: "654 Freedom Trail", city: "Boston", state: "MA", zipCode: "02101",
+      latitude: 42.3601, longitude: -71.0589,
+      coverImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800",
+      images: ["https://images.unsplash.com/photo-1519741497674-611481863552?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 290000,
+      halls: [
+        { name: "Colonial Hall", capacity: 300, pricePerDay: 580000, cateringIncluded: true, parkingSpaces: 90, amenities: ["Historic Building", "Colonial Architecture", "Courtyard"] },
+      ],
+    },
+    {
+      slug: "nashville-music-city-weddings",
+      title: "Nashville Music City Weddings",
+      description: "Country-themed wedding venue with live music and southern hospitality.",
+      address: "987 Music Row", city: "Nashville", state: "TN", zipCode: "37201",
+      latitude: 36.1627, longitude: -86.7816,
+      coverImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800",
+      images: ["https://images.unsplash.com/photo-1519741497674-611481863552?w=800", "https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800"],
+      priceFrom: 210000,
+      halls: [
+        { name: "Honky Tonk Hall", capacity: 500, pricePerDay: 420000, cateringIncluded: true, parkingSpaces: 200, amenities: ["Live Country Music", "Dance Floor", "Western Decor", "Bar Service"] },
+      ],
+    },
+    {
+      slug: "portland-eco-weddings",
+      title: "Portland Eco-Friendly Weddings",
+      description: "Sustainable wedding venue with organic catering and green practices.",
+      address: "123 Green Street", city: "Portland", state: "OR", zipCode: "97201",
+      latitude: 45.5152, longitude: -122.6784,
+      coverImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800",
+      images: ["https://images.unsplash.com/photo-1478146059778-26028b9739f5?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 200000,
+      halls: [
+        { name: "Forest Pavilion", capacity: 300, pricePerDay: 380000, cateringIncluded: true, parkingSpaces: 100, amenities: ["Eco-Friendly", "Organic Catering", "Forest Setting", "Solar Powered"] },
+      ],
+    },
+    {
+      slug: "new-orleans-jazz-weddings",
+      title: "New Orleans Jazz Weddings",
+      description: "Vibrant wedding venue with jazz music and Creole catering options.",
+      address: "456 Bourbon Street", city: "New Orleans", state: "LA", zipCode: "70112",
+      latitude: 29.9511, longitude: -90.0715,
+      coverImage: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800",
+      images: ["https://images.unsplash.com/photo-1519741497674-611481863552?w=800", "https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800"],
+      priceFrom: 260000,
+      halls: [
+        { name: "French Quarter Hall", capacity: 450, pricePerDay: 520000, cateringIncluded: true, parkingSpaces: 150, amenities: ["Jazz Band Stage", "Creole Catering", "French Quarter Architecture", "Courtyard"] },
+      ],
+    },
+  ];
+
+  // ─────────────────────────────────────────────
+  // CATERING SERVICES (15 listings)
+  // ─────────────────────────────────────────────
+
+  const cateringServicesData = [
+    {
+      slug: "pakistani-flavors-catering-dallas",
+      title: "Pakistani Flavors Catering Dallas",
+      description: "Authentic Pakistani cuisine for weddings, events, and corporate functions. Specializing in biryani, karahi, and traditional dishes.",
+      address: "567 Food Street", city: "Dallas", state: "TX", zipCode: "75201",
+      latitude: 32.7767, longitude: -96.7970,
+      coverImage: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+      images: ["https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800", "https://images.unsplash.com/photo-1540189549336-e6e99c367ccfe?w=800"],
+      priceFrom: 2500,
+      packages: [
+        { name: "Royal Pakistani Feast", cuisine: "Pakistani", pricePerPerson: 4500, minGuests: 100, maxGuests: 800, menuItems: ["Chicken Biryani", "Mutton Karahi", "Naan", "Raita", "Gulab Jamun"], isVegetarian: false, isHalal: true },
+        { name: "Vegetarian Delight", cuisine: "Pakistani", pricePerPerson: 3500, minGuests: 50, maxGuests: 500, menuItems: ["Vegetable Biryani", "Daal Makhani", "Aloo Gosht", "Salad", "Kheer"], isVegetarian: true, isHalal: true },
+      ],
+    },
+    {
+      slug: "chinese-dragon-catering-houston",
+      title: "Chinese Dragon Catering Houston",
+      description: "Premium Chinese cuisine catering with authentic flavors and professional service.",
+      address: "890 Dragon Road", city: "Houston", state: "TX", zipCode: "77001",
+      latitude: 29.7604, longitude: -95.3698,
+      coverImage: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+      images: ["https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800", "https://images.unsplash.com/photo-1540189549336-e6e99c367ccfe?w=800"],
+      priceFrom: 3000,
+      packages: [
+        { name: "Dragon Feast", cuisine: "Chinese", pricePerPerson: 5000, minGuests: 80, maxGuests: 600, menuItems: ["Kung Pao Chicken", "Fried Rice", "Spring Rolls", "Sweet & Sour Pork", "Dim Sum"], isVegetarian: false, isHalal: false },
+        { name: "Cantonese Classic", cuisine: "Chinese", pricePerPerson: 4000, minGuests: 50, maxGuests: 400, menuItems: ["Chow Mein", "Steamed Fish", "Vegetable Dumplings", "Hot & Sour Soup"], isVegetarian: false, isHalal: false },
+      ],
+    },
+    {
+      slug: "continental-elegance-catering-chicago",
+      title: "Continental Elegance Catering Chicago",
+      description: "Fine dining experience with Continental and European cuisine for upscale events.",
+      address: "234 Michigan Avenue", city: "Chicago", state: "IL", zipCode: "60601",
+      latitude: 41.8781, longitude: -87.6298,
+      coverImage: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+      images: ["https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800", "https://images.unsplash.com/photo-1540189549336-e6e99c367ccfe?w=800"],
+      priceFrom: 5500,
+      packages: [
+        { name: "European Excellence", cuisine: "Continental", pricePerPerson: 7500, minGuests: 50, maxGuests: 400, menuItems: ["Grilled Salmon", "Beef Wellington", "Caesar Salad", "Tiramisu", "French Onion Soup"], isVegetarian: false, isHalal: false },
+        { name: "Mediterranean Dreams", cuisine: "Continental", pricePerPerson: 6500, minGuests: 40, maxGuests: 300, menuItems: ["Pasta Primavera", "Chicken Marsala", "Bruschetta", "Panna Cotta"], isVegetarian: false, isHalal: false },
+      ],
+    },
+    {
+      slug: "indian-spice-catering-new-york",
+      title: "Indian Spice Catering New York",
+      description: "Authentic Indian cuisine with diverse regional specialties for all occasions.",
+      address: "678 Curry Lane", city: "New York", state: "NY", zipCode: "10001",
+      latitude: 40.7128, longitude: -74.0060,
+      coverImage: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+      images: ["https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800", "https://images.unsplash.com/photo-1540189549336-e6e99c367ccfe?w=800"],
+      priceFrom: 2800,
+      packages: [
+        { name: "North Indian Royal", cuisine: "Indian", pricePerPerson: 4800, minGuests: 100, maxGuests: 700, menuItems: ["Butter Chicken", "Paneer Tikka", "Naan", "Biryani", "Gulab Jamun"], isVegetarian: false, isHalal: true },
+        { name: "South Indian Special", cuisine: "Indian", pricePerPerson: 3800, minGuests: 60, maxGuests: 500, menuItems: ["Dosa", "Idli", "Sambar", "Coconut Chutney", "Payasam"], isVegetarian: true, isHalal: true },
+      ],
+    },
+    {
+      slug: "bbq-masters-catering-los-angeles",
+      title: "BBQ Masters Catering Los Angeles",
+      description: "American BBQ cuisine with slow-smoked meats and classic sides.",
+      address: "345 Grill Street", city: "Los Angeles", state: "CA", zipCode: "90028",
+      latitude: 34.0522, longitude: -118.2437,
+      coverImage: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+      images: ["https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800", "https://images.unsplash.com/photo-1540189549336-e6e99c367ccfe?w=800"],
+      priceFrom: 3200,
+      packages: [
+        { name: "BBQ Extravaganza", cuisine: "American BBQ", pricePerPerson: 5500, minGuests: 75, maxGuests: 600, menuItems: ["Brisket", "Pulled Pork", "Ribs", "Coleslaw", "Cornbread", "Baked Beans"], isVegetarian: false, isHalal: false },
+        { name: "Texas Smokehouse", cuisine: "American BBQ", pricePerPerson: 4800, minGuests: 50, maxGuests: 400, menuItems: ["Smoked Sausage", "BBQ Chicken", "Mac & Cheese", "Potato Salad"], isVegetarian: false, isHalal: false },
+      ],
+    },
+    {
+      slug: "italian-fiesta-catering-miami",
+      title: "Italian Fiesta Catering Miami",
+      description: "Traditional Italian cuisine with fresh ingredients and authentic recipes.",
+      address: "789 Pasta Avenue", city: "Miami", state: "FL", zipCode: "33139",
+      latitude: 25.7617, longitude: -80.1918,
+      coverImage: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+      images: ["https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800", "https://images.unsplash.com/photo-1540189549336-e6e99c367ccfe?w=800"],
+      priceFrom: 4000,
+      packages: [
+        { name: "Italian Wedding Feast", cuisine: "Italian", pricePerPerson: 6500, minGuests: 80, maxGuests: 500, menuItems: ["Lasagna", "Chicken Parmesan", "Caesar Salad", "Garlic Bread", "Tiramisu"], isVegetarian: false, isHalal: false },
+        { name: "Pasta Paradise", cuisine: "Italian", pricePerPerson: 5000, minGuests: 50, maxGuests: 350, menuItems: ["Fettuccine Alfredo", "Spaghetti Carbonara", "Bruschetta", "Gelato"], isVegetarian: false, isHalal: false },
+      ],
+    },
+    {
+      slug: "mexican-fiesta-catering-san-antonio",
+      title: "Mexican Fiesta Catering San Antonio",
+      description: "Authentic Mexican cuisine with bold flavors and traditional dishes.",
+      address: "456 Taco Boulevard", city: "San Antonio", state: "TX", zipCode: "78201",
+      latitude: 29.4241, longitude: -98.4936,
+      coverImage: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+      images: ["https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800", "https://images.unsplash.com/photo-1540189549336-e6e99c367ccfe?w=800"],
+      priceFrom: 2700,
+      packages: [
+        { name: "Fiesta Grande", cuisine: "Mexican", pricePerPerson: 4200, minGuests: 60, maxGuests: 500, menuItems: ["Tacos", "Enchiladas", "Burritos", "Guacamole", "Churros"], isVegetarian: false, isHalal: false },
+        { name: "Cantina Classic", cuisine: "Mexican", pricePerPerson: 3500, minGuests: 40, maxGuests: 300, menuItems: ["Quesadillas", "Nachos", "Fajitas", "Mexican Rice"], isVegetarian: false, isHalal: false },
+      ],
+    },
+    {
+      slug: "seafood-supreme-catering-seattle",
+      title: "Seafood Supreme Catering Seattle",
+      description: "Fresh Pacific Northwest seafood prepared with culinary expertise.",
+      address: "123 Harbor Drive", city: "Seattle", state: "WA", zipCode: "98101",
+      latitude: 47.6062, longitude: -122.3321,
+      coverImage: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+      images: ["https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800", "https://images.unsplash.com/photo-1540189549336-e6e99c367ccfe?w=800"],
+      priceFrom: 5000,
+      packages: [
+        { name: "Pacific Seafood Feast", cuisine: "Seafood", pricePerPerson: 7000, minGuests: 50, maxGuests: 400, menuItems: ["Grilled Salmon", "Shrimp Cocktail", "Crab Cakes", "Lobster Bisque", "Clam Chowder"], isVegetarian: false, isHalal: false },
+        { name: "Northwest Catch", cuisine: "Seafood", pricePerPerson: 6000, minGuests: 40, maxGuests: 300, menuItems: ["Fish & Chips", "Fish Tacos", "Seafood Paella"], isVegetarian: false, isHalal: false },
+      ],
+    },
+    {
+      slug: "thai-orchid-catering-denver",
+      title: "Thai Orchid Catering Denver",
+      description: "Authentic Thai cuisine with fresh ingredients and traditional flavors.",
+      address: "678 Bangkok Street", city: "Denver", state: "CO", zipCode: "80201",
+      latitude: 39.7392, longitude: -104.9903,
+      coverImage: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+      images: ["https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800", "https://images.unsplash.com/photo-1540189549336-e6e99c367ccfe?w=800"],
+      priceFrom: 3300,
+      packages: [
+        { name: "Thai Royal Dinner", cuisine: "Thai", pricePerPerson: 5200, minGuests: 60, maxGuests: 450, menuItems: ["Pad Thai", "Green Curry", "Tom Yum Soup", "Mango Sticky Rice", "Spring Rolls"], isVegetarian: false, isHalal: false },
+        { name: "Bangkok Street Food", cuisine: "Thai", pricePerPerson: 4000, minGuests: 40, maxGuests: 300, menuItems: ["Thai Basil Chicken", "Massaman Curry", "Papaya Salad"], isVegetarian: false, isHalal: false },
+      ],
+    },
+    {
+      slug: "mediterranean-delight-catering-boston",
+      title: "Mediterranean Delight Catering Boston",
+      description: "Healthy and flavorful Mediterranean cuisine for all events.",
+      address: "234 Olive Road", city: "Boston", state: "MA", zipCode: "02101",
+      latitude: 42.3601, longitude: -71.0589,
+      coverImage: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+      images: ["https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800", "https://images.unsplash.com/photo-1540189549336-e6e99c367ccfe?w=800"],
+      priceFrom: 3800,
+      packages: [
+        { name: "Greek Celebration", cuisine: "Mediterranean", pricePerPerson: 5800, minGuests: 70, maxGuests: 500, menuItems: ["Lamb Souvlaki", "Moussaka", "Greek Salad", "Hummus", "Baklava"], isVegetarian: false, isHalal: true },
+        { name: "Lebanese Feast", cuisine: "Mediterranean", pricePerPerson: 5000, minGuests: 50, maxGuests: 400, menuItems: ["Shawarma", "Tabbouleh", "Falafel", "Kibbeh", "Fattoush"], isVegetarian: false, isHalal: true },
+      ],
+    },
+    {
+      slug: "korean-bbq-catering-atlanta",
+      title: "Korean BBQ Catering Atlanta",
+      description: "Authentic Korean BBQ and traditional dishes for modern events.",
+      address: "567 Seoul Avenue", city: "Atlanta", state: "GA", zipCode: "30303",
+      latitude: 33.7490, longitude: -84.3880,
+      coverImage: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+      images: ["https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800", "https://images.unsplash.com/photo-1540189549336-e6e99c367ccfe?w=800"],
+      priceFrom: 3600,
+      packages: [
+        { name: "Korean BBQ Premium", cuisine: "Korean", pricePerPerson: 5500, minGuests: 60, maxGuests: 450, menuItems: ["Bulgogi", "Kalbi", "Kimchi", "Bibimbap", "Japchae"], isVegetarian: false, isHalal: false },
+        { name: "Seoul Classic", cuisine: "Korean", pricePerPerson: 4500, minGuests: 40, maxGuests: 300, menuItems: ["Korean Fried Chicken", "Tteokbokki", "Kimchi Stew"], isVegetarian: false, isHalal: false },
+      ],
+    },
+    {
+      slug: "japanese-sushi-catering-portland",
+      title: "Japanese Sushi Catering Portland",
+      description: "Premium Japanese cuisine with fresh sushi and traditional dishes.",
+      address: "890 Tokyo Lane", city: "Portland", state: "OR", zipCode: "97201",
+      latitude: 45.5152, longitude: -122.6784,
+      coverImage: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+      images: ["https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800", "https://images.unsplash.com/photo-1540189549336-e6e99c367ccfe?w=800"],
+      priceFrom: 4500,
+      packages: [
+        { name: "Sushi Master", cuisine: "Japanese", pricePerPerson: 6500, minGuests: 50, maxGuests: 350, menuItems: ["Assorted Sushi Platter", "Sashimi", "Tempura", "Miso Soup", "Green Tea Ice Cream"], isVegetarian: false, isHalal: false },
+        { name: "Bento Box Classic", cuisine: "Japanese", pricePerPerson: 4800, minGuests: 30, maxGuests: 250, menuItems: ["Chicken Teriyaki", "California Rolls", "Edamame", "Gyoza"], isVegetarian: false, isHalal: false },
+      ],
+    },
+    {
+      slug: "caribbean-island-catering-new-orleans",
+      title: "Caribbean Island Catering New Orleans",
+      description: "Tropical Caribbean flavors with authentic island cuisine.",
+      address: "321 Island Way", city: "New Orleans", state: "LA", zipCode: "70112",
+      latitude: 29.9511, longitude: -90.0715,
+      coverImage: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+      images: ["https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800", "https://images.unsplash.com/photo-1540189549336-e6e99c367ccfe?w=800"],
+      priceFrom: 3400,
+      packages: [
+        { name: "Island Paradise", cuisine: "Caribbean", pricePerPerson: 5200, minGuests: 60, maxGuests: 400, menuItems: ["Jerk Chicken", "Curry Goat", "Rice & Peas", "Plantains", "Coconut Cake"], isVegetarian: false, isHalal: false },
+        { name: "Tropical Breeze", cuisine: "Caribbean", pricePerPerson: 4200, minGuests: 40, maxGuests: 300, menuItems: ["Ackee & Saltfish", "Roti", "Callaloo", "Tropical Fruit"], isVegetarian: false, isHalal: false },
+      ],
+    },
+    {
+      slug: "american-classic-catering-philadelphia",
+      title: "American Classic Catering Philadelphia",
+      description: "Traditional American comfort food and upscale cuisine for all occasions.",
+      address: "654 Liberty Street", city: "Philadelphia", state: "PA", zipCode: "19019",
+      latitude: 39.9526, longitude: -75.1652,
+      coverImage: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+      images: ["https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800", "https://images.unsplash.com/photo-1540189549336-e6e99c367ccfe?w=800"],
+      priceFrom: 3500,
+      packages: [
+        { name: "All-American Feast", cuisine: "American", pricePerPerson: 5000, minGuests: 70, maxGuests: 500, menuItems: ["Grilled Chicken", "Mashed Potatoes", "Green Beans", "Mac & Cheese", "Apple Pie"], isVegetarian: false, isHalal: false },
+        { name: "Executive Lunch", cuisine: "American", pricePerPerson: 4000, minGuests: 30, maxGuests: 250, menuItems: ["Caesar Salad", "Club Sandwich", "Soup of the Day", "Brownies"], isVegetarian: false, isHalal: false },
+      ],
+    },
+    {
+      slug: "vegan-vibes-catering-san-diego",
+      title: "Vegan Vibes Catering San Diego",
+      description: "Plant-based gourmet cuisine that's healthy and delicious.",
+      address: "987 Green Avenue", city: "San Diego", state: "CA", zipCode: "92101",
+      latitude: 32.7157, longitude: -117.1611,
+      coverImage: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800",
+      images: ["https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800", "https://images.unsplash.com/photo-1540189549336-e6e99c367ccfe?w=800"],
+      priceFrom: 3000,
+      packages: [
+        { name: "Plant-Based Paradise", cuisine: "Vegan", pricePerPerson: 4500, minGuests: 40, maxGuests: 350, menuItems: ["Vegan Buddha Bowl", "Quinoa Salad", "Vegan Tacos", "Raw Desserts"], isVegetarian: true, isHalal: true },
+        { name: "Green Gourmet", cuisine: "Vegan", pricePerPerson: 3800, minGuests: 30, maxGuests: 250, menuItems: ["Vegan Pasta", "Stuffed Peppers", "Hummus Platter", "Vegan Cheesecake"], isVegetarian: true, isHalal: true },
+      ],
+    },
+  ];
+
+  // ─────────────────────────────────────────────
+  // MECHANIC SERVICES (15 listings)
+  // ─────────────────────────────────────────────
+
+  const mechanicServicesData = [
+    {
+      slug: "quick-auto-repair-dallas",
+      title: "Quick Auto Repair Dallas",
+      description: "Full-service auto repair shop with certified mechanics and quick turnaround.",
+      address: "1234 Mechanic Street", city: "Dallas", state: "TX", zipCode: "75201",
+      latitude: 32.7767, longitude: -96.7970,
+      coverImage: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800",
+      images: ["https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800", "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800"],
+      priceFrom: 5000,
+      services: [
+        { name: "Oil Change", serviceType: "Oil Change", price: 5000, durationMin: 30, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+        { name: "Brake Pad Replacement", serviceType: "Brake Repair", price: 15000, durationMin: 90, vehicleTypes: ["Car", "SUV"], mobileService: false },
+        { name: "Engine Diagnostic", serviceType: "Engine Repair", price: 8000, durationMin: 60, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+        { name: "Tire Rotation & Balance", serviceType: "Tire Service", price: 4000, durationMin: 45, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+      ],
+    },
+    {
+      slug: "mobile-mechanic-houston",
+      title: "Mobile Mechanic Houston",
+      description: "We come to you! Professional mobile mechanic service for all vehicle types.",
+      address: "5678 Mobile Road", city: "Houston", state: "TX", zipCode: "77001",
+      latitude: 29.7604, longitude: -95.3698,
+      coverImage: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800",
+      images: ["https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800", "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800"],
+      priceFrom: 6000,
+      services: [
+        { name: "Mobile Oil Change", serviceType: "Oil Change", price: 7000, durationMin: 40, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: true },
+        { name: "Mobile Battery Replacement", serviceType: "Battery Service", price: 8000, durationMin: 30, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: true },
+        { name: "Mobile Brake Repair", serviceType: "Brake Repair", price: 18000, durationMin: 120, vehicleTypes: ["Car", "SUV"], mobileService: true },
+      ],
+    },
+    {
+      slug: "expert-auto-care-chicago",
+      title: "Expert Auto Care Chicago",
+      description: "Professional automotive service with experienced technicians.",
+      address: "901 Auto Boulevard", city: "Chicago", state: "IL", zipCode: "60601",
+      latitude: 41.8781, longitude: -87.6298,
+      coverImage: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800",
+      images: ["https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800", "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800"],
+      priceFrom: 6500,
+      services: [
+        { name: "Full Service Inspection", serviceType: "Inspection", price: 12000, durationMin: 120, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+        { name: "AC Repair", serviceType: "AC Service", price: 15000, durationMin: 90, vehicleTypes: ["Car", "SUV"], mobileService: false },
+        { name: "Transmission Service", serviceType: "Transmission", price: 25000, durationMin: 180, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+      ],
+    },
+    {
+      slug: "precision-mechanic-los-angeles",
+      title: "Precision Mechanic Los Angeles",
+      description: "High-quality auto repair services with honest pricing.",
+      address: "234 Garage Lane", city: "Los Angeles", state: "CA", zipCode: "90028",
+      latitude: 34.0522, longitude: -118.2437,
+      coverImage: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800",
+      images: ["https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800", "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800"],
+      priceFrom: 7000,
+      services: [
+        { name: "Complete Tune-Up", serviceType: "Engine Repair", price: 20000, durationMin: 150, vehicleTypes: ["Car", "SUV"], mobileService: false },
+        { name: "Suspension Repair", serviceType: "Suspension", price: 18000, durationMin: 120, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+        { name: "Electrical System Repair", serviceType: "Electrical", price: 15000, durationMin: 90, vehicleTypes: ["Car", "SUV"], mobileService: false },
+      ],
+    },
+    {
+      slug: "fast-fix-miami",
+      title: "Fast Fixes Auto Service Miami",
+      description: "Quick and reliable auto repairs at competitive prices.",
+      address: "567 Speed Street", city: "Miami", state: "FL", zipCode: "33139",
+      latitude: 25.7617, longitude: -80.1918,
+      coverImage: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800",
+      images: ["https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800", "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800"],
+      priceFrom: 5500,
+      services: [
+        { name: "Standard Oil Change", serviceType: "Oil Change", price: 5500, durationMin: 30, vehicleTypes: ["Car", "SUV"], mobileService: false },
+        { name: "Brake Inspection & Service", serviceType: "Brake Repair", price: 10000, durationMin: 60, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+        { name: "Wheel Alignment", serviceType: "Tire Service", price: 8000, durationMin: 45, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+      ],
+    },
+    {
+      slug: "new-york-auto-experts",
+      title: "New York Auto Experts",
+      description: "Manhattan's trusted mechanic for all automotive needs.",
+      address: "890 Broadway", city: "New York", state: "NY", zipCode: "10001",
+      latitude: 40.7128, longitude: -74.0060,
+      coverImage: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800",
+      images: ["https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800", "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800"],
+      priceFrom: 8000,
+      services: [
+        { name: "Premium Oil Change", serviceType: "Oil Change", price: 8000, durationMin: 40, vehicleTypes: ["Car", "SUV", "Luxury"], mobileService: false },
+        { name: "Engine Replacement", serviceType: "Engine Repair", price: 150000, durationMin: 480, vehicleTypes: ["Car", "SUV"], mobileService: false },
+        { name: "State Inspection", serviceType: "Inspection", price: 12000, durationMin: 90, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+      ],
+    },
+    {
+      slug: "denver-auto-service",
+      title: "Denver Auto Service Center",
+      description: "Comprehensive automotive services for mountain driving conditions.",
+      address: "321 Mountain Road", city: "Denver", state: "CO", zipCode: "80201",
+      latitude: 39.7392, longitude: -104.9903,
+      coverImage: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800",
+      images: ["https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800", "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800"],
+      priceFrom: 6000,
+      services: [
+        { name: "4WD Service", serviceType: "4WD Service", price: 15000, durationMin: 120, vehicleTypes: ["SUV", "Truck"], mobileService: false },
+        { name: "Coolant Flush", serviceType: "Cooling System", price: 8000, durationMin: 60, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+        { name: "Battery Test & Replace", serviceType: "Battery Service", price: 6000, durationMin: 30, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: true },
+      ],
+    },
+    {
+      slug: "seattle-car-care",
+      title: "Seattle Car Care Center",
+      description: "Reliable auto repair services in the Pacific Northwest.",
+      address: "654 Rain Avenue", city: "Seattle", state: "WA", zipCode: "98101",
+      latitude: 47.6062, longitude: -122.3321,
+      coverImage: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800",
+      images: ["https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800", "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800"],
+      priceFrom: 7500,
+      services: [
+        { name: "Complete Brake Service", serviceType: "Brake Repair", price: 18000, durationMin: 120, vehicleTypes: ["Car", "SUV"], mobileService: false },
+        { name: "Oil Change & Filter", serviceType: "Oil Change", price: 7500, durationMin: 40, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+        { name: "Exhaust System Repair", serviceType: "Exhaust", price: 20000, durationMin: 150, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+      ],
+    },
+    {
+      slug: "atlanta-mechanic-shop",
+      title: "Atlanta Mechanic Shop",
+      description: "Southern hospitality with professional auto repair service.",
+      address: "987 Peachtree Road", city: "Atlanta", state: "GA", zipCode: "30303",
+      latitude: 33.7490, longitude: -84.3880,
+      coverImage: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800",
+      images: ["https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800", "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800"],
+      priceFrom: 5500,
+      services: [
+        { name: "Basic Maintenance", serviceType: "Oil Change", price: 6500, durationMin: 45, vehicleTypes: ["Car", "SUV"], mobileService: false },
+        { name: "Steering Repair", serviceType: "Steering", price: 16000, durationMin: 120, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+        { name: "Radiator Flush", serviceType: "Cooling System", price: 7000, durationMin: 60, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+      ],
+    },
+    {
+      slug: "boston-auto-repair",
+      title: "Boston Auto Repair",
+      description: "Historic city's premier automotive service center.",
+      address: "234 Colonial Drive", city: "Boston", state: "MA", zipCode: "02101",
+      latitude: 42.3601, longitude: -71.0589,
+      coverImage: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800",
+      images: ["https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800", "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800"],
+      priceFrom: 8500,
+      services: [
+        { name: "European Car Service", serviceType: "Specialty", price: 20000, durationMin: 150, vehicleTypes: ["Luxury", "European"], mobileService: false },
+        { name: "Oil Change Premium", serviceType: "Oil Change", price: 8500, durationMin: 40, vehicleTypes: ["Car", "SUV", "Luxury"], mobileService: false },
+        { name: "Brake & Rotor Service", serviceType: "Brake Repair", price: 19000, durationMin: 120, vehicleTypes: ["Car", "SUV"], mobileService: false },
+      ],
+    },
+    {
+      slug: "las-vegas-auto-care",
+      title: "Las Vegas Auto Care",
+      description: "24/7 auto repair services in the heart of Vegas.",
+      address: "567 Strip Boulevard", city: "Las Vegas", state: "NV", zipCode: "89109",
+      latitude: 36.1699, longitude: -115.1398,
+      coverImage: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800",
+      images: ["https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800", "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800"],
+      priceFrom: 7000,
+      services: [
+        { name: "Quick Oil Change", serviceType: "Oil Change", price: 7000, durationMin: 30, vehicleTypes: ["Car", "SUV"], mobileService: false },
+        { name: "AC Recharge", serviceType: "AC Service", price: 12000, durationMin: 60, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+        { name: "Tire Installation", serviceType: "Tire Service", price: 8000, durationMin: 45, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+      ],
+    },
+    {
+      slug: "phoenix-desert-auto",
+      title: "Phoenix Desert Auto Repair",
+      description: "Desert-tested mechanics specializing in heat-related repairs.",
+      address: "890 Desert Road", city: "Phoenix", state: "AZ", zipCode: "85001",
+      latitude: 33.4484, longitude: -112.0740,
+      coverImage: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800",
+      images: ["https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800", "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800"],
+      priceFrom: 6000,
+      services: [
+        { name: "Cooling System Service", serviceType: "Cooling System", price: 10000, durationMin: 90, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+        { name: "Oil Change", serviceType: "Oil Change", price: 6000, durationMin: 35, vehicleTypes: ["Car", "SUV"], mobileService: false },
+        { name: "Battery Replacement", serviceType: "Battery Service", price: 8000, durationMin: 30, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: true },
+      ],
+    },
+    {
+      slug: "nashville-truck-repair",
+      title: "Nashville Truck & Auto Repair",
+      description: "Specialized truck and auto service in Music City.",
+      address: "321 Country Road", city: "Nashville", state: "TN", zipCode: "37201",
+      latitude: 36.1627, longitude: -86.7816,
+      coverImage: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800",
+      images: ["https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800", "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800"],
+      priceFrom: 7000,
+      services: [
+        { name: "Diesel Service", serviceType: "Engine Repair", price: 20000, durationMin: 180, vehicleTypes: ["Truck", "Diesel"], mobileService: false },
+        { name: "Truck Brake Service", serviceType: "Brake Repair", price: 18000, durationMin: 120, vehicleTypes: ["Truck"], mobileService: false },
+        { name: "Oil Change", serviceType: "Oil Change", price: 7000, durationMin: 40, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+      ],
+    },
+    {
+      slug: "portland-eco-auto",
+      title: "Portland Eco Auto Repair",
+      description: "Eco-friendly auto repair with sustainable practices.",
+      address: "654 Green Street", city: "Portland", state: "OR", zipCode: "97201",
+      latitude: 45.5152, longitude: -122.6784,
+      coverImage: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800",
+      images: ["https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800", "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800"],
+      priceFrom: 7500,
+      services: [
+        { name: "Eco Oil Change", serviceType: "Oil Change", price: 7500, durationMin: 40, vehicleTypes: ["Car", "SUV", "Hybrid"], mobileService: true },
+        { name: "Hybrid Battery Service", serviceType: "Battery Service", price: 25000, durationMin: 120, vehicleTypes: ["Hybrid", "Electric"], mobileService: false },
+        { name: "Brake Service Eco", serviceType: "Brake Repair", price: 17000, durationMin: 100, vehicleTypes: ["Car", "SUV"], mobileService: false },
+      ],
+    },
+    {
+      slug: "detroit-motor-city-auto",
+      title: "Detroit Motor City Auto Repair",
+      description: "Motor City's finest auto repair with American craftsmanship.",
+      address: "987 Automotive Ave", city: "Detroit", state: "MI", zipCode: "48201",
+      latitude: 42.3314, longitude: -83.0458,
+      coverImage: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800",
+      images: ["https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800", "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800"],
+      priceFrom: 6500,
+      services: [
+        { name: "American Car Service", serviceType: "General Repair", price: 12000, durationMin: 90, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+        { name: "Oil Change", serviceType: "Oil Change", price: 6500, durationMin: 35, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+        { name: "Engine Diagnostic", serviceType: "Engine Repair", price: 9000, durationMin: 60, vehicleTypes: ["Car", "SUV", "Truck"], mobileService: false },
+      ],
+    },
+  ];
+
+  // ─────────────────────────────────────────────
+  // PHOTOGRAPHY SERVICES (15 listings)
+  // ─────────────────────────────────────────────
+
+  const photographyServicesData = [
+    {
+      slug: "elegant-wedding-photography-dallas",
+      title: "Elegant Wedding Photography Dallas",
+      description: "Professional wedding photography capturing your special moments with artistic flair.",
+      address: "123 Camera Lane", city: "Dallas", state: "TX", zipCode: "75201",
+      latitude: 32.7767, longitude: -96.7970,
+      coverImage: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800",
+      images: ["https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800", "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800"],
+      priceFrom: 150000,
+      packages: [
+        { name: "Classic Wedding Package", packageType: "Wedding", price: 250000, durationMin: 480, hoursOfCoverage: 8, numberOfPhotos: 400, includesVideo: false },
+        { name: "Premium Wedding Package", packageType: "Wedding", price: 450000, durationMin: 720, hoursOfCoverage: 12, numberOfPhotos: 700, includesVideo: true },
+        { name: "Engagement Session", packageType: "Portrait", price: 15000, durationMin: 120, hoursOfCoverage: 2, numberOfPhotos: 100, includesVideo: false },
+      ],
+    },
+    {
+      slug: "corporate-photography-houston",
+      title: "Corporate Photography Houston",
+      description: "Professional corporate and event photography for businesses.",
+      address: "456 Business Blvd", city: "Houston", state: "TX", zipCode: "77001",
+      latitude: 29.7604, longitude: -95.3698,
+      coverImage: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800",
+      images: ["https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800", "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800"],
+      priceFrom: 120000,
+      packages: [
+        { name: "Corporate Headshots", packageType: "Portrait", price: 15000, durationMin: 90, hoursOfCoverage: 1, numberOfPhotos: 50, includesVideo: false },
+        { name: "Event Coverage", packageType: "Event", price: 120000, durationMin: 360, hoursOfCoverage: 6, numberOfPhotos: 300, includesVideo: false },
+        { name: "Product Photography", packageType: "Product", price: 20000, durationMin: 120, hoursOfCoverage: 2, numberOfPhotos: 30, includesVideo: false },
+      ],
+    },
+    {
+      slug: "creative-portraits-chicago",
+      title: "Creative Portraits Chicago",
+      description: "Artistic portrait photography for individuals and families.",
+      address: "789 Portrait Street", city: "Chicago", state: "IL", zipCode: "60601",
+      latitude: 41.8781, longitude: -87.6298,
+      coverImage: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800",
+      images: ["https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800", "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800"],
+      priceFrom: 18000,
+      packages: [
+        { name: "Family Portrait Session", packageType: "Portrait", price: 25000, durationMin: 120, hoursOfCoverage: 2, numberOfPhotos: 80, includesVideo: false },
+        { name: "Senior Portraits", packageType: "Portrait", price: 18000, durationMin: 90, hoursOfCoverage: 1, numberOfPhotos: 60, includesVideo: false },
+        { name: "Maternity Session", packageType: "Portrait", price: 22000, durationMin: 90, hoursOfCoverage: 1, numberOfPhotos: 70, includesVideo: false },
+      ],
+    },
+    {
+      slug: "event-photography-los-angeles",
+      title: "Event Photography Los Angeles",
+      description: "Dynamic event coverage for parties, concerts, and corporate events.",
+      address: "321 Event Plaza", city: "Los Angeles", state: "CA", zipCode: "90028",
+      latitude: 34.0522, longitude: -118.2437,
+      coverImage: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800",
+      images: ["https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800", "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800"],
+      priceFrom: 100000,
+      packages: [
+        { name: "Full Event Coverage", packageType: "Event", price: 150000, durationMin: 480, hoursOfCoverage: 8, numberOfPhotos: 500, includesVideo: true },
+        { name: "Concert Photography", packageType: "Event", price: 100000, durationMin: 240, hoursOfCoverage: 4, numberOfPhotos: 300, includesVideo: false },
+        { name: "Birthday Party Package", packageType: "Event", price: 80000, durationMin: 180, hoursOfCoverage: 3, numberOfPhotos: 200, includesVideo: false },
+      ],
+    },
+    {
+      slug: "luxury-wedding-films-miami",
+      title: "Luxury Wedding Films Miami",
+      description: "Cinematic wedding videography and photography in South Florida.",
+      address: "654 Ocean Drive", city: "Miami", state: "FL", zipCode: "33139",
+      latitude: 25.7617, longitude: -80.1918,
+      coverImage: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800",
+      images: ["https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800", "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800"],
+      priceFrom: 350000,
+      packages: [
+        { name: "Cinematic Wedding Film", packageType: "Wedding", price: 500000, durationMin: 720, hoursOfCoverage: 12, numberOfPhotos: 800, includesVideo: true },
+        { name: "Luxury Wedding Photo", packageType: "Wedding", price: 350000, durationMin: 600, hoursOfCoverage: 10, numberOfPhotos: 600, includesVideo: false },
+      ],
+    },
+    {
+      slug: "fashion-photography-new-york",
+      title: "Fashion Photography New York",
+      description: "High-end fashion and editorial photography in NYC.",
+      address: "987 Fashion Ave", city: "New York", state: "NY", zipCode: "10001",
+      latitude: 40.7128, longitude: -74.0060,
+      coverImage: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800",
+      images: ["https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800", "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800"],
+      priceFrom: 30000,
+      packages: [
+        { name: "Fashion Editorial", packageType: "Portrait", price: 50000, durationMin: 240, hoursOfCoverage: 4, numberOfPhotos: 100, includesVideo: false },
+        { name: "Lookbook Session", packageType: "Product", price: 40000, durationMin: 180, hoursOfCoverage: 3, numberOfPhotos: 80, includesVideo: false },
+        { name: "Model Portfolio", packageType: "Portrait", price: 30000, durationMin: 120, hoursOfCoverage: 2, numberOfPhotos: 60, includesVideo: false },
+      ],
+    },
+    {
+      slug: "nature-photography-denver",
+      title: "Nature Photography Denver",
+      description: "Stunning landscape and nature photography in the Rocky Mountains.",
+      address: "234 Mountain View", city: "Denver", state: "CO", zipCode: "80201",
+      latitude: 39.7392, longitude: -104.9903,
+      coverImage: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800",
+      images: ["https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800", "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800"],
+      priceFrom: 20000,
+      packages: [
+        { name: "Landscape Adventure", packageType: "Event", price: 35000, durationMin: 480, hoursOfCoverage: 8, numberOfPhotos: 150, includesVideo: false },
+        { name: "Nature Portrait Session", packageType: "Portrait", price: 20000, durationMin: 120, hoursOfCoverage: 2, numberOfPhotos: 80, includesVideo: false },
+      ],
+    },
+    {
+      slug: "sports-photography-seattle",
+      title: "Sports Photography Seattle",
+      description: "Action-packed sports photography for teams and events.",
+      address: "567 Stadium Way", city: "Seattle", state: "WA", zipCode: "98101",
+      latitude: 47.6062, longitude: -122.3321,
+      coverImage: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800",
+      images: ["https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800", "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800"],
+      priceFrom: 120000,
+      packages: [
+        { name: "Game Day Coverage", packageType: "Event", price: 150000, durationMin: 360, hoursOfCoverage: 6, numberOfPhotos: 500, includesVideo: false },
+        { name: "Team Portrait Day", packageType: "Portrait", price: 120000, durationMin: 240, hoursOfCoverage: 4, numberOfPhotos: 200, includesVideo: false },
+      ],
+    },
+    {
+      slug: "quinceanera-photography-atlanta",
+      title: "Quinceañera Photography Atlanta",
+      description: "Beautiful quinceañera photography capturing this milestone celebration.",
+      address: "890 Celebration Road", city: "Atlanta", state: "GA", zipCode: "30303",
+      latitude: 33.7490, longitude: -84.3880,
+      coverImage: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800",
+      images: ["https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800", "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800"],
+      priceFrom: 180000,
+      packages: [
+        { name: "Quinceañera Complete", packageType: "Event", price: 250000, durationMin: 480, hoursOfCoverage: 8, numberOfPhotos: 500, includesVideo: true },
+        { name: "Quinceañera Photo Only", packageType: "Event", price: 180000, durationMin: 360, hoursOfCoverage: 6, numberOfPhotos: 400, includesVideo: false },
+      ],
+    },
+    {
+      slug: "real-estate-photography-boston",
+      title: "Real Estate Photography Boston",
+      description: "Professional real estate and architectural photography.",
+      address: "321 Property Lane", city: "Boston", state: "MA", zipCode: "02101",
+      latitude: 42.3601, longitude: -71.0589,
+      coverImage: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800",
+      images: ["https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800", "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800"],
+      priceFrom: 25000,
+      packages: [
+        { name: "Residential Package", packageType: "Product", price: 30000, durationMin: 120, hoursOfCoverage: 2, numberOfPhotos: 40, includesVideo: false },
+        { name: "Commercial Package", packageType: "Product", price: 50000, durationMin: 240, hoursOfCoverage: 4, numberOfPhotos: 80, includesVideo: false },
+        { name: "Virtual Tour", packageType: "Product", price: 40000, durationMin: 180, hoursOfCoverage: 3, numberOfPhotos: 60, includesVideo: true },
+      ],
+    },
+    {
+      slug: "destination-wedding-las-vegas",
+      title: "Destination Wedding Photography Las Vegas",
+      description: "Capture your Vegas wedding with professional photography.",
+      address: "654 Chapel Road", city: "Las Vegas", state: "NV", zipCode: "89109",
+      latitude: 36.1699, longitude: -115.1398,
+      coverImage: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800",
+      images: ["https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800", "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800"],
+      priceFrom: 200000,
+      packages: [
+        { name: "Vegas Elopement", packageType: "Wedding", price: 200000, durationMin: 180, hoursOfCoverage: 3, numberOfPhotos: 150, includesVideo: false },
+        { name: "Vegas Wedding Deluxe", packageType: "Wedding", price: 350000, durationMin: 480, hoursOfCoverage: 8, numberOfPhotos: 500, includesVideo: true },
+      ],
+    },
+    {
+      slug: "food-photography-portland",
+      title: "Food Photography Portland",
+      description: "Mouth-watering food photography for restaurants and brands.",
+      address: "987 Culinary Street", city: "Portland", state: "OR", zipCode: "97201",
+      latitude: 45.5152, longitude: -122.6784,
+      coverImage: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800",
+      images: ["https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800", "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800"],
+      priceFrom: 15000,
+      packages: [
+        { name: "Restaurant Menu", packageType: "Product", price: 20000, durationMin: 180, hoursOfCoverage: 3, numberOfPhotos: 30, includesVideo: false },
+        { name: "Food Brand Package", packageType: "Product", price: 35000, durationMin: 360, hoursOfCoverage: 6, numberOfPhotos: 60, includesVideo: false },
+      ],
+    },
+    {
+      slug: "concert-photography-nashville",
+      title: "Concert Photography Nashville",
+      description: "Live music photography in Music City USA.",
+      address: "234 Music Row", city: "Nashville", state: "TN", zipCode: "37201",
+      latitude: 36.1627, longitude: -86.7816,
+      coverImage: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800",
+      images: ["https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800", "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800"],
+      priceFrom: 100000,
+      packages: [
+        { name: "Concert Coverage", packageType: "Event", price: 120000, durationMin: 240, hoursOfCoverage: 4, numberOfPhotos: 300, includesVideo: false },
+        { name: "Band Promo Package", packageType: "Portrait", price: 100000, durationMin: 180, hoursOfCoverage: 3, numberOfPhotos: 150, includesVideo: false },
+      ],
+    },
+    {
+      slug: "baby-newborn-photography-san-diego",
+      title: "Baby & Newborn Photography San Diego",
+      description: "Tender newborn and baby photography sessions.",
+      address: "567 Baby Lane", city: "San Diego", state: "CA", zipCode: "92101",
+      latitude: 32.7157, longitude: -117.1611,
+      coverImage: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800",
+      images: ["https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800", "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800"],
+      priceFrom: 22000,
+      packages: [
+        { name: "Newborn Session", packageType: "Portrait", price: 25000, durationMin: 180, hoursOfCoverage: 3, numberOfPhotos: 80, includesVideo: false },
+        { name: "Milestone Package", packageType: "Portrait", price: 45000, durationMin: 240, hoursOfCoverage: 4, numberOfPhotos: 150, includesVideo: false },
+      ],
+    },
+    {
+      slug: "aerial-drone-photography-san-francisco",
+      title: "Aerial Drone Photography San Francisco",
+      description: "Stunning aerial photography for real estate, events, and landscapes.",
+      address: "890 Sky Avenue", city: "San Francisco", state: "CA", zipCode: "94102",
+      latitude: 37.7749, longitude: -122.4194,
+      coverImage: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=800",
+      images: ["https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800", "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800"],
+      priceFrom: 35000,
+      packages: [
+        { name: "Real Estate Aerial", packageType: "Product", price: 40000, durationMin: 120, hoursOfCoverage: 2, numberOfPhotos: 50, includesVideo: true },
+        { name: "Event Aerial Coverage", packageType: "Event", price: 35000, durationMin: 180, hoursOfCoverage: 3, numberOfPhotos: 100, includesVideo: false },
+      ],
+    },
+  ];
+
+  // ─────────────────────────────────────────────
+  // DECORATOR SERVICES (15 listings)
+  // ─────────────────────────────────────────────
+
+  const decoratorServicesData = [
+    {
+      slug: "elegant-events-decor-dallas",
+      title: "Elegant Events Decor Dallas",
+      description: "Transform your venue into a magical space with our professional decor services.",
+      address: "123 Design Street", city: "Dallas", state: "TX", zipCode: "75201",
+      latitude: 32.7767, longitude: -96.7970,
+      coverImage: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800",
+      images: ["https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 150000,
+      packages: [
+        { name: "Wedding Floral Package", packageType: "Wedding", price: 250000, theme: "Floral", includes: ["Centerpieces", "Arch Decoration", "Aisle Runners", "Table Linens"], setupTime: 240 },
+        { name: "Complete Wedding Decor", packageType: "Wedding", price: 500000, theme: "Modern", includes: ["Stage Design", "Lighting", "Drapery", "Centerpieces", "Dance Floor"], setupTime: 480 },
+      ],
+    },
+    {
+      slug: "party-perfect-decor-houston",
+      title: "Party Perfect Decor Houston",
+      description: "Creative decorations for all types of parties and celebrations.",
+      address: "456 Party Lane", city: "Houston", state: "TX", zipCode: "77001",
+      latitude: 29.7604, longitude: -95.3698,
+      coverImage: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800",
+      images: ["https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 80000,
+      packages: [
+        { name: "Birthday Bash", packageType: "Birthday", price: 120000, theme: "Modern", includes: ["Balloons", "Banners", "Table Decor", "Photo Booth"], setupTime: 180 },
+        { name: "Sweet 16 Package", packageType: "Birthday", price: 180000, theme: "Floral", includes: ["Stage", "Floral Arrangements", "Lighting", "Centerpieces"], setupTime: 240 },
+      ],
+    },
+    {
+      slug: "corporate-events-decor-chicago",
+      title: "Corporate Events Decor Chicago",
+      description: "Professional decor for corporate events and conferences.",
+      address: "789 Business Blvd", city: "Chicago", state: "IL", zipCode: "60601",
+      latitude: 41.8781, longitude: -87.6298,
+      coverImage: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800",
+      images: ["https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 100000,
+      packages: [
+        { name: "Conference Setup", packageType: "Corporate", price: 150000, theme: "Modern", includes: ["Stage", "Podium", "Banners", "Table Settings"], setupTime: 300 },
+        { name: "Gala Dinner", packageType: "Corporate", price: 250000, theme: "Traditional", includes: ["Centerpieces", "Drapery", "Lighting", "Stage Design"], setupTime: 360 },
+      ],
+    },
+    {
+      slug: "luxury-wedding-decor-los-angeles",
+      title: "Luxury Wedding Decor Los Angeles",
+      description: "High-end wedding decorations for celebrity-worthy events.",
+      address: "321 Glamour Avenue", city: "Los Angeles", state: "CA", zipCode: "90028",
+      latitude: 34.0522, longitude: -118.2437,
+      coverImage: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800",
+      images: ["https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 300000,
+      packages: [
+        { name: "Celebrity Wedding", packageType: "Wedding", price: 750000, theme: "Modern", includes: ["Custom Stage", "LED Walls", "Premium Florals", "Chandeliers", "Dance Floor"], setupTime: 720 },
+        { name: "Luxury Floral Wedding", packageType: "Wedding", price: 500000, theme: "Floral", includes: ["Floral Arch", "Centerpieces", "Aisle Decor", "Cake Table"], setupTime: 480 },
+      ],
+    },
+    {
+      slug: "tropical-decor-miami",
+      title: "Tropical Decor Miami",
+      description: "Tropical-themed decorations for beach and destination weddings.",
+      address: "654 Beach Road", city: "Miami", state: "FL", zipCode: "33139",
+      latitude: 25.7617, longitude: -80.1918,
+      coverImage: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800",
+      images: ["https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 200000,
+      packages: [
+        { name: "Tropical Wedding", packageType: "Wedding", price: 350000, theme: "Tropical", includes: ["Palm Leaves", "Tropical Flowers", "Bamboo Arch", "Tiki Torches"], setupTime: 360 },
+        { name: "Beach Party Package", packageType: "Birthday", price: 180000, theme: "Tropical", includes: ["Beach Decor", "Balloons", "Tropical Centerpieces"], setupTime: 240 },
+      ],
+    },
+    {
+      slug: "rustic-wedding-decor-denver",
+      title: "Rustic Wedding Decor Denver",
+      description: "Charming rustic and barn wedding decorations.",
+      address: "987 Mountain Road", city: "Denver", state: "CO", zipCode: "80201",
+      latitude: 39.7392, longitude: -104.9903,
+      coverImage: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800",
+      images: ["https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 180000,
+      packages: [
+        { name: "Barn Wedding Package", packageType: "Wedding", price: 280000, theme: "Rustic", includes: ["Mason Jars", "Wooden Signs", "String Lights", "Burlap Runners"], setupTime: 300 },
+        { name: "Mountain Romance", packageType: "Wedding", price: 320000, theme: "Floral", includes: ["Wildflower Arrangements", "Wooden Arch", "Candles", "Lanterns"], setupTime: 360 },
+      ],
+    },
+    {
+      slug: "balloon-artistry-seattle",
+      title: "Balloon Artistry Seattle",
+      description: "Spectacular balloon decorations for all occasions.",
+      address: "234 Balloon Street", city: "Seattle", state: "WA", zipCode: "98101",
+      latitude: 47.6062, longitude: -122.3321,
+      coverImage: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800",
+      images: ["https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 60000,
+      packages: [
+        { name: "Balloon Garland Package", packageType: "Birthday", price: 80000, theme: "Modern", includes: ["Balloon Garland", "Balloon Arch", "Table Balloons"], setupTime: 180 },
+        { name: "Grand Balloon Setup", packageType: "Birthday", price: 120000, theme: "Modern", includes: ["Ceiling Balloons", "Balloon Wall", "Custom Colors"], setupTime: 240 },
+      ],
+    },
+    {
+      slug: "floral-designs-atlanta",
+      title: "Floral Designs Atlanta",
+      description: "Exquisite floral arrangements for weddings and events.",
+      address: "567 Flower Lane", city: "Atlanta", state: "GA", zipCode: "30303",
+      latitude: 33.7490, longitude: -84.3880,
+      coverImage: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800",
+      images: ["https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 120000,
+      packages: [
+        { name: "Wedding Floral Dreams", packageType: "Wedding", price: 220000, theme: "Floral", includes: ["Bridal Bouquet", "Centerpieces", "Ceremony Arch", "Pew Decor"], setupTime: 300 },
+        { name: "Event Floral Package", packageType: "Corporate", price: 150000, theme: "Floral", includes: ["Reception Centerpieces", "Entry Arrangements", "Cake Flowers"], setupTime: 240 },
+      ],
+    },
+    {
+      slug: "event-lighting-boston",
+      title: "Event Lighting Boston",
+      description: "Professional lighting design to transform any venue.",
+      address: "890 Light Avenue", city: "Boston", state: "MA", zipCode: "02101",
+      latitude: 42.3601, longitude: -71.0589,
+      coverImage: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800",
+      images: ["https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 100000,
+      packages: [
+        { name: "Wedding Lighting", packageType: "Wedding", price: 180000, theme: "Modern", includes: ["Uplighting", "String Lights", "Spotlights", "Dance Floor Lights"], setupTime: 300 },
+        { name: "Corporate Lighting", packageType: "Corporate", price: 150000, theme: "Modern", includes: ["Stage Lighting", "Ambient Lighting", "Logo Projection"], setupTime: 240 },
+      ],
+    },
+    {
+      slug: "backdrop-rentals-las-vegas",
+      title: "Backdrop Rentals Las Vegas",
+      description: "Stunning backdrops for weddings, parties, and photo ops.",
+      address: "321 Backdrop Blvd", city: "Las Vegas", state: "NV", zipCode: "89109",
+      latitude: 36.1699, longitude: -115.1398,
+      coverImage: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800",
+      images: ["https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 75000,
+      packages: [
+        { name: "Wedding Backdrop", packageType: "Wedding", price: 120000, theme: "Modern", includes: ["Sequins Backdrop", "Floral Wall", "LED Lights"], setupTime: 120 },
+        { name: "Photo Booth Setup", packageType: "Birthday", price: 90000, theme: "Modern", includes: ["Photo Booth", "Props", "Backdrop", "Lighting"], setupTime: 90 },
+      ],
+    },
+    {
+      slug: "table-linen-rentals-new-york",
+      title: "Table Linen Rentals New York",
+      description: "Premium table linens and settings for elegant events.",
+      address: "654 Fabric Street", city: "New York", state: "NY", zipCode: "10001",
+      latitude: 40.7128, longitude: -74.0060,
+      coverImage: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800",
+      images: ["https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 50000,
+      packages: [
+        { name: "Wedding Linens", packageType: "Wedding", price: 80000, theme: "Traditional", includes: ["Tablecloths", "Napkins", "Chair Covers", "Runners"], setupTime: 120 },
+        { name: "Gala Dinner Linens", packageType: "Corporate", price: 100000, theme: "Modern", includes: ["Premium Linens", "Overlay", "Centerpiece Base"], setupTime: 150 },
+      ],
+    },
+    {
+      slug: "party-rentals-philadelphia",
+      title: "Party Rentals Philadelphia",
+      description: "Complete party decoration rentals and setup services.",
+      address: "987 Party Road", city: "Philadelphia", state: "PA", zipCode: "19019",
+      latitude: 39.9526, longitude: -75.1652,
+      coverImage: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800",
+      images: ["https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 70000,
+      packages: [
+        { name: "Birthday Party Package", packageType: "Birthday", price: 100000, theme: "Modern", includes: ["Tables", "Chairs", "Linens", "Centerpieces"], setupTime: 180 },
+        { name: "Complete Party Setup", packageType: "Birthday", price: 150000, theme: "Modern", includes: ["Tent", "Tables", "Chairs", "Decorations", "Lighting"], setupTime: 300 },
+      ],
+    },
+    {
+      slug: "stage-design-nashville",
+      title: "Stage Design Nashville",
+      description: "Professional stage and set design for events and concerts.",
+      address: "234 Stage Avenue", city: "Nashville", state: "TN", zipCode: "37201",
+      latitude: 36.1627, longitude: -86.7816,
+      coverImage: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800",
+      images: ["https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 200000,
+      packages: [
+        { name: "Concert Stage", packageType: "Corporate", price: 350000, theme: "Modern", includes: ["Stage Platform", "LED Screen", "Lighting Rig", "Sound System"], setupTime: 480 },
+        { name: "Wedding Stage", packageType: "Wedding", price: 250000, theme: "Floral", includes: ["Stage", "Floral Backdrop", "Dance Floor", "Lighting"], setupTime: 360 },
+      ],
+    },
+    {
+      slug: "event-styling-san-francisco",
+      title: "Event Styling San Francisco",
+      description: "Full-service event styling and decoration.",
+      address: "567 Design Boulevard", city: "San Francisco", state: "CA", zipCode: "94102",
+      latitude: 37.7749, longitude: -122.4194,
+      coverImage: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800",
+      images: ["https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 180000,
+      packages: [
+        { name: "Complete Wedding Styling", packageType: "Wedding", price: 400000, theme: "Modern", includes: ["Full Decor", "Florals", "Lighting", "Furniture", "Linens"], setupTime: 480 },
+        { name: "Event Styling Package", packageType: "Corporate", price: 250000, theme: "Modern", includes: ["Decor Design", "Centerpieces", "Signage"], setupTime: 300 },
+      ],
+    },
+    {
+      slug: "candy-bar-decorations-portland",
+      title: "Candy Bar Decorations Portland",
+      description: "Sweet candy bar setups for parties and weddings.",
+      address: "890 Sweet Street", city: "Portland", state: "OR", zipCode: "97201",
+      latitude: 45.5152, longitude: -122.6784,
+      coverImage: "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800",
+      images: ["https://images.unsplash.com/photo-1519225421980-715cb04780f3?w=800", "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"],
+      priceFrom: 55000,
+      packages: [
+        { name: "Candy Bar Basic", packageType: "Birthday", price: 70000, theme: "Modern", includes: ["Candy Table", "Jars", "Signage", "Basic Candy Selection"], setupTime: 90 },
+        { name: "Candy Bar Deluxe", packageType: "Birthday", price: 120000, theme: "Modern", includes: ["Custom Candy Bar", "Backdrop", "Premium Candies", "Custom Labels"], setupTime: 150 },
+      ],
+    },
+  ];
+
+  // ─────────────────────────────────────────────
+  // MUSICIAN SERVICES (15 listings)
+  // ─────────────────────────────────────────────
+
+  const musicianServicesData = [
+    {
+      slug: "live-wedding-music-dallas",
+      title: "Live Wedding Music Dallas",
+      description: "Professional musicians for weddings and special events.",
+      address: "123 Music Street", city: "Dallas", state: "TX", zipCode: "75201",
+      latitude: 32.7767, longitude: -96.7970,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 50000,
+      services: [
+        { name: "Wedding Ceremony Quartet", genre: "Classical", price: 80000, durationMin: 180, numberOfMusicians: 4, equipment: ["Music Stands", "Chairs"], canTravel: true },
+        { name: "Cocktail Hour Duo", genre: "Jazz", price: 50000, durationMin: 120, numberOfMusicians: 2, equipment: ["Speakers"], canTravel: true },
+      ],
+    },
+    {
+      slug: "dj-services-houston",
+      title: "DJ Services Houston",
+      description: "Professional DJ services for all types of events and parties.",
+      address: "456 DJ Lane", city: "Houston", state: "TX", zipCode: "77001",
+      latitude: 29.7604, longitude: -95.3698,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 60000,
+      services: [
+        { name: "Wedding DJ Package", genre: "Pop", price: 100000, durationMin: 360, numberOfMusicians: 1, equipment: ["DJ Equipment", "Speakers", "Microphone", "Lighting"], canTravel: true },
+        { name: "Party DJ", genre: "Hip Hop", price: 60000, durationMin: 240, numberOfMusicians: 1, equipment: ["DJ Equipment", "Speakers"], canTravel: true },
+      ],
+    },
+    {
+      slug: "jazz-ensemble-chicago",
+      title: "Jazz Ensemble Chicago",
+      description: "Live jazz music for sophisticated events and corporate functions.",
+      address: "789 Jazz Avenue", city: "Chicago", state: "IL", zipCode: "60601",
+      latitude: 41.8781, longitude: -87.6298,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 75000,
+      services: [
+        { name: "Jazz Trio", genre: "Jazz", price: 90000, durationMin: 180, numberOfMusicians: 3, equipment: ["Instruments", "Speakers"], canTravel: true },
+        { name: "Jazz Quartet", genre: "Jazz", price: 120000, durationMin: 240, numberOfMusicians: 4, equipment: ["Instruments", "Speakers", "Microphone"], canTravel: true },
+      ],
+    },
+    {
+      slug: "qawwali-night-new-orleans",
+      title: "Qawwali Night New Orleans",
+      description: "Traditional Qawwali and Sufi music performances for events.",
+      address: "321 Sufi Street", city: "New Orleans", state: "LA", zipCode: "70112",
+      latitude: 29.9511, longitude: -90.0715,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 70000,
+      services: [
+        { name: "Qawwali Performance", genre: "Qawwali", price: 90000, durationMin: 180, numberOfMusicians: 6, equipment: ["Harmonium", "Tabla", "Microphones"], canTravel: true },
+      ],
+    },
+    {
+      slug: "pop-band-los-angeles",
+      title: "Pop Band Los Angeles",
+      description: "High-energy pop band for parties and corporate events.",
+      address: "456 Pop Street", city: "Los Angeles", state: "CA", zipCode: "90028",
+      latitude: 34.0522, longitude: -118.2437,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 100000,
+      services: [
+        { name: "Pop Band Performance", genre: "Pop", price: 150000, durationMin: 240, numberOfMusicians: 5, equipment: ["Full Band Setup", "Speakers", "Lighting"], canTravel: true },
+      ],
+    },
+    {
+      slug: "acoustic-guitar-miami",
+      title: "Acoustic Guitar Miami",
+      description: "Soothing acoustic guitar performances for intimate gatherings.",
+      address: "789 Acoustic Avenue", city: "Miami", state: "FL", zipCode: "33139",
+      latitude: 25.7617, longitude: -80.1918,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 40000,
+      services: [
+        { name: "Solo Acoustic Set", genre: "Acoustic", price: 50000, durationMin: 120, numberOfMusicians: 1, equipment: ["Acoustic Guitar", "Speaker"], canTravel: true },
+        { name: "Acoustic Duo", genre: "Acoustic", price: 80000, durationMin: 180, numberOfMusicians: 2, equipment: ["Acoustic Guitars", "Speakers"], canTravel: true },
+      ],
+    },
+    {
+      slug: "bollywood-music-new-york",
+      title: "Bollywood Music New York",
+      description: "Energetic Bollywood and Indian music for celebrations.",
+      address: "321 Bollywood Blvd", city: "New York", state: "NY", zipCode: "10001",
+      latitude: 40.7128, longitude: -74.0060,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 80000,
+      services: [
+        { name: "Bollywood Band", genre: "Bollywood", price: 120000, durationMin: 240, numberOfMusicians: 6, equipment: ["Full Band", "Speakers", "Microphones"], canTravel: true },
+        { name: "DJ Bollywood Night", genre: "Bollywood", price: 80000, durationMin: 300, numberOfMusicians: 1, equipment: ["DJ Equipment", "Speakers", "Lighting"], canTravel: true },
+      ],
+    },
+    {
+      slug: "classical-piano-boston",
+      title: "Classical Piano Boston",
+      description: "Elegant classical piano performances for formal events.",
+      address: "654 Piano Lane", city: "Boston", state: "MA", zipCode: "02101",
+      latitude: 42.3601, longitude: -71.0589,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 60000,
+      services: [
+        { name: "Solo Piano Recital", genre: "Classical", price: 70000, durationMin: 120, numberOfMusicians: 1, equipment: ["Piano (venue provided)", "Microphone"], canTravel: false },
+      ],
+    },
+    {
+      slug: "mariachi-band-san-antonio",
+      title: "Mariachi Band San Antonio",
+      description: "Authentic mariachi music for fiestas and celebrations.",
+      address: "987 Mariachi Road", city: "San Antonio", state: "TX", zipCode: "78201",
+      latitude: 29.4241, longitude: -98.4936,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 65000,
+      services: [
+        { name: "Mariachi Performance", genre: "Mariachi", price: 85000, durationMin: 180, numberOfMusicians: 5, equipment: ["Trumpets", "Guitars", "Violins"], canTravel: true },
+      ],
+    },
+    {
+      slug: "rock-band-seattle",
+      title: "Rock Band Seattle",
+      description: "High-energy rock band for parties and festivals.",
+      address: "234 Rock Street", city: "Seattle", state: "WA", zipCode: "98101",
+      latitude: 47.6062, longitude: -122.3321,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 120000,
+      services: [
+        { name: "Rock Band Set", genre: "Rock", price: 160000, durationMin: 240, numberOfMusicians: 5, equipment: ["Full Band Setup", "Amplifiers", "Drums", "Lighting"], canTravel: true },
+      ],
+    },
+    {
+      slug: "latin-music-denver",
+      title: "Latin Music Denver",
+      description: "Vibrant Latin music for weddings and parties.",
+      address: "567 Salsa Avenue", city: "Denver", state: "CO", zipCode: "80201",
+      latitude: 39.7392, longitude: -104.9903,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 70000,
+      services: [
+        { name: "Salsa Band", genre: "Latin", price: 95000, durationMin: 180, numberOfMusicians: 4, equipment: ["Percussion", "Trumpet", "Speakers"], canTravel: true },
+        { name: "Reggaeton DJ", genre: "Latin", price: 70000, durationMin: 240, numberOfMusicians: 1, equipment: ["DJ Equipment", "Speakers"], canTravel: true },
+      ],
+    },
+    {
+      slug: "country-music-nashville",
+      title: "Country Music Nashville",
+      description: "Authentic country music straight from Music City.",
+      address: "890 Country Road", city: "Nashville", state: "TN", zipCode: "37201",
+      latitude: 36.1627, longitude: -86.7816,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 80000,
+      services: [
+        { name: "Country Band", genre: "Country", price: 130000, durationMin: 240, numberOfMusicians: 5, equipment: ["Full Band", "Pedal Steel Guitar", "Speakers"], canTravel: true },
+        { name: "Solo Country Artist", genre: "Country", price: 80000, durationMin: 180, numberOfMusicians: 1, equipment: ["Acoustic Guitar", "Speaker"], canTravel: true },
+      ],
+    },
+    {
+      slug: "electronic-dance-las-vegas",
+      title: "Electronic Dance Music Las Vegas",
+      description: "EDM DJs for high-energy parties and club events.",
+      address: "321 Club Street", city: "Las Vegas", state: "NV", zipCode: "89109",
+      latitude: 36.1699, longitude: -115.1398,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 150000,
+      services: [
+        { name: "EDM DJ Set", genre: "Electronic", price: 200000, durationMin: 360, numberOfMusicians: 1, equipment: ["Professional DJ Setup", "Speakers", "Lighting", "Fog Machine"], canTravel: true },
+      ],
+    },
+    {
+      slug: "violin-solo-philadelphia",
+      title: "Violin Solo Philadelphia",
+      description: "Beautiful violin performances for ceremonies and receptions.",
+      address: "654 Violin Lane", city: "Philadelphia", state: "PA", zipCode: "19019",
+      latitude: 39.9526, longitude: -75.1652,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 45000,
+      services: [
+        { name: "Violin Ceremony Music", genre: "Classical", price: 55000, durationMin: 120, numberOfMusicians: 1, equipment: ["Violin", "Speaker"], canTravel: true },
+        { name: "Violin & Piano Duo", genre: "Classical", price: 95000, durationMin: 180, numberOfMusicians: 2, equipment: ["Violin", "Piano (venue provided)"], canTravel: false },
+      ],
+    },
+    {
+      slug: "reggae-band-portland",
+      title: "Reggae Band Portland",
+      description: "Laid-back reggae vibes for outdoor events and beach parties.",
+      address: "987 Reggae Road", city: "Portland", state: "OR", zipCode: "97201",
+      latitude: 45.5152, longitude: -122.6784,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 65000,
+      services: [
+        { name: "Reggae Band Performance", genre: "Reggae", price: 85000, durationMin: 180, numberOfMusicians: 4, equipment: ["Guitars", "Drums", "Bass", "Speakers"], canTravel: true },
+      ],
+    },
+    {
+      slug: "harp-music-atlanta",
+      title: "Harp Music Atlanta",
+      description: "Elegant harp music for sophisticated events.",
+      address: "234 Harp Street", city: "Atlanta", state: "GA", zipCode: "30303",
+      latitude: 33.7490, longitude: -84.3880,
+      coverImage: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800",
+      images: ["https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800", "https://images.unsplash.com/photo-1460667262436-cf19894f4774?w=800"],
+      priceFrom: 55000,
+      services: [
+        { name: "Harp Solo", genre: "Classical", price: 65000, durationMin: 120, numberOfMusicians: 1, equipment: ["Harp"], canTravel: true },
+      ],
+    },
+  ];
+
+  // ─────────────────────────────────────────────
   // CRUISES (15 listings)
   // ─────────────────────────────────────────────
 
@@ -2120,6 +3439,184 @@ async function main() {
     cruiseCount++;
   }
 
+  // ─────────────────────────────────────────────
+  // SEED NEW SERVICE TYPES
+  // ─────────────────────────────────────────────
+
+  // Seed all marriage halls
+  let marriageHallCount = 0;
+  for (const m of marriageHallsData) {
+    await prisma.listing.upsert({
+      where: { slug: m.slug },
+      update: {},
+      create: {
+        type: ListingType.MARRIAGE_HALL,
+        title: m.title,
+        description: m.description,
+        slug: m.slug,
+        address: m.address,
+        city: m.city,
+        state: m.state,
+        country: "US",
+        zipCode: m.zipCode,
+        latitude: m.latitude,
+        longitude: m.longitude,
+        coverImage: m.coverImage,
+        images: m.images,
+        priceFrom: m.priceFrom,
+        tags: getTerrainTags(m.city, m.slug, m.description),
+        providerId: provider.id,
+        marriageHalls: { create: m.halls },
+      },
+    });
+    marriageHallCount++;
+  }
+
+  // Seed all catering services
+  let cateringCount = 0;
+  for (const c of cateringServicesData) {
+    await prisma.listing.upsert({
+      where: { slug: c.slug },
+      update: {},
+      create: {
+        type: ListingType.CATERING,
+        title: c.title,
+        description: c.description,
+        slug: c.slug,
+        address: c.address,
+        city: c.city,
+        state: c.state,
+        country: "US",
+        zipCode: c.zipCode,
+        latitude: c.latitude,
+        longitude: c.longitude,
+        coverImage: c.coverImage,
+        images: c.images,
+        priceFrom: c.priceFrom,
+        tags: getTerrainTags(c.city, c.slug, c.description),
+        providerId: provider.id,
+        cateringPackages: { create: c.packages },
+      },
+    });
+    cateringCount++;
+  }
+
+  // Seed all mechanic services
+  let mechanicCount = 0;
+  for (const m of mechanicServicesData) {
+    await prisma.listing.upsert({
+      where: { slug: m.slug },
+      update: {},
+      create: {
+        type: ListingType.MECHANIC,
+        title: m.title,
+        description: m.description,
+        slug: m.slug,
+        address: m.address,
+        city: m.city,
+        state: m.state,
+        country: "US",
+        zipCode: m.zipCode,
+        latitude: m.latitude,
+        longitude: m.longitude,
+        coverImage: m.coverImage,
+        images: m.images,
+        priceFrom: m.priceFrom,
+        tags: getTerrainTags(m.city, m.slug, m.description),
+        providerId: provider.id,
+        mechanicServices: { create: m.services },
+      },
+    });
+    mechanicCount++;
+  }
+
+  // Seed all photography services
+  let photographyCount = 0;
+  for (const p of photographyServicesData) {
+    await prisma.listing.upsert({
+      where: { slug: p.slug },
+      update: {},
+      create: {
+        type: ListingType.PHOTOGRAPHY,
+        title: p.title,
+        description: p.description,
+        slug: p.slug,
+        address: p.address,
+        city: p.city,
+        state: p.state,
+        country: "US",
+        zipCode: p.zipCode,
+        latitude: p.latitude,
+        longitude: p.longitude,
+        coverImage: p.coverImage,
+        images: p.images,
+        priceFrom: p.priceFrom,
+        tags: getTerrainTags(p.city, p.slug, p.description),
+        providerId: provider.id,
+        photographyPackages: { create: p.packages },
+      },
+    });
+    photographyCount++;
+  }
+
+  // Seed all decorator services
+  let decoratorCount = 0;
+  for (const d of decoratorServicesData) {
+    await prisma.listing.upsert({
+      where: { slug: d.slug },
+      update: {},
+      create: {
+        type: ListingType.DECORATOR,
+        title: d.title,
+        description: d.description,
+        slug: d.slug,
+        address: d.address,
+        city: d.city,
+        state: d.state,
+        country: "US",
+        zipCode: d.zipCode,
+        latitude: d.latitude,
+        longitude: d.longitude,
+        coverImage: d.coverImage,
+        images: d.images,
+        priceFrom: d.priceFrom,
+        tags: getTerrainTags(d.city, d.slug, d.description),
+        providerId: provider.id,
+        decoratorPackages: { create: d.packages },
+      },
+    });
+    decoratorCount++;
+  }
+
+  // Seed all musician services
+  let musicianCount = 0;
+  for (const m of musicianServicesData) {
+    await prisma.listing.upsert({
+      where: { slug: m.slug },
+      update: {},
+      create: {
+        type: ListingType.MUSICIAN,
+        title: m.title,
+        description: m.description,
+        slug: m.slug,
+        address: m.address,
+        city: m.city,
+        state: m.state,
+        country: "US",
+        zipCode: m.zipCode,
+        latitude: m.latitude,
+        longitude: m.longitude,
+        coverImage: m.coverImage,
+        images: m.images,
+        priceFrom: m.priceFrom,
+        tags: getTerrainTags(m.city, m.slug, m.description),
+        providerId: provider.id,
+        musicianServices: { create: m.services },
+      },
+    });
+    musicianCount++;
+  }
+
   console.log("✅ Seeding complete!");
   console.log(`  → ${amenities.length} amenities`);
   console.log(`  → ${salonCount} salons seeded`);
@@ -2128,7 +3625,13 @@ async function main() {
   console.log(`  → ${airportCount} airports seeded`);
   console.log(`  → ${flightCount} flights seeded`);
   console.log(`  → ${cruiseCount} cruises seeded`);
-  console.log(`  → Total listings: ${salonCount + hotelCount + clinicCount + airportCount + flightCount + cruiseCount}`);
+  console.log(`  → ${marriageHallCount} marriage halls seeded`);
+  console.log(`  → ${cateringCount} catering services seeded`);
+  console.log(`  → ${mechanicCount} mechanic services seeded`);
+  console.log(`  → ${photographyCount} photography services seeded`);
+  console.log(`  → ${decoratorCount} decorator services seeded`);
+  console.log(`  → ${musicianCount} musician services seeded`);
+  console.log(`  → Total listings: ${salonCount + hotelCount + clinicCount + airportCount + flightCount + cruiseCount + marriageHallCount + cateringCount + mechanicCount + photographyCount + decoratorCount + musicianCount}`);
 }
 
 main()

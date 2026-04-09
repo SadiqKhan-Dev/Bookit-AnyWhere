@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
-import { Scissors, Building2, Stethoscope, Menu, Globe, Heart } from "lucide-react";
+import { Scissors, Building2, Stethoscope, Menu, Globe, Heart, Plane, Ship, HeartHandshake, UtensilsCrossed, Wrench, Camera, Flower2, Music } from "lucide-react";
 import { NotificationsDropdown } from "@/components/shared/notifications-dropdown";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,6 +39,70 @@ const categories = [
     color: "text-emerald-500",
     hoverBg: "hover:bg-emerald-50",
     active: "text-emerald-600 bg-emerald-50",
+  },
+  {
+    label: "Flights",
+    href: "/flights",
+    icon: Plane,
+    color: "text-violet-500",
+    hoverBg: "hover:bg-violet-50",
+    active: "text-violet-600 bg-violet-50",
+  },
+  {
+    label: "Cruises",
+    href: "/cruises",
+    icon: Ship,
+    color: "text-teal-500",
+    hoverBg: "hover:bg-teal-50",
+    active: "text-teal-600 bg-teal-50",
+  },
+  {
+    label: "Wedding Halls",
+    href: "/marriage-halls",
+    icon: HeartHandshake,
+    color: "text-amber-500",
+    hoverBg: "hover:bg-amber-50",
+    active: "text-amber-600 bg-amber-50",
+  },
+  {
+    label: "Catering",
+    href: "/catering",
+    icon: UtensilsCrossed,
+    color: "text-red-500",
+    hoverBg: "hover:bg-red-50",
+    active: "text-red-600 bg-red-50",
+  },
+  {
+    label: "Mechanics",
+    href: "/mechanics",
+    icon: Wrench,
+    color: "text-slate-500",
+    hoverBg: "hover:bg-slate-50",
+    active: "text-slate-600 bg-slate-50",
+  },
+  {
+    label: "Photography",
+    href: "/photography",
+    icon: Camera,
+    color: "text-purple-500",
+    hoverBg: "hover:bg-purple-50",
+    active: "text-purple-600 bg-purple-50",
+  },
+  {
+    label: "Decorators",
+    href: "/decorators",
+    icon: Flower2,
+    color: "text-rose-500",
+    hoverBg: "hover:bg-rose-50",
+    active: "text-rose-600 bg-rose-50",
+  },
+  {
+    label: "Musicians",
+    href: "/musicians",
+    icon: Music,
+    color: "text-indigo-500",
+    hoverBg: "hover:bg-indigo-50",
+    active: "text-indigo-600 bg-indigo-50",
   },
 ];
 

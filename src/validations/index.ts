@@ -167,7 +167,7 @@ export type CruiseBookingInput = z.infer<typeof cruiseBookingSchema>;
 
 export const searchSchema = z.object({
   query: z.string().optional(),
-  type: z.enum(["SALON", "HOTEL", "MEDICAL", "AIRPORT", "FLIGHT", "CRUISE"]).optional(),
+  type: z.enum(["SALON", "HOTEL", "MEDICAL", "AIRPORT", "FLIGHT", "CRUISE", "MARRIAGE_HALL", "CATERING", "MECHANIC", "PHOTOGRAPHY", "DECORATOR", "MUSICIAN"]).optional(),
   city: z.string().optional(),
   minPrice: z.number().optional(),
   maxPrice: z.number().optional(),
