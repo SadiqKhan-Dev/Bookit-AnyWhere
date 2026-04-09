@@ -121,7 +121,7 @@ export function Navbar() {
         </Link>
 
         {/* Category Nav */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden md:flex items-center gap-1 overflow-x-auto scrollbar-hide max-w-[60vw]">
           {categories.map((cat) => {
             const Icon = cat.icon;
             const isActive = pathname.startsWith(cat.href);
